@@ -16,9 +16,12 @@ const Index: React.FC = () => {
 
     return (
     <>
-    <Title>サインイン</Title>
-    <Link href="/top" passHref>
-        <input type="submit" value="サインイン" />
+    <Title>トップページ</Title>
+    <Link href="/input" passHref>
+        <input type="submit" value="献立の登録" />
+    </Link>
+    <Link href="/kondate" passHref>
+        <input type="submit" value="今日の献立" />
     </Link>
     </>
     );

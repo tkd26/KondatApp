@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
 
-import Main from '@/components/page/Main';
 import Title from '@/components/atoms/Title';
 import { firestore } from '@/lib/firebase';
-
+import Link from 'next/link'
 
 export type Menu = {
   name: string;
@@ -28,13 +27,15 @@ const Index: React.FC = () => {
 
     return (
     <>
-        <Title>Firebase Todo App</Title>
-        <ul>
-         {menus.map((data,key) => {
-           return <li key={key}>{data.name}</li>;
-         })}
-  </ul>
-
+    <Title>Firebase Todo App</Title>
+    <ul>
+        {menus.map((data,key) => {
+        return <li key={key}>{data.name}</li>;
+        })}
+    </ul>
+    <Link href="/top" passHref>
+        <input type="submit" value="トップページへ" />
+    </Link>
     </>
     );
 };
