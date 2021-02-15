@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 import Title from '@/components/atoms/Title';
 import { firestore } from '@/lib/firebase';
-import Link from 'next/link'
+import Link from 'next/link';
 
 export type Menu = {
   name: string;
