@@ -64,11 +64,24 @@ const columns: ColumnsType<Menu> = [
     },
   },
   {
-    title: 'Created',
-    dataIndex: 'date',
-    key: 'date',
-    render: (_, { date }) => formatISO(date),
+    title: '日程',
+    dataIndex: 'day',
+    key: 'day',
+    render: (_, { day, isComplete}) => {
+      const el = (
+        <div style={{ textDecoration: isComplete ? 'line-through' : 'none' }}>
+          {day}
+        </div>
+      );
+      return el;
+    },
   },
+  // {
+  //   title: 'Created',
+  //   dataIndex: 'date',
+  //   key: 'date',
+  //   render: (_, { date }) => formatISO(date),
+  // },
   {
     title: 'edit',
     dataIndex: 'edit',
@@ -109,6 +122,7 @@ const KondateTable: React.FC = () => {
         todo: doc.data().todo,
         isComplete: doc.data().isComplete,
         date: doc.data().date.toDate(),
+        day: doc.data().day,
       }));
       setTodos(data);
     });

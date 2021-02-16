@@ -1,6 +1,19 @@
 import React from 'react';
-import { Space } from 'antd';
+import Reacat, {useState, useEffect} from "react";
 
-import { firestore } from '@/lib/firebase';
+const DateForm = () => {
+    const [count, counter] = useState(0);
+    let today = new Date();
+    let day = today.getDate();
+    let month = today.getMonth();
 
-import KondateForm from '@/components/molecules/KondateForm';
+    useEffect( ()=>{
+
+    })
+    return (
+        <>
+            <ul>{month}月{day}日</ul>
+        </>
+    )
+};
+export default DateForm;

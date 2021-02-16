@@ -7,14 +7,16 @@ import KondateForm from '@/components/molecules/KondateForm';
 import KondateTable from './KondateTable';
 import generateCalendar from 'antd/lib/calendar/generateCalendar';
 
+
 const InputKondate: React.FC = () => {
-  const addKondate= (todo: string, genre: string) =>
+  const addKondate= (todo: string, genre: string, day: string) =>
     // firestoreにデータを追加する
     firestore.collection('konndate').add({
             genre: genre,
             todo: todo,
             isComplete: false,
             date: new Date(),
+            day: day,
         })
 
   return (
@@ -24,6 +26,7 @@ const InputKondate: React.FC = () => {
           <KondateForm onSubmit={addKondate} />
         </div>
         <KondateTable />
+        
       </Space>
       <style jsx>{`
         .form-wrap {
