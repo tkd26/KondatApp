@@ -8,9 +8,10 @@ import KondateTable from './KondateTable';
 import generateCalendar from 'antd/lib/calendar/generateCalendar';
 
 const InputKondate: React.FC = () => {
-  const addKondate= (todo: string) =>
+  const addKondate= (todo: string, genre: string) =>
+    // firestoreにデータを追加する
     firestore.collection('konndate').add({
-            // genre: genre,
+            genre: genre,
             todo: todo,
             isComplete: false,
             date: new Date(),
