@@ -23,6 +23,8 @@ export type Restaurant = {
     url: string;
   };
 
+export type RestaurantJson = {[key:string]: {[key:string]:string}};
+
 const Index: React.FC = () => {
     const [menus, setMenus] = useState<Menu[]>([]);
     const [kondate, setKondate] = useState<Kondate>({
@@ -32,11 +34,11 @@ const Index: React.FC = () => {
     const [restaurants, setRestaurants] = useState<Restaurant[]>([]);
     
     // 献立を取得
-    const getKondate = new Promise(function(resolve){
+    const getKondate = new Promise<Kondate>(function(resolve){
         firestore.collection(USER).doc(DATE).onSnapshot(function(doc) {
             const kondateData = {
-                name: doc.data().name,
-                genre: doc.data().genre,
+                name: doc.data()!.name,
+                genre: doc.data()!.genre,
             }
             resolve(kondateData);
         });
@@ -57,7 +59,7 @@ const Index: React.FC = () => {
                 $.getJSON(url, {"url":url}).then(
                     // 成功時
                     function(datas){
-                        const restaurantsData = datas.results.shop.map((data) => ({
+                        const restaurantsData = datas.results.shop.map((data:RestaurantJson) => ({
                             name: data.name,
                             url: data.urls.pc
                         }));
@@ -78,8 +80,7 @@ const Index: React.FC = () => {
     useEffect(() => {
 
         // 献立ジャンルを取得した後に，レストラン取得
-        getKondate.then(
-            function(kondateData){
+        getKondate.then((kondateData) => {
                 setKondate(kondateData);
                 getRestaurants(ADDRESS, kondateData.genre);
             });
@@ -89,10 +90,11 @@ const Index: React.FC = () => {
 
     return (
     <>
-    <Title>Firebase Todo App</Title>
-    <h2>住所：{ADDRESS}</h2>
-    <h2>ジャンル：{GENRE}</h2>
-    <h2>献立：{kondate.name}</h2>
+    <Title>献立表示</Title>
+    <div>住所：{ADDRESS}</div>
+    <div>ジャンル：{kondate.genre}</div>
+    <div>献立：{kondate.name}</div>
+    <h2>外食のおすすめ</h2>
     <ul>
         {restaurants.map((data,key) => {
         return <li key={key}><a href={data.url}>{data.name}</a></li>;
