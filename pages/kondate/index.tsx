@@ -1,41 +1,107 @@
 import React, { useState, useEffect } from 'react';
+import axios from "axios";
 
 import Title from '@/components/atoms/Title';
 import { firestore } from '@/lib/firebase';
 import Link from 'next/link';
 
+const ADDRESS = "新宿"
+const GENRE = "和食"
+const USER = "user1"
+const DATE = "202102162"
+
 export type Menu = {
   name: string;
   restaurant: string;
 };
-
+export type Kondate = {
+    name: string;
+    genre: string;
+  };
+export type Restaurant = {
+    name: string;
+    url: string;
+  };
 
 const Index: React.FC = () => {
     const [menus, setMenus] = useState<Menu[]>([]);
+    const [kondate, setKondate] = useState<Kondate>({
+        name: '',
+        genre: '',
+    });
+    const [restaurants, setRestaurants] = useState<Restaurant[]>([]);
+    
+    // 献立を取得
+    const getKondate = new Promise(function(resolve){
+        firestore.collection(USER).doc(DATE).onSnapshot(function(doc) {
+            const kondateData = {
+                name: doc.data().name,
+                genre: doc.data().genre,
+            }
+            resolve(kondateData);
+        });
+    })
+
+    // レストランを取得
+    function getRestaurants(address:string, genre:string) {
+        var genreurl = `https://webservice.recruit.co.jp/hotpepper/genre/v1/?key=30e9760c73b50820&keyword=${genre}&format=jsonp&callback=?`;
+        genreurl = encodeURI(genreurl);
+        // ジャンルマスタからジャンルコードを取得
+        $.getJSON(genreurl, {"url":genreurl}).then(
+            // 成功時
+            function(data){
+                const genreCode:string = data.results.genre[0].code;
+                var url =`https://webservice.recruit.co.jp/hotpepper/gourmet/v1/?key=30e9760c73b50820&address=${address}&genre=${genreCode}&format=jsonp&callback=?`;
+                url = encodeURI(url);
+                // ジャンルコードとアドレスをもとにレストランを取得
+                $.getJSON(url, {"url":url}).then(
+                    // 成功時
+                    function(datas){
+                        const restaurantsData = datas.results.shop.map((data) => ({
+                            name: data.name,
+                            url: data.urls.pc
+                        }));
+                        setRestaurants(restaurantsData);
+                    },
+                    // 失敗時
+                    function(){
+                        alert("Error");
+                    })
+            },
+            // 失敗時
+            function(){ 
+                alert("Error");
+            });
+    }
 
     // メニューの取得
     useEffect(() => {
-        firestore.collection('konndate').onSnapshot((collection) => {
-            const data = collection.docs.map<Menu>((doc) => ({
-            name: doc.data().name,
-            restaurant: doc.data().restaurant,
-            }));
-            // stateに取得したデータをセット
-            setMenus(data);
-        });
+
+        // 献立ジャンルを取得した後に，レストラン取得
+        getKondate.then(
+            function(kondateData){
+                setKondate(kondateData);
+                getRestaurants(ADDRESS, kondateData.genre);
+            });
+            
+        
         }, []);
 
     return (
     <>
     <Title>Firebase Todo App</Title>
+    <h2>住所：{ADDRESS}</h2>
+    <h2>ジャンル：{GENRE}</h2>
+    <h2>献立：{kondate.name}</h2>
     <ul>
-        {menus.map((data,key) => {
-        return <li key={key}>{data.name}</li>;
+        {restaurants.map((data,key) => {
+        return <li key={key}><a href={data.url}>{data.name}</a></li>;
         })}
     </ul>
     <Link href="/top" passHref>
         <input type="submit" value="トップページへ" />
     </Link>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     </>
     );
 };
