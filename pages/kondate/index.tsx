@@ -1,19 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import axios from "axios";
+import { useRouter } from 'next/router';
 
 import Title from '@/components/atoms/Title';
 import { firestore } from '@/lib/firebase';
 import Link from 'next/link';
 
-const ADDRESS = "新宿"
+// const ADDRESS = "新宿"
 // const GENRE = "和食"
 const USER = "user1"
 const DATE = "202102162"
 
-export type Menu = {
-  name: string;
-  restaurant: string;
-};
 export type Kondate = {
     name: string;
     genre: string;
@@ -22,31 +18,23 @@ export type Restaurant = {
     name: string;
     url: string;
   };
-
 export type RestaurantJson = {[key:string]: {[key:string]:string}};
+export type Info = {
+    kondate: Kondate,
+    address: string,
+}
 
 const Index: React.FC = () => {
-    const [menus, setMenus] = useState<Menu[]>([]);
     const [kondate, setKondate] = useState<Kondate>({
         name: '',
         genre: '',
     });
     const [restaurants, setRestaurants] = useState<Restaurant[]>([]);
+    const [address, setAddress] = useState<string>('');
     
-    // 献立を取得
-    const getKondate = new Promise<Kondate>(function(resolve){
-        firestore.collection(USER).doc(DATE).onSnapshot(function(doc) {
-            const kondateData = {
-                name: doc.data()!.name,
-                genre: doc.data()!.genre,
-            }
-            resolve(kondateData);
-        });
-    })
-
     // レストランを取得
-    function getRestaurants(address:string, genre:string) {
-        var genreurl = `https://webservice.recruit.co.jp/hotpepper/genre/v1/?key=30e9760c73b50820&keyword=${genre}&format=jsonp&callback=?`;
+    function getRestaurants(kondate:Kondate, address:string) {
+        var genreurl = `https://webservice.recruit.co.jp/hotpepper/genre/v1/?key=30e9760c73b50820&keyword=${kondate.genre}&format=jsonp&callback=?`;
         genreurl = encodeURI(genreurl);
         // ジャンルマスタからジャンルコードを取得
         $.getJSON(genreurl, {"url":genreurl}).then(
@@ -78,20 +66,26 @@ const Index: React.FC = () => {
 
     // メニューの取得
     useEffect(() => {
+        firestore.collection(USER).doc(DATE).onSnapshot(function(doc) {
+            const kondate = {
+                name: doc.data()!.name,
+                genre: doc.data()!.genre,
+            }
+            setKondate(kondate)
 
-        // 献立ジャンルを取得した後に，レストラン取得
-        getKondate.then((kondateData) => {
-                setKondate(kondateData);
-                getRestaurants(ADDRESS, kondateData.genre);
-            });
+            firestore.collection("usermasta").doc(USER).onSnapshot(function(doc) {
+                const address = doc.data()!.address
+                setAddress(address)
+                getRestaurants(kondate, address)
+            }) 
+        })
             
-        
         }, []);
 
     return (
     <>
     <Title>献立表示</Title>
-    <div>住所：{ADDRESS}</div>
+    <div>住所：{address}</div>
     <div>ジャンル：{kondate.genre}</div>
     <div>献立：{kondate.name}</div>
     <h2>外食のおすすめ</h2>
