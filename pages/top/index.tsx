@@ -9,9 +9,7 @@ export type Menu = {
 };
 
 const Index: React.FC = () => {
-
-  useEffect(() => {
-      }, []);
+  // useEffect(() => {}, []);
 
   return (
     <>
@@ -25,7 +23,5 @@ const Index: React.FC = () => {
     </>
   );
 };
-
-
 
 export default Index;

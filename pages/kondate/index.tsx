@@ -65,27 +65,29 @@ const Index: React.FC = () => {
       function () {
         alert('Error');
       }
-      );
+    );
   }
 
   // メニューの取得
   useEffect(() => {
-    firestore.collection(USER)
-        .doc(DATE)
-        .onSnapshot(function (doc) {
-          const kondate = {
-            name: doc.data()!.name,
-            genre: doc.data()!.genre,
-          };
-      setKondate(kondate);
+    firestore
+      .collection(USER)
+      .doc(DATE)
+      .onSnapshot(function (doc) {
+        const kondate = {
+          name: doc.data()!.name,
+          genre: doc.data()!.genre,
+        };
+        setKondate(kondate);
 
-      firestore.collection('usermasta')
-          .doc(USER)
-          .onSnapshot(function (doc) {
-            const address = doc.data()!.address
-            setAddress(address);
-            getRestaurants(kondate, address);
-      });
+      firestore
+        .collection('usermasta')
+        .doc(USER)
+        .onSnapshot(function (doc) {
+          const address = doc.data()!.address
+          setAddress(address);
+          getRestaurants(kondate, address);
+        });
     });
  
   }, []);
