@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 
 import Title from '@/components/atoms/Title';
 import Link from 'next/link';
@@ -10,23 +10,18 @@ export type Menu = {
   restaurant: string;
 };
 
-
 const Index: React.FC = () => {
-
-    useEffect(() => {
-        }, []);
-
-    return (
+  // useEffect(() => {
+  //     }, []);
+  return (
     <>
-    <Title>献立登録</Title>
-    <Link href="/top" passHref>
+      <Title>献立登録</Title>
+      <Link href="/top" passHref>
         <input type="submit" value="トップページへ" />
     </Link>
     <InputKondate/>
     </>
-    );
+  );
 };
-
-
 
 export default Index;
