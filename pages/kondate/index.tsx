@@ -80,16 +80,15 @@ const Index: React.FC = () => {
         };
         setKondate(kondate);
 
-      firestore
-        .collection('usermasta')
-        .doc(USER)
-        .onSnapshot(function (doc) {
-          const address = doc.data()!.address
-          setAddress(address);
-          getRestaurants(kondate, address);
-        });
-    });
- 
+        firestore
+          .collection('usermasta')
+          .doc(USER)
+          .onSnapshot(function (doc) {
+            const address = doc.data()!.address
+            setAddress(address);
+            getRestaurants(kondate, address);
+          });
+      });
   }, []);
 
   return (
@@ -100,8 +99,12 @@ const Index: React.FC = () => {
       <div>献立：{kondate.name}</div>
       <h2>外食のおすすめ</h2>
       <ul>
-        {restaurants.map((data,key) => {
-        return <li key={key}><a href={data.url}>{data.name}</a></li>;
+        {restaurants.map((data, key) => {
+          return (
+            <li key={key}>
+              <a href={data.url}>{data.name}</a>
+            </li>
+          );
         })}
       </ul>
       <Link href="/top" passHref>

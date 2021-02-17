@@ -8,7 +8,6 @@ export type Menu = {
   restaurant: string;
 };
 
-
 const Index: React.FC = () => {
 
   // useEffect(() => {}, []);
