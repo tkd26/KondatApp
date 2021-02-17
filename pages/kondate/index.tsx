@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useRouter } from 'next/router';
+// import { useRouter } from 'next/router';
 
 import Title from '@/components/atoms/Title';
 import { firestore } from '@/lib/firebase';
@@ -7,7 +7,7 @@ import Link from 'next/link';
 
 // const ADDRESS = "新宿"
 // const GENRE = "和食"
-const USER = "user1"
+const USER = 'user1'
 const DATE = "202102162"
 
 export type Kondate = {
