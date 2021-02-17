@@ -28,12 +28,12 @@ export type RecipeCategory = {
   parentCategoryId: string;
   categoryId: number;
   categoryUrl: string;
-}
+};
 export type RecipeJson = { [key: string]: string };
 export type Recipe = {
   name: string;
   url: string;
-}
+};
 
 const Index: React.FC = () => {
   const [kondate, setKondate] = useState<Kondate>({
@@ -46,12 +46,12 @@ const Index: React.FC = () => {
 
   // レシピを取得する関数
   function getRecipes(kondate: Kondate) {
-    let categoryUrl = `https://app.rakuten.co.jp/services/api/Recipe/CategoryList/20170426?format=json&applicationId=1028773340156331413`;
+    const categoryUrl = `https://app.rakuten.co.jp/services/api/Recipe/CategoryList/20170426?format=json&applicationId=1028773340156331413`;
     $.getJSON(categoryUrl, { url: categoryUrl }).then(
       // 成功時
       function (datas) {
         let smallCategory = datas.result.small.filter( function (item: RecipeCategory, index: number) {
-          if ((item.categoryName).indexOf(kondate.name) >= 0) return item;
+          if (item.categoryName.indexOf(kondate.name) >= 0) return item;
         });
         smallCategory = smallCategory[0];
 
@@ -65,9 +65,9 @@ const Index: React.FC = () => {
         });
         largeCategory = largeCategory[0];
 
-        const categoryId = `${largeCategory.categoryId}-${mediumCategory.categoryId}-${smallCategory.categoryId}`
+        const categoryId = `${largeCategory.categoryId}-${mediumCategory.categoryId}-${smallCategory.categoryId}`;
 
-        let url = `https://app.rakuten.co.jp/services/api/Recipe/CategoryRanking/20170426?format=json&categoryId=${categoryId}&elements=recipeTitle%2CrecipeUrl&applicationId=1028773340156331413`;
+        const url = `https://app.rakuten.co.jp/services/api/Recipe/CategoryRanking/20170426?format=json&categoryId=${categoryId}&elements=recipeTitle%2CrecipeUrl&applicationId=1028773340156331413`;
         $.getJSON(url, { url: url }).then(
           function (datas) {
             const recipesData = datas.result.map(
@@ -82,7 +82,7 @@ const Index: React.FC = () => {
           function () {
             alert('Error');
           }
-        )
+        );
       },
       // 失敗時
       function () {
