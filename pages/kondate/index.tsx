@@ -18,10 +18,10 @@ export type Restaurant = {
   name: string;
   url: string;
 };
-export type RestaurantJson = {[key:string]: {[key:string]:string}};
+export type RestaurantJson = { [key: string]: { [key: string]: string } };
 export type Info = {
-  kondate: Kondate,
-  address: string,
+  kondate: Kondate;
+  address: string;
 };
 
 const Index: React.FC = () => {
@@ -31,7 +31,7 @@ const Index: React.FC = () => {
   });
   const [restaurants, setRestaurants] = useState<Restaurant[]>([]);
   const [address, setAddress] = useState<string>('');
-  
+
   // レストランを取得
   function getRestaurants(kondate:Kondate, address:string) {
     var genreurl = `https://webservice.recruit.co.jp/hotpepper/genre/v1/?key=30e9760c73b50820&keyword=${kondate.genre}&format=jsonp&callback=?`;

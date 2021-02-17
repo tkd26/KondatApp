@@ -9,14 +9,14 @@ export type Menu = {
 };
 
 const Index: React.FC = () => {
-    // useEffect(() => {
-    //     }, []);
+  // useEffect(() => {
+  //     }, []);
   return (
     <>
-    <Title>献立登録</Title>
-    <Link href="/top" passHref>
+      <Title>献立登録</Title>
+      <Link href="/top" passHref>
         <input type="submit" value="トップページへ" />
-    </Link>
+      </Link>
     </>
   );
 };
