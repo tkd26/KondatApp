@@ -33,35 +33,37 @@ const Index: React.FC = () => {
   const [address, setAddress] = useState<string>('');
 
   // レストランを取得
-  function getRestaurants(kondate:Kondate, address:string) {
-    var genreurl = `https://webservice.recruit.co.jp/hotpepper/genre/v1/?key=30e9760c73b50820&keyword=${kondate.genre}&format=jsonp&callback=?`;
+  function getRestaurants(kondate: Kondate, address: string) {
+    let genreurl = `https://webservice.recruit.co.jp/hotpepper/genre/v1/?key=30e9760c73b50820&keyword=${kondate.genre}&format=jsonp&callback=?`;
     genreurl = encodeURI(genreurl);
     // ジャンルマスタからジャンルコードを取得
-    $.getJSON(genreurl, {'url':genreurl}).then(
+    $.getJSON(genreurl, { 'url': genreurl }).then(
       // 成功時
-      function(data){
-        const genreCode:string = data.results.genre[0].code;
-        var url =`https://webservice.recruit.co.jp/hotpepper/gourmet/v1/?key=30e9760c73b50820&address=${address}&genre=${genreCode}&format=jsonp&callback=?`;
+      function (data) {
+        const genreCode: string = data.results.genre[0].code;
+        let url = `https://webservice.recruit.co.jp/hotpepper/gourmet/v1/?key=30e9760c73b50820&address=${address}&genre=${genreCode}&format=jsonp&callback=?`;
         url = encodeURI(url);
         // ジャンルコードとアドレスをもとにレストランを取得
-        $.getJSON(url, {'url':url}).then(
-            // 成功時
-            function(datas){
-              const restaurantsData = datas.results.shop.map((data:RestaurantJson) => ({
-                name: data.name,
-                url: data.urls.pc
-              }));
-              setRestaurants(restaurantsData);
-            },
-            // 失敗時
-            function(){
-              alert("Error");
-            })
-        },
-        // 失敗時
-        function(){ 
-            alert("Error");
-      });
+        $.getJSON(url, {'url': url}).then(
+          // 成功時
+          function (datas) {
+            const restaurantsData = datas.results.shop.map((data:RestaurantJson) => ({
+              name: data.name,
+              url: data.urls.pc
+            }));
+            setRestaurants(restaurantsData);
+          },
+          // 失敗時
+          function () {
+            alert('Error');
+          }
+        )
+      },
+      // 失敗時
+      function () { 
+          alert('Error');
+      })
+    ;
   }
 
   // メニューの取得
@@ -83,22 +85,22 @@ const Index: React.FC = () => {
       }, []);
 
   return (
-  <>
-  <Title>献立表示</Title>
-  <div>住所：{address}</div>
-  <div>ジャンル：{kondate.genre}</div>
-  <div>献立：{kondate.name}</div>
-  <h2>外食のおすすめ</h2>
-  <ul>
-      {restaurants.map((data,key) => {
-      return <li key={key}><a href={data.url}>{data.name}</a></li>;
-      })}
-  </ul>
-  <Link href="/top" passHref>
-      <input type="submit" value="トップページへ" />
-  </Link>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-  </>
+    <>
+      <Title>献立表示</Title>
+      <div>住所：{address}</div>
+      <div>ジャンル：{kondate.genre}</div>
+      <div>献立：{kondate.name}</div>
+      <h2>外食のおすすめ</h2>
+      <ul>
+        {restaurants.map((data,key) => {
+        return <li key={key}><a href={data.url}>{data.name}</a></li>;
+        })}
+      </ul>
+      <Link href="/top" passHref>
+        <input type="submit" value="トップページへ" />
+      </Link>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    </>
   );
 };
 
