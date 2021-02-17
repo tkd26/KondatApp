@@ -6,7 +6,7 @@ import { firestore } from '@/lib/firebase';
 import Link from 'next/link';
 
 const ADDRESS = "新宿"
-const GENRE = "和食"
+// const GENRE = "和食"
 const USER = "user1"
 const DATE = "202102162"
 
