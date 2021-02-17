@@ -84,7 +84,7 @@ const Index: React.FC = () => {
           .collection('usermasta')
           .doc(USER)
           .onSnapshot(function (doc) {
-            const address = doc.data()!.address
+            const address = doc.data()!.address;
             setAddress(address);
             getRestaurants(kondate, address);
           });
