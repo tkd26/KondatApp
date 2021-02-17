@@ -8,23 +8,22 @@ export type Menu = {
   restaurant: string;
 };
 
-
 const Index: React.FC = () => {
 
-    useEffect(() => {
-        }, []);
+  useEffect(() => {
+      }, []);
 
-    return (
+  return (
     <>
-    <Title>トップページ</Title>
-    <Link href="/input" passHref>
+      <Title>トップページ</Title>
+      <Link href="/input" passHref>
         <input type="submit" value="献立の登録" />
-    </Link>
-    <Link href="/kondate" passHref>
+      </Link>
+      <Link href="/kondate" passHref>
         <input type="submit" value="今日の献立" />
-    </Link>
+      </Link>
     </>
-    );
+  );
 };
 
 

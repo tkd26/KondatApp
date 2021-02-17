@@ -33,56 +33,58 @@ const Index: React.FC = () => {
   const [address, setAddress] = useState<string>('');
 
   // レストランを取得
-  function getRestaurants(kondate: Kondate, address: string) {
+  function getRestaurants( kondate: Kondate, address: string) {
     let genreurl = `https://webservice.recruit.co.jp/hotpepper/genre/v1/?key=30e9760c73b50820&keyword=${kondate.genre}&format=jsonp&callback=?`;
     genreurl = encodeURI(genreurl);
     // ジャンルマスタからジャンルコードを取得
-    $.getJSON(genreurl, { 'url': genreurl }).then(
+    $.getJSON(genreurl, { url: genreurl }).then(
       // 成功時
       function (data) {
         const genreCode: string = data.results.genre[0].code;
         let url = `https://webservice.recruit.co.jp/hotpepper/gourmet/v1/?key=30e9760c73b50820&address=${address}&genre=${genreCode}&format=jsonp&callback=?`;
         url = encodeURI(url);
         // ジャンルコードとアドレスをもとにレストランを取得
-        $.getJSON(url, {'url': url}).then(
+        $.getJSON(url, { url: url }).then(
           // 成功時
           function (datas) {
-            const restaurantsData = datas.results.shop.map((data:RestaurantJson) => ({
-              name: data.name,
-              url: data.urls.pc
-            }));
+            const restaurantsData = datas.results.shop.map(
+              (data:RestaurantJson) => ({
+                name: data.name,
+                url: data.urls.pc
+              })
+            );
             setRestaurants(restaurantsData);
           },
           // 失敗時
           function () {
             alert('Error');
           }
-        )
+        );
       },
       // 失敗時
-      function () { 
-          alert('Error');
+      function () {
+        alert('Error');
       })
     ;
   }
 
   // メニューの取得
   useEffect(() => {
-      firestore.collection(USER).doc(DATE).onSnapshot(function(doc) {
-          const kondate = {
-              name: doc.data()!.name,
-              genre: doc.data()!.genre,
-          };
-          setKondate(kondate);
+    firestore.collection(USER).doc(DATE).onSnapshot(function (doc) {
+      const kondate = {
+        name: doc.data()!.name,
+        genre: doc.data()!.genre,
+      };
+      setKondate(kondate);
 
-          firestore.collection('usermasta').doc(USER).onSnapshot(function(doc) {
-              const address = doc.data()!.address
-              setAddress(address)
-              getRestaurants(kondate, address)
-          }) 
-      })
+      firestore.collection('usermasta').doc(USER).onSnapshot(function (doc) {
+        const address = doc.data()!.address
+        setAddress(address);
+        getRestaurants(kondate, address);
+      }); 
+    });
           
-      }, []);
+  }, []);
 
   return (
     <>
