@@ -38,7 +38,7 @@ type Recipe = {
 };
 
 const Index: React.FC = () => {
-  const router = useRouter()
+  const router = useRouter();
 
   const [kondate, setKondate] = useState<Kondate>({
     name: '',
