@@ -64,13 +64,26 @@ const columns: ColumnsType<Menu> = [
     },
   },
   {
+    title: '時間帯',
+    dataIndex: 'when',
+    key: 'when',
+    render: (_, { when, isComplete}) => {
+      const el = (
+        <div style={{ textDecoration: isComplete ? 'line-through' : 'none' }}>
+          {when}
+        </div>
+      );
+      return el;
+    },
+  },
+  {
     title: '日程',
     dataIndex: 'day',
     key: 'day',
-    render: (_, { day, isComplete}) => {
+    render: (_, { day, month, year, isComplete}) => {
       const el = (
         <div style={{ textDecoration: isComplete ? 'line-through' : 'none' }}>
-          {day}
+          {year}年{month}月{day}日
         </div>
       );
       return el;
@@ -112,10 +125,18 @@ const columns: ColumnsType<Menu> = [
 const KondateTable: React.FC = () => {
   // state
   const [todos, setTodos] = useState<Menu[]>([]);
+  const today1 = new Date();
+  const year1 = Number(today1.getFullYear());
+  const month1 = Number(today1.getMonth());
+  const day1 = Number(today1.getDate());
 
   // init
   useEffect(() => {
-    firestore.collection('konndate').onSnapshot((collection) => {
+    firestore.collection('konndate')
+      // .where('year', '>=', 'month')
+      // .where('month', '>=', 1)
+      // .where('day', '>=',1)
+      .onSnapshot((collection) => {
       const data = collection.docs.map<Menu>((doc) => ({
         id: doc.id,
         genre: doc.data().genre,
@@ -123,12 +144,15 @@ const KondateTable: React.FC = () => {
         isComplete: doc.data().isComplete,
         date: doc.data().date.toDate(),
         day: doc.data().day,
+        month: doc.data().month,
+        year: doc.data().year,
+        when: doc.data().when,
       }));
       setTodos(data);
     });
   }, []);
 
-  const sortedTodos = todos.sort((a, b) => (isBefore(a.date, b.date) ? 1 : -1));
+  const sortedTodos = todos.sort((a, b) => (isBefore(Number(a.day), Number(b.day)) ? -1 : 1));
 
   return <AntTable rowKey="id" dataSource={sortedTodos} columns={columns} />;
 };

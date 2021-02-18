@@ -3,7 +3,10 @@ export type Menu = {
     genre: string;
     isComplete: boolean;
     date: Date;
-    day: string;
+    day: number;
+    month: number;
+    year: number;
     todo: string;
+    when: string;
   };
   
