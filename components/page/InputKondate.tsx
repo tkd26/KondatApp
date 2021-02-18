@@ -6,8 +6,8 @@ import { firestore } from '@/lib/firebase';
 import KondateForm from '@/components/molecules/KondateForm';
 import KondateTable from './KondateTable';
 import generateCalendar from 'antd/lib/calendar/generateCalendar';
-import {User} from '@/types/user';
-import { time } from 'console';
+import { checkSignin } from '../../pages/auth/checkSignin';
+import { getSignin } from '../../pages/auth/getSignin';
 
 const today = new Date();
 const date1 = today.getDate();
@@ -15,18 +15,24 @@ const month1 = today.getMonth()+1;
 const year1 = today.getFullYear();
 
 const InputKondate: React.FC = () => {
-  const addKondate= (todo: string, genre: string, day: number, month: number, year: number, when: string) =>
-    // firestoreにデータを追加する
-    firestore.collection('konndate').doc(String(year1)+String(month1)+String(Number(day)+Number(date1)-1)+when).set({
-            genre: genre,
-            todo: todo,
-            isComplete: false,
-            date: new Date(),
-            year: year1,
-            month: month1,
-            day: date1+Number(day)-1,
-            when: (when === '1') ? '朝ご飯': (when === '2') ? '昼ご飯': (when === '3') ? '夜ご飯': '',
-        })
+  checkSignin();
+
+  const addKondate = (todo: string, genre: string, day: number, month: number, year: number, when: string): any  => {
+    getSignin().then((user: any) => {
+      // firestoreにデータを追加する
+      const docName = String(year1) + String(('00' + month1).slice(-2)) + String(Number(day) + Number(date1)-1) + when;
+      firestore.collection(user.email).doc(docName).set({
+              genre: genre,
+              todo: todo,
+              isComplete: false,
+              date: new Date(),
+              year: year1,
+              month: month1,
+              day: date1+Number(day)-1,
+              when: (when === '1') ? '朝ご飯': (when === '2') ? '昼ご飯': (when === '3') ? '夜ご飯': '',
+          })
+    });
+  }
     // // id入力をする
     // const abc = firestore.collection('konndate').doc().id;
     // console.log(abc);

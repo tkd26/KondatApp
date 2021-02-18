@@ -3,7 +3,6 @@ import React, { useEffect } from 'react';
 import Title from '@/components/atoms/Title';
 import Link from 'next/link';
 import InputKondate from '@/components/page/InputKondate';
-import Main from '@/components/page/Main'
 
 export type Menu = {
   name: string;
