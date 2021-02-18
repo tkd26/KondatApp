@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useImperativeHandle } from 'react';
 // import { useRouter } from 'next/router';
 
 import Title from '@/components/atoms/Title';
@@ -6,33 +6,33 @@ import { firestore } from '@/lib/firebase';
 import Link from 'next/link';
 import { checkSignin } from '../auth/checkSignin';
 import firebase from '@/lib/firebase';
+import { useRouter } from 'next/router'
 
 // const ADDRESS = '新宿'
 // const GENRE = '和食'
-const USER = 'user1';
-const DATE = '202102162';
+// const USER = 'user1';
+const DATE = '202102182';
 
-export type Kondate = {
+type Kondate = {
   name: string;
   genre: string;
 };
-export type Restaurant = {
+type Restaurant = {
   name: string;
   url: string;
 };
-export type RestaurantJson = { [key: string]: { [key: string]: string } };
-export type Info = {
+type Info = {
+  user: string;
   kondate: Kondate;
   address: string;
 };
-export type RecipeCategory = {
+type RecipeCategory = {
   categoryName: string;
   parentCategoryId: string;
   categoryId: number;
   categoryUrl: string;
 };
-export type RecipeJson = { [key: string]: string };
-export type Recipe = {
+type Recipe = {
   name: string;
   url: string;
 };
@@ -73,7 +73,7 @@ const Index: React.FC = () => {
         $.getJSON(url, { url: url }).then(
           function (datas) {
             const recipesData = datas.result.map(
-              (data: RecipeJson) => ({
+              (data: any) => ({
                 name: data.recipeTitle,
                 url: data.recipeUrl,
               })
@@ -109,7 +109,7 @@ const Index: React.FC = () => {
           // 成功時
           function (datas) {
             const restaurantsData = datas.results.shop.map(
-              (data: RestaurantJson) => ({
+              (data: any) => ({
                 name: data.name,
                 url: data.urls.pc,
               })
@@ -129,11 +129,29 @@ const Index: React.FC = () => {
     );
   }
 
-  new Promise(checkSignin).then(() =>{
-    // メニューの取得
-    useEffect(() => {
+  // ユーザ情報を取得する関数
+  var initFirebaseAuth = () => {
+    return new Promise((resolve) => {
+      var unsubscribe = firebase.auth().onAuthStateChanged((user) => {
+        // user オブジェクトを resolve
+        resolve(user);
+  
+        // 登録解除
+        unsubscribe();
+      });
+    });
+  };
+
+  checkSignin();
+
+  // メニューの取得
+  useEffect(() => {
+    // ユーザ情報を取得
+    initFirebaseAuth().then((user: any)=>{
+      const userId = user.email;
+      console.log(userId);
       firestore
-        .collection(USER)
+        .collection(userId)
         .doc(DATE)
         .onSnapshot(function (doc) {
           const kondate = {
@@ -145,15 +163,15 @@ const Index: React.FC = () => {
 
           firestore
             .collection('usermasta')
-            .doc(USER)
+            .doc(userId)
             .onSnapshot(function (doc) {
               const address = doc.data()!.address;
               setAddress(address);
               getRestaurants(kondate, address);
             });
         });
-    }, []);
-  })
+    });
+  }, []); 
 
   return (
     <>

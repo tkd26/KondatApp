@@ -1,9 +1,9 @@
 import firebase from '@/lib/firebase';
 import { useRouter } from 'next/router'
 
-export const checkSignin = () =>{
+export const checkSignin = async () =>{
   const router = useRouter()
-  firebase.auth().onAuthStateChanged(function(user) {
+  await firebase.auth().onAuthStateChanged(function(user) {
     if (user) {
       // User is signed in.
       // console.log(user);
@@ -11,7 +11,6 @@ export const checkSignin = () =>{
       // No user is signed in.
       // console.log('false');
       router.push('/signin');
-
     }
   });
 };

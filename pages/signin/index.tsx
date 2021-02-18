@@ -4,11 +4,13 @@ import { useRouter } from 'next/router'
 
 const Signin = () => {
   const router = useRouter()
-  const handleSubmit = async event => {
+  const handleSubmit = async (event: any) => {
     event.preventDefault();
     const { email, password } = event.target.elements;
     try {
+      // ユーザ認証
       await firebase.auth().signInWithEmailAndPassword(email.value, password.value);
+      // トップページへ遷移
       router.push("/top");
     } catch (error) {
       alert(error);
