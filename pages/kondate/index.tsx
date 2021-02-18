@@ -5,6 +5,7 @@ import Title from '@/components/atoms/Title';
 import { firestore } from '@/lib/firebase';
 import Link from 'next/link';
 import { checkSignin } from '../auth/checkSignin';
+import { getSignin } from '../auth/getSignin';
 import firebase from '@/lib/firebase';
 
 // const ADDRESS = '新宿'
@@ -127,26 +128,13 @@ const Index: React.FC = () => {
       }
     );
   }
-
-  // ユーザ情報を取得する関数
-  var initFirebaseAuth = () => {
-    return new Promise((resolve) => {
-      var unsubscribe = firebase.auth().onAuthStateChanged((user) => {
-        // user オブジェクトを resolve
-        resolve(user);
   
-        // 登録解除
-        unsubscribe();
-      });
-    });
-  };
-
   checkSignin();
 
   // メニューの取得
   useEffect(() => {
     // ユーザ情報を取得
-    initFirebaseAuth().then((user: any) => {
+    getSignin().then((user: any) => {
       const userId = user.email;
       console.log(userId);
       firestore
