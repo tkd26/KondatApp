@@ -1,24 +1,44 @@
-import React, { useState, useEffect } from 'react';
+import React, { useContext } from "react";
+import firebase from '@/lib/firebase';
+import { useRouter } from 'next/router';
 
-import Title from '@/components/atoms/Title';
-import Link from 'next/link';
-
-export type Menu = {
-  name: string;
-  restaurant: string;
-};
-
-const Index: React.FC = () => {
-  // useEffect(() => {}, []);
+const Signin = () => {
+  const router = useRouter()
+  const handleSubmit = async (event: any) => {
+    event.preventDefault();
+    const { email, password } = event.target.elements;
+    try {
+      // ユーザ認証
+      await firebase.auth().signInWithEmailAndPassword(email.value, password.value);
+      // トップページへ遷移
+      router.push('/top');
+    } catch (error) {
+      alert(error);
+    }
+  };
 
   return (
-    <>
-      <Title>サインイン</Title>
-      <Link href="/top" passHref>
-        <input type="submit" value="サインイン" />
-      </Link>
-    </>
+    <div>
+      <h1>Sign in</h1>
+      <form onSubmit={handleSubmit}>
+        <div>
+        <label>
+          Email
+          <input name="email" type="email" placeholder="Email" />
+        </label>
+        </div>
+        <div>
+        <label>
+          Password
+          <input name="password" type="password" placeholder="Password" />
+        </label>
+        </div>
+        <div>
+        <button type="submit">Sign in</button>
+        </div>
+      </form>
+    </div>
   );
 };
 
-export default Index;
+export default Signin;

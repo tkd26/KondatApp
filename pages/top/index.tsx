@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 
 import Title from '@/components/atoms/Title';
 import Link from 'next/link';
+import firebase from '@/lib/firebase';
+import { checkSignin } from '../auth/checkSignin';
 
 export type Menu = {
   name: string;
@@ -9,10 +11,13 @@ export type Menu = {
 };
 
 const Index: React.FC = () => {
-  // useEffect(() => {}, []);
+  checkSignin();
+  // useEffect(() => {
+  // }, []);
 
   return (
     <>
+    <button onClick={() => firebase.auth().signOut()}>Sign out</button>
       <Title>トップページ</Title>
       <Link href="/input" passHref>
         <input type="submit" value="献立の登録" />
