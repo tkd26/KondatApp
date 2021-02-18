@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import firebase from '@/lib/firebase';
-import { useRouter } from 'next/router'
+import { useRouter } from 'next/router';
 
 const Signin = () => {
   const router = useRouter()
@@ -11,7 +11,7 @@ const Signin = () => {
       // ユーザ認証
       await firebase.auth().signInWithEmailAndPassword(email.value, password.value);
       // トップページへ遷移
-      router.push("/top");
+      router.push('/top');
     } catch (error) {
       alert(error);
     }

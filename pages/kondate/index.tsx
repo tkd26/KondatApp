@@ -6,7 +6,6 @@ import { firestore } from '@/lib/firebase';
 import Link from 'next/link';
 import { checkSignin } from '../auth/checkSignin';
 import firebase from '@/lib/firebase';
-import { useRouter } from 'next/router'
 
 // const ADDRESS = '新宿'
 // const GENRE = '和食'
@@ -147,7 +146,7 @@ const Index: React.FC = () => {
   // メニューの取得
   useEffect(() => {
     // ユーザ情報を取得
-    initFirebaseAuth().then((user: any)=>{
+    initFirebaseAuth().then((user: any) => {
       const userId = user.email;
       console.log(userId);
       firestore
