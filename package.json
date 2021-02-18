@@ -11,14 +11,21 @@
     "lint:fix": "eslint --fix --ext .ts,.tsx --ignore-path .gitignore ."
   },
   "dependencies": {
+    "@types/react-router-dom": "^5.1.7",
     "antd": "^4.7.2",
     "axios": "^0.21.1",
+    "bootstrap": "^4.6.0",
     "date-fns": "^2.16.1",
     "firebase": "^7.24.0",
+    "formik": "^2.2.6",
     "jquery": "^3.5.1",
     "next": "^9.5.5",
     "react": "^16.13.1",
-    "react-dom": "^16.13.1"
+    "react-bootstrap": "^1.5.0",
+    "react-dom": "^16.13.1",
+    "react-router-dom": "^5.2.0",
+    "reactstrap": "^8.9.0",
+    "yup": "^0.32.9"
   },
   "devDependencies": {
     "@types/jquery": "^3.5.5",

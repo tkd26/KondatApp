@@ -2,13 +2,19 @@ import React, { useContext } from "react";
 import firebase from '@/lib/firebase';
 import { useRouter } from 'next/router'
 
-const Signin = () => {
+type UserInfo = {
+  id: string;
+  password: string;
+  address: string;
+} 
+
+const SignUp = () => {
   const router = useRouter()
   const handleSubmit = async event => {
     event.preventDefault();
     const { email, password } = event.target.elements;
     try {
-      await firebase.auth().signInWithEmailAndPassword(email.value, password.value);
+      await firebase.auth().createUserWithEmailAndPassword(email.value, password.value);
       router.push("/top");
     } catch (error) {
       alert(error);
@@ -17,7 +23,7 @@ const Signin = () => {
 
   return (
     <div>
-      <h1>Sign in</h1>
+      <h1>Sign up</h1>
       <form onSubmit={handleSubmit}>
         <div>
         <label>
@@ -32,11 +38,11 @@ const Signin = () => {
         </label>
         </div>
         <div>
-        <button type="submit">Sign in</button>
+        <button type="submit">Sign Up</button>
         </div>
       </form>
     </div>
   );
 };
 
-export default Signin;
+export default SignUp;

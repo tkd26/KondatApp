@@ -1,5 +1,6 @@
 import firebase from 'firebase/app';
 import 'firebase/firestore';
+import "firebase/auth";
 
 firebase.apps.length
   ? firebase.app()
@@ -15,3 +16,4 @@ firebase.apps.length
     });
 
 export const firestore = firebase.firestore();
+export default firebase;

@@ -4,6 +4,8 @@ import React, { useState, useEffect } from 'react';
 import Title from '@/components/atoms/Title';
 import { firestore } from '@/lib/firebase';
 import Link from 'next/link';
+import { checkSignin } from '../auth/checkSignin';
+import firebase from '@/lib/firebase';
 
 // const ADDRESS = '新宿'
 // const GENRE = '和食'
@@ -127,32 +129,35 @@ const Index: React.FC = () => {
     );
   }
 
-  // メニューの取得
-  useEffect(() => {
-    firestore
-      .collection(USER)
-      .doc(DATE)
-      .onSnapshot(function (doc) {
-        const kondate = {
-          name: doc.data()!.name,
-          genre: doc.data()!.genre,
-        };
-        setKondate(kondate);
-        getRecipes(kondate);
+  new Promise(checkSignin).then(() =>{
+    // メニューの取得
+    useEffect(() => {
+      firestore
+        .collection(USER)
+        .doc(DATE)
+        .onSnapshot(function (doc) {
+          const kondate = {
+            name: doc.data()!.name,
+            genre: doc.data()!.genre,
+          };
+          setKondate(kondate);
+          getRecipes(kondate);
 
-        firestore
-          .collection('usermasta')
-          .doc(USER)
-          .onSnapshot(function (doc) {
-            const address = doc.data()!.address;
-            setAddress(address);
-            getRestaurants(kondate, address);
-          });
-      });
-  }, []);
+          firestore
+            .collection('usermasta')
+            .doc(USER)
+            .onSnapshot(function (doc) {
+              const address = doc.data()!.address;
+              setAddress(address);
+              getRestaurants(kondate, address);
+            });
+        });
+    }, []);
+  })
 
   return (
     <>
+    <button onClick={() => firebase.auth().signOut()}>Sign out</button>
       <Title>献立表示</Title>
       <div>住所：{address}</div>
       <div>ジャンル：{kondate.genre}</div>
