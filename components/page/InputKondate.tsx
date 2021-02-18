@@ -16,8 +16,8 @@ const year1 = today.getFullYear();
 
 const InputKondate: React.FC = () => {
   checkSignin();
-  
-  const addKondate= (todo: string, genre: string, day: number, month: number, year: number, when: string) => {
+
+  const addKondate = (todo: string, genre: string, day: number, month: number, year: number, when: string): any  => {
     getSignin().then((user: any) => {
       // firestoreにデータを追加する
       const docName = String(year1) + String(('00' + month1).slice(-2)) + String(Number(day) + Number(date1)-1) + when;

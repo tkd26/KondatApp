@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useImperativeHandle } from 'react';
-// import { useRouter } from 'next/router';
+import { useRouter } from 'next/router';
 
 import Title from '@/components/atoms/Title';
 import { firestore } from '@/lib/firebase';
@@ -11,7 +11,7 @@ import firebase from '@/lib/firebase';
 // const ADDRESS = '新宿'
 // const GENRE = '和食'
 // const USER = 'user1';
-const DATE = '202102182';
+// const DATE = '202102182';
 
 type Kondate = {
   name: string;
@@ -38,6 +38,8 @@ type Recipe = {
 };
 
 const Index: React.FC = () => {
+  const router = useRouter()
+
   const [kondate, setKondate] = useState<Kondate>({
     name: '',
     genre: '',
@@ -56,7 +58,6 @@ const Index: React.FC = () => {
           if (item.categoryName.indexOf(kondate.name) >= 0) return item;
         });
         smallCategory = smallCategory[0];
-
         let mediumCategory = datas.result.medium.filter( function (item: RecipeCategory, index: number) {
           if (item.categoryId == smallCategory.parentCategoryId) return item;
         });
@@ -68,7 +69,6 @@ const Index: React.FC = () => {
         largeCategory = largeCategory[0];
 
         const categoryId = `${largeCategory.categoryId}-${mediumCategory.categoryId}-${smallCategory.categoryId}`;
-
         const url = `https://app.rakuten.co.jp/services/api/Recipe/CategoryRanking/20170426?format=json&categoryId=${categoryId}&elements=recipeTitle%2CrecipeUrl&applicationId=1028773340156331413`;
         $.getJSON(url, { url: url }).then(
           function (datas) {
@@ -82,13 +82,13 @@ const Index: React.FC = () => {
           },
           // 失敗時
           function () {
-            alert('Error');
+            alert('Error2');
           }
         );
       },
       // 失敗時
       function () {
-        alert('Error');
+        alert('Error1');
       }
     );
   }
@@ -131,18 +131,23 @@ const Index: React.FC = () => {
   
   checkSignin();
 
+  
+
   // メニューの取得
   useEffect(() => {
+    
     // ユーザ情報を取得
     getSignin().then((user: any) => {
       const userId = user.email;
-      console.log(userId);
+      const kondateCode = String(router.query.kondateCode);
+      return {userId: userId, kondateCode: kondateCode};
+    }).then((data) => {
       firestore
-        .collection(userId)
-        .doc(DATE)
+        .collection(data.userId)
+        .doc(data.kondateCode)
         .onSnapshot(function (doc) {
           const kondate = {
-            name: doc.data()!.name,
+            name: doc.data()!.todo,
             genre: doc.data()!.genre,
           };
           setKondate(kondate);
@@ -150,7 +155,7 @@ const Index: React.FC = () => {
 
           firestore
             .collection('usermasta')
-            .doc(userId)
+            .doc(data.userId)
             .onSnapshot(function (doc) {
               const address = doc.data()!.address;
               setAddress(address);
@@ -190,7 +195,6 @@ const Index: React.FC = () => {
       <Link href="/top" passHref>
         <input type="submit" value="トップページへ" />
       </Link>
-      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     </>
   );
 };

@@ -2,6 +2,7 @@ import React, { useState, useContext } from "react";
 import firebase from '@/lib/firebase';
 import { useRouter } from 'next/router'
 import { firestore } from '@/lib/firebase';
+import Link from 'next/link';
 
 const SignUp = () => {
   const router = useRouter()
@@ -54,6 +55,11 @@ const SignUp = () => {
         </div>
         <div>
         <button type="submit">Sign Up</button>
+        </div>
+        <div>
+        <Link href="/signin" passHref>
+        <button type="submit">Sign inページへ</button>
+        </Link>
         </div>
       </form>
     </div>
