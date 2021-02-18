@@ -34,7 +34,10 @@ const Index: React.FC = () => {
             isComplete: doc.data().isComplete,
             date: doc.data().date,
             day: doc.data().day,
+            month: doc.data().month,
+            year: doc.data().year,
             todo: doc.data().todo,
+            when: doc.data().when,
             }));
             // stateに取得したデータをセット
             setMenus(data);
