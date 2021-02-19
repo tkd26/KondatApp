@@ -12,14 +12,18 @@ import EditKondate from '@/components/molecules/EditKondate';
 
 import { firestore } from '@/lib/firebase';
 import { Menu } from '@/types/menu';
-  
+import { getSignin } from '../../pages/auth/getSignin';
+
+type PropsUserId = {
+  PropsUserId: string;
+};
 
 const columns: ColumnsType<Menu> = [
   {
     title: 'Status',
     dataIndex: 'status',
     key: 'status',
-    render: (_, { id, isComplete }) => {
+    render: (_, { userId, id, isComplete }) => {
       const el = (
         <Switch
           checkedChildren={<CheckOutlined />}
@@ -28,7 +32,7 @@ const columns: ColumnsType<Menu> = [
           checked={isComplete}
           onChange={(checked) =>
             firestore
-              .collection('konndate')
+              .collection(userId)
               .doc(id)
               .update({ isComplete: checked })
           }
@@ -108,13 +112,13 @@ const columns: ColumnsType<Menu> = [
     title: 'delete',
     dataIndex: 'delete',
     key: 'delete',
-    render: (_, { id }) => {
+    render: (_, { userId, id }) => {
       const el = (
         <Button
           type="dashed"
           shape="circle"
           icon={<DeleteOutlined />}
-          onClick={() => firestore.collection('konndate').doc(id).delete()}
+          onClick={() => firestore.collection(userId,).doc(id).delete()}
         />
       );
       return el;
@@ -132,12 +136,14 @@ const KondateTable: React.FC = () => {
 
   // init
   useEffect(() => {
-    firestore.collection('konndate')
+    getSignin().then((user: any) => {
+      firestore.collection(user.email)
       // .where('year', '>=', 'month')
       // .where('month', '>=', 1)
       // .where('day', '>=',1)
       .onSnapshot((collection) => {
       const data = collection.docs.map<Menu>((doc) => ({
+        userId: user.email,
         id: doc.id,
         genre: doc.data().genre,
         todo: doc.data().todo,
@@ -150,6 +156,7 @@ const KondateTable: React.FC = () => {
       }));
       setTodos(data);
     });
+  });
   }, []);
 
   const sortedTodos = todos.sort((a, b) => (isBefore(Number(a.day), Number(b.day)) ? -1 : 1));
