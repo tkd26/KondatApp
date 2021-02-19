@@ -55,6 +55,9 @@ const Index: React.FC = () => {
       <Link href="/input" passHref>
         <input type="submit" value="献立の登録" />
       </Link>
+      <Link href="/nutrition" passHref>
+        <input type="submit" value="栄養管理" />
+      </Link>
         {/* <input onClick={handleSubmit} name='1' type="submit" value="朝ご飯の献立" />
         <input onClick={handleSubmit} name='2' type="submit" value="昼ご飯の献立" />
         <input onClick={handleSubmit} name='3' type="submit" value="夜ご飯の献立" /> */}
