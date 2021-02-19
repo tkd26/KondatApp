@@ -38,8 +38,7 @@ type Recipe = {
 };
 
 const Index: React.FC = () => {
-  const router = useRouter();
-
+  
   const [kondate, setKondate] = useState<Kondate>({
     name: '',
     genre: '',
@@ -135,7 +134,7 @@ const Index: React.FC = () => {
 
   // メニューの取得
   useEffect(() => {
-    
+    const router = useRouter();
     // ユーザ情報を取得
     getSignin().then((user: any) => {
       const userId = user.email;
@@ -162,6 +161,8 @@ const Index: React.FC = () => {
               getRestaurants(kondate, address);
             });
         });
+    }).catch((error) => {
+      console.error(error);
     });
   }, []); 
 

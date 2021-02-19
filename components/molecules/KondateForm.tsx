@@ -22,7 +22,7 @@ type Props = {
   when?: string;
 };
 
-const KondateForm: React.FC<Props> = ({ onSubmit, todo = initialValues.todo , genre = initialValues.genre, day = initialValues.day, month = initialValues.month,year = initialValues.year, when = initialValues.when}) => {
+const KondateForm: React.FC<Props> = ({ onSubmit, todo = initialValues.todo , genre = initialValues.genre, day = initialValues.day, month = initialValues.month, year = initialValues.year, when = initialValues.when}) => {
   const [form] = AntForm.useForm();
   const [value, setValue] = React.useState(1);
   

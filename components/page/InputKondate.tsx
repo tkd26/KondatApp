@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Space, Menu } from 'antd';
 
 import { firestore } from '@/lib/firebase';
@@ -15,10 +15,13 @@ const month1 = today.getMonth()+1;
 const year1 = today.getFullYear();
 
 const InputKondate: React.FC = () => {
+  const [userId, setUserId] = useState<string>('');
+
   checkSignin();
 
   const addKondate = (todo: string, genre: string, day: number, month: number, year: number, when: string): any  => {
     getSignin().then((user: any) => {
+      setUserId(user.email);
       // firestoreにデータを追加する
       const docName = String(year1) + String(('00' + month1).slice(-2)) + String(Number(day) + Number(date1)-1) + when;
       firestore.collection(user.email).doc(docName).set({
@@ -31,6 +34,8 @@ const InputKondate: React.FC = () => {
               day: date1+Number(day)-1,
               when: (when === '1') ? '朝ご飯': (when === '2') ? '昼ご飯': (when === '3') ? '夜ご飯': '',
           })
+    }).catch((error) => {
+      console.error(error);
     });
   }
     // // id入力をする
