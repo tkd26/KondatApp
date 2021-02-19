@@ -76,7 +76,7 @@ const Form: React.FC<Props> = ({ onSubmit, todo, genre, when, day, month }) => {
                 <Select.Option value = 'その他'>その他</Select.Option>
             </Select>
             </AntForm.Item>
-            <AntForm.Item
+            {/* <AntForm.Item
             className="input-wrap-day"
             label="日程（選択）"
             name="day"
@@ -91,7 +91,7 @@ const Form: React.FC<Props> = ({ onSubmit, todo, genre, when, day, month }) => {
                 <Select.Option value = '6'>{month2 + 1}月{date+5}日</Select.Option>
                 <Select.Option value = '7'>{month2 + 1}月{date+6}日</Select.Option>
             </Select>
-            </AntForm.Item>
+            </AntForm.Item> */}
         
         <div className="btn-wrap">
           <Button type="primary" htmlType="submit">
