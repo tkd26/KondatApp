@@ -23,7 +23,7 @@ const Index: React.FC = () => {
   const handleSubmit = async ( event: any ) => {
       const when = event.target.name
       getSignin().then((user: any) => {
-        if (user.email) {
+        if (user) {
           const today = new Date();
           const kondateCode = String(today.getFullYear()) + String(('00' + String(Number(today.getMonth())+1)).slice(-2)) + String(('00' + String(Number(today.getDate()))).slice(-2)) + when;
           // console.log(kondateCode)
@@ -56,7 +56,9 @@ const Index: React.FC = () => {
 
   return (
     <>
-    <button onClick={() => firebase.auth().signOut()}>Sign out</button>
+    <Link href="/signin" passHref>
+      <button onClick={() => firebase.auth().signOut()}>Sign out</button>
+    </Link>
       <Title>トップページ</Title>
       <Link href="/input" passHref>
         <input type="submit" value="献立の登録" />
