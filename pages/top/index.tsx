@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import Title from '@/components/atoms/Title';
 import Link from 'next/link';
 import firebase from '@/lib/firebase';
-import { checkSignin } from '../auth/checkSignin';
+import { checkSignin, checkSigninPromise } from '../auth/checkSignin';
 import { getSignin } from '../auth/getSignin';
 import { useRouter } from 'next/router';
 import { firestore } from '@/lib/firebase';
@@ -15,34 +15,40 @@ export type Menu = {
 };
 
 const Index: React.FC = () => {
-  checkSignin();
+  // checkSignin();
   // useEffect(() => {
   // }, []);
   
-    const router = useRouter()
-    const handleSubmit = async ( event: any ) => {
+  const router = useRouter()
+  const handleSubmit = async ( event: any ) => {
       const when = event.target.name
       getSignin().then((user: any) => {
-        const today = new Date();
-        const kondateCode = String(today.getFullYear()) + String(('00' + String(Number(today.getMonth())+1)).slice(-2)) + String(('00' + String(Number(today.getDate()))).slice(-2)) + when;
-        console.log(kondateCode)
-        console.log(user.email)
-        try {
-          firestore
-            .collection(user.email)
-            .doc(kondateCode)
-            .onSnapshot((doc) => {
-              if (doc.exists) {
-                // 献立へ遷移
-                // router.push('/kondate');
-                router.push({ pathname: '/kondate', query: { kondateCode: kondateCode } });
-              } else {
-                // 推薦へ遷移
-                router.push('/input');
-              }
-            })
-        } catch (error) {
-          alert(error);
+        if (user.email) {
+          const today = new Date();
+          const kondateCode = String(today.getFullYear()) + String(('00' + String(Number(today.getMonth())+1)).slice(-2)) + String(('00' + String(Number(today.getDate()))).slice(-2)) + when;
+          // console.log(kondateCode)
+          // console.log(user.email)
+          try {
+            firestore
+              .collection(user.email)
+              .doc(kondateCode)
+              .onSnapshot((doc) => {
+                if (doc.exists) {
+                  // 献立へ遷移
+                  // router.push('/kondate');
+                  router.push({ pathname: '/kondate', query: { kondateCode: kondateCode } });
+                } else {
+                  // 推薦へ遷移
+                  router.push('/input');
+                }
+              })
+          } catch (error) {
+            alert(error);
+          }
+        } else {
+          // No user is signed in.
+          // console.log('false');
+          router.push('/signin');
         }
       })
   };

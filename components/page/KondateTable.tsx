@@ -162,30 +162,36 @@ const KondateTable: React.FC = () => {
   const day1 = Number(today1.getDate());
 
   // const [router, setRouter] = useState<any>();
-  // const routera = useRouter()
+  const router = useRouter()
   // init
   useEffect(() => {
     // setRouter(routera);
     getSignin().then((user: any) => {
-      firestore.collection(user.email)
-      // .where('year', '>=', 'month')
-      // .where('month', '>=', 1)
-      // .where('day', '>=',1)
-      .onSnapshot((collection) => {
-      const data = collection.docs.map<Menu>((doc) => ({
-        userId: user.email,
-        id: doc.id,
-        genre: doc.data().genre,
-        todo: doc.data().todo,
-        isComplete: doc.data().isComplete,
-        date: doc.data().date.toDate(),
-        day: doc.data().day,
-        month: doc.data().month,
-        year: doc.data().year,
-        when: doc.data().when,
-      }));
-      setTodos(data);
-    });
+      if (user){
+        firestore.collection(user.email)
+        // .where('year', '>=', 'month')
+        // .where('month', '>=', 1)
+        // .where('day', '>=',1)
+        .onSnapshot((collection) => {
+          const data = collection.docs.map<Menu>((doc) => ({
+            userId: user.email,
+            id: doc.id,
+            genre: doc.data().genre,
+            todo: doc.data().todo,
+            isComplete: doc.data().isComplete,
+            date: doc.data().date.toDate(),
+            day: doc.data().day,
+            month: doc.data().month,
+            year: doc.data().year,
+            when: doc.data().when,
+          }));
+          setTodos(data);
+        });
+      } else {
+        // No user is signed in.
+        // console.log('false');
+        router.push('/signin');
+      }
   });
   }, []);
 
