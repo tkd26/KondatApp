@@ -6,6 +6,7 @@ import {
   CloseOutlined,
   CheckOutlined,
   DeleteOutlined,
+  ArrowRightOutlined,
 } from '@ant-design/icons';
 
 import EditKondate from '@/components/molecules/EditKondate';
@@ -13,55 +14,45 @@ import EditKondate from '@/components/molecules/EditKondate';
 import { firestore } from '@/lib/firebase';
 import { Menu } from '@/types/menu';
 import { getSignin } from '../../pages/auth/getSignin';
+import { useRouter } from 'next/router';
+import Link from 'next/link';
+import { BrowserRouter } from 'react-router-dom';
 
 type PropsUserId = {
   PropsUserId: string;
 };
 
 const columns: ColumnsType<Menu> = [
+  // {
+  //   title: 'Status',
+  //   dataIndex: 'status',
+  //   key: 'status',
+  //   render: (_, { userId, id, isComplete }) => {
+  //     const el = (
+  //       <Switch
+  //         checkedChildren={<CheckOutlined />}
+  //         unCheckedChildren={<CloseOutlined />}
+  //         defaultChecked
+  //         checked={isComplete}
+  //         onChange={(checked) =>
+  //           firestore
+  //             .collection(userId)
+  //             .doc(id)
+  //             .update({ isComplete: checked })
+  //         }
+  //       />
+  //     );
+  //     return el;
+  //   },
+  // },
   {
-    title: 'Status',
-    dataIndex: 'status',
-    key: 'status',
-    render: (_, { userId, id, isComplete }) => {
-      const el = (
-        <Switch
-          checkedChildren={<CheckOutlined />}
-          unCheckedChildren={<CloseOutlined />}
-          defaultChecked
-          checked={isComplete}
-          onChange={(checked) =>
-            firestore
-              .collection(userId)
-              .doc(id)
-              .update({ isComplete: checked })
-          }
-        />
-      );
-      return el;
-    },
-  },
-  {
-    title: 'ジャンル',
-    dataIndex: 'genre',
-    key: 'genre',
-    render: (_, { genre, isComplete}) => {
-      const el = (
-        <div style={{ textDecoration: isComplete ? 'line-through' : 'none' }}>
-          {genre}
-        </div>
-      );
-      return el;
-    },
-  },
-  {
-    title: '献立',
-    dataIndex: 'todo',
-    key: 'todo',
-    render: (_, { todo, isComplete}) => {
+    title: '日程',
+    dataIndex: 'day',
+    key: 'day',
+    render: (_, { day, month, year, isComplete}) => {
       const el = (
         <div style={{ textDecoration: isComplete ? 'line-through' : 'none' }}>
-          {todo}
+          {year}年{month}月{day}日
         </div>
       );
       return el;
@@ -81,13 +72,26 @@ const columns: ColumnsType<Menu> = [
     },
   },
   {
-    title: '日程',
-    dataIndex: 'day',
-    key: 'day',
-    render: (_, { day, month, year, isComplete}) => {
+    title: '献立',
+    dataIndex: 'todo',
+    key: 'todo',
+    render: (_, { todo, isComplete}) => {
       const el = (
         <div style={{ textDecoration: isComplete ? 'line-through' : 'none' }}>
-          {year}年{month}月{day}日
+          {todo}
+        </div>
+      );
+      return el;
+    },
+  },
+  {
+    title: 'ジャンル',
+    dataIndex: 'genre',
+    key: 'genre',
+    render: (_, { genre, isComplete}) => {
+      const el = (
+        <div style={{ textDecoration: isComplete ? 'line-through' : 'none' }}>
+          {genre}
         </div>
       );
       return el;
@@ -124,7 +128,30 @@ const columns: ColumnsType<Menu> = [
       return el;
     },
   },
+  {
+    title: '献立を作る',
+    dataIndex: 'detail',
+    key: 'detail',
+    render: (_, { userId, id, year, month, day, when }) => {
+      const whenNum = (when === '朝ご飯') ? '1': (when === '昼ご飯') ? '2': (when === '夜ご飯') ? '3': ''
+      const kondateCode = `${year}${String((('00' + String(month)).slice(-2)))}${String((('00' + String(day)).slice(-2)))}${whenNum}`
+      const el = (
+        <>
+        <BrowserRouter>
+        <Link href={{ pathname: '/kondate', query: { kondateCode:  kondateCode} }}>
+        <Button
+          shape="circle"
+          icon={<ArrowRightOutlined />}
+        />
+        </Link>
+        </BrowserRouter>
+        </>
+      );
+      return el;
+    },
+  },
 ];
+
 
 const KondateTable: React.FC = () => {
   // state
@@ -134,8 +161,11 @@ const KondateTable: React.FC = () => {
   const month1 = Number(today1.getMonth());
   const day1 = Number(today1.getDate());
 
+  // const [router, setRouter] = useState<any>();
+  // const routera = useRouter()
   // init
   useEffect(() => {
+    // setRouter(routera);
     getSignin().then((user: any) => {
       firestore.collection(user.email)
       // .where('year', '>=', 'month')
