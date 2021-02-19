@@ -42,7 +42,7 @@ const KondateForm: React.FC<Props> = ({ onSubmit, todo = initialValues.todo , ge
 
   return (
     <>
-      <AntForm form={form} initialValues={{ todo, genre, day}} onFinish={handleFinish}>
+      <AntForm form={form} initialValues={{ todo, genre, day: ''}} onFinish={handleFinish}>
         <AntForm.Item
           className="input-wrap"
           label="献立　　　　　　"

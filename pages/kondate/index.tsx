@@ -129,12 +129,11 @@ const Index: React.FC = () => {
   }
   
   checkSignin();
-
   
+  const router = useRouter();
 
   // メニューの取得
   useEffect(() => {
-    const router = useRouter();
     // ユーザ情報を取得
     getSignin().then((user: any) => {
       const userId = user.email;
