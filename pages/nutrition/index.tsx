@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef,PureComponent} from 'react';
-import Square from '@/pages/nutrition/dataset';
+import Graph from '@/pages/nutrition/dataset';
 import Title from '@/components/atoms/Title';
 import { firestore } from '@/lib/firebase';
 import Link from 'next/link';
@@ -7,18 +7,6 @@ import {Menu} from '@/types/menu';
 import {Nutri} from '@/types/nutrition';
 import { max } from 'date-fns';
 import {Legend, Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, ResponsiveContainer } from 'recharts';
-
-let my_cal_num = 0.0
-let my_fat_num = 0.0;
-let my_protain_num = 0.0;
-let my_na_num = 0.0;
-let my_ca_num = 0.0;
-let my_carb_num = 0.0;
-
-let nutri_comp = '';
-let data_num = 0; // 自分が食べたものの数(現状未来の献立も含まれてしまっている)
-let norm1 = 100000; // もっとも短い距離を収容するためのもの
-let ideal_genre = ''; // おすすめするジャンルを格納するためのもの
 
 // 理想の栄養成分
 const ideal_cal = 833;
@@ -29,13 +17,34 @@ const ideal_ca = 266.7;
 const ideal_carb = 50.7;
 let today = new Date();
 
-let raderData = [{}]
+export type Rader = {
+  subject: string,
+  A: number,
+  B: number,
+  fullMark: number,
+}
+
+
+// let raderData = [{}]
 
 const Index: React.FC = () => {
   const raderUrl = 'https://codesandbox.io/s/simple-radar-chart-rjoc6';
+    // firebaseからデータを取得
     const [menus, setMenus] = useState<Menu[]>([]);
     const [nutri, setNutri] = useState<Nutri[]>([]);
-    console.log('ok');
+    // 推薦するジャンルを格納する
+    const [ideal_genre, setIdeal] = useState<String>('');
+    // 自分の今までの栄養素の合計を格納
+    const [fat, setFat] = useState(0);
+    const [cal, setCal] = useState(0);
+    const [na, setNa] = useState(0);
+    const [protain, setProtain] = useState(0);
+    const [ca, setCa] = useState(0);
+    const [carb, setCarb] = useState(0);
+    const [rader_data, setRader] = useState<Rader[]>([])
+
+    const [norm, setNorm] = useState(10000);  // 最も短い距離を格納するためのもの
+    const [datanum, setNum] = useState(0); // 自分のデータ数を保持する
 
     // メニューの取得
     useEffect(() => {
@@ -68,84 +77,101 @@ const Index: React.FC = () => {
 
           setNutri(data2);
       });
-        menus.map((data) => {
-          if(data.date < today){
-            data_num++;
-            nutri.map((data2) => {
-              if (data.genre === data2.genre){
-                my_cal_num += Number(data2.cal);
-                my_fat_num += Number(data2.fat);
-                my_na_num += Number(data2.na);
-                my_protain_num += Number(data2.protain);
-                my_carb_num += Number(data2.carb);
-                my_ca_num += Number(data2.ca);
-              }
-            })
-          }
-        });
-        // あるジャンルの食事をすると仮定した場合の蓄積される合計の栄養素
-        let virtual_cal = 0;
-        let virtual_fat = 0;
-        let virtual_protain = 0;
-        let virtual_carb = 0;
-        let virtual_na = 0;
-        let virtual_ca = 0;
-
-        let hoge = 0;
-        // ここで理想のジャンルを求める計算をする
-        nutri.map((data2) => {
-            virtual_cal = (Number(data2.cal) + my_cal_num) / (data_num+1);
-            virtual_fat = (Number(data2.fat) + my_fat_num) / (data_num+1);
-            virtual_protain = (Number(data2.protain) + my_protain_num) / (data_num+1);
-            virtual_carb = (Number(data2.carb) + my_carb_num) / (data_num+1);
-            virtual_na = (Number(data2.na) + my_na_num) / (data_num+1);
-            virtual_ca = (Number(data2.ca) + my_ca_num) / (data_num+1);
-            hoge = (Math.pow((virtual_fat-ideal_fat)/ideal_fat, 2) + Math.pow((virtual_na-ideal_na)/ideal_na, 2) + Math.pow((virtual_protain-ideal_protain)/ideal_protain, 2)+Math.pow((virtual_carb-ideal_carb)/ideal_carb, 2)+Math.pow((virtual_ca-ideal_ca)/ideal_ca, 2)+Math.pow((virtual_cal-ideal_cal)/ideal_cal, 2))
-            console.log(hoge);
-            if (norm1 > hoge){
-              norm1 = hoge;
-              ideal_genre = data2.genre;
-            }
-            console.log(ideal_genre)
-        });
-        console.log(ideal_genre);
+        
     }, []);
 
-    // レーダーチャートに使うデータ
-    raderData = [
+    useEffect (() => {
+      let cnt = 0;
+      let my_cal_num = 0.0
+      let my_fat_num = 0.0;
+      let my_protain_num = 0.0;
+      let my_na_num = 0.0;
+      let my_ca_num = 0.0;
+      let my_carb_num = 0.0;
+      menus.map((data) => {
+        if(data.date < today){
+          cnt++;
+          nutri.map((data2) => {
+            if (data.genre === data2.genre){
+              my_cal_num += data2.cal;
+              my_fat_num += data2.fat;
+              my_na_num += data2.na;
+              my_protain_num += data2.protain;
+              my_carb_num += data2.carb;
+              my_ca_num += data2.ca;
+            }
+          })
+        }
+        setNum(cnt);
+        setCal(my_cal_num);
+        setFat(my_fat_num);
+        setProtain(my_protain_num);
+        setNa(my_na_num);
+        setCa(my_ca_num);
+        setCarb(my_carb_num);
+        console.log(cal)
+      });
+      // あるジャンルの食事をすると仮定した場合の蓄積される合計の栄養素
+      let virtual_cal = 0;
+      let virtual_fat = 0;
+      let virtual_protain = 0;
+      let virtual_carb = 0;
+      let virtual_na = 0;
+      let virtual_ca = 0;
+
+      let hoge = 0;
+      // ここで理想のジャンルを求める計算をする
+      nutri.map((data2) => {
+          virtual_cal = (Number(data2.cal) + cal) / (datanum+1);
+          virtual_fat = (Number(data2.fat) + fat) / (datanum+1);
+          virtual_protain = (Number(data2.protain) + protain) / (datanum+1);
+          virtual_carb = (Number(data2.carb) + carb) / (datanum+1);
+          virtual_na = (Number(data2.na) + na) / (datanum+1);
+          virtual_ca = (Number(data2.ca) + ca) / (datanum+1);
+          hoge = (Math.pow((virtual_fat-ideal_fat)/ideal_fat, 2) + Math.pow((virtual_na-ideal_na)/ideal_na, 2) + Math.pow((virtual_protain-ideal_protain)/ideal_protain, 2)+Math.pow((virtual_carb-ideal_carb)/ideal_carb, 2)+Math.pow((virtual_ca-ideal_ca)/ideal_ca, 2)+Math.pow((virtual_cal-ideal_cal)/ideal_cal, 2))
+          if (norm > hoge){
+            setNorm(hoge);
+            setIdeal(data2.genre);
+          }
+      });
+
+      // レーダーチャートに使うデータ
+ 
+    }, [menus,nutri])
+    const raderData = [
       {
-        subject: '炭水化物',
-        A: my_cal_num/data_num/ideal_cal,
+        subject: '炭水化物だ',
+        A: cal/datanum/ideal_cal,
         B: 1,
         fullMark: 1,
       },
       {
         subject: 'タンパク質',
-        A: my_protain_num/data_num/ideal_protain,
+        A: protain/datanum/ideal_protain,
         B: 1,
         fullMark: 1,
       },
       {
         subject: 'カルシウム',
-        A:my_ca_num/data_num/ideal_ca,
+        A:ca/datanum/ideal_ca,
         B: 1,
         fullMark: 1,
       },
       {
         subject: 'カロリー',
-        A: my_cal_num/data_num/ideal_cal,
+        A: cal/datanum/ideal_cal,
         B: 1,
         fullMark: 1,
       },
       {
         subject: '塩分',
-        A: my_na_num/data_num/ideal_na,
+        A: na/datanum/ideal_na,
         B: 1,
         fullMark: 1,
       },
       {
         subject: '脂質',
-        A: my_fat_num/data_num/ideal_fat,
+        A: fat/datanum/ideal_fat,
         B: 1,
         fullMark: 1,
       },
@@ -153,7 +179,7 @@ const Index: React.FC = () => {
 
     return (
     <>
-    <Title>デリバリーまたは外食はいかが？</Title>
+    <Title>デリバリーまたは外食？</Title>
     <RadarChart  // レーダーチャート全体の設定を記述
                 cx={250}  // 要素の左端とチャートの中心点との距離(0にするとチャートの左半分が隠れる)
                 cy={250}  // 要素の上部とチャートの中心点との距離(0にするとチャートの上半分が隠れる)
@@ -188,23 +214,16 @@ const Index: React.FC = () => {
                 <Legend />
             </RadarChart>
     <h2>おすすめの料理のジャンルは『{ideal_genre}』です</h2>
-    <h2>理想との最短距離:{norm1}です</h2>
-    <Square name = {ideal_genre}
-      // cal = {my_cal_num/data_num}
-      // fat = {my_fat_num/data_num}
-      // protain = {my_protain_num/data_num}
-      // carb = {my_carb_num/data_num}
-      // na = {my_na_num/data_num}
-      // ca = {my_ca_num/data_num}
-    />
+    <h2>理想との最短距離:{norm}です</h2>
+    <Graph />
     <h3>あなたの栄養摂取状況</h3>
     <ul>
-      <li>cal: {my_cal_num/data_num}</li>
-      <li>fat: {my_fat_num/data_num}</li>
-      <li>protain: {my_protain_num/data_num}</li>
-      <li>carb: {my_carb_num/data_num}</li>
-      <li>na: {my_na_num/data_num}</li>
-      <li>ca: {my_ca_num/data_num}</li>
+      <li>cal: {cal/datanum}</li>
+      <li>fat: {fat/datanum}</li>
+      <li>protain: {protain/datanum}</li>
+      <li>carb: {carb/datanum}</li>
+      <li>na: {na/datanum}</li>
+      <li>ca: {ca/datanum}</li>
     </ul>
     <h3>理想の栄養摂取状況です</h3>
     <ul>

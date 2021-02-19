@@ -90,7 +90,7 @@ const ideal_carb = 50.7;
 };
 
 
-const Square: React.FC <{name: string } >= (props) => {
+const Graph: React.FC = () => {
   // 描画用
   const jsfiddleUrl = 'https://jsfiddle.net/alidingling/xqjtetw0/';
   const [menus1, setMenus1] = useState<Menu[]>([]);
@@ -101,17 +101,11 @@ const Square: React.FC <{name: string } >= (props) => {
   const [fat_data, setFat] = useState<N_data[]>([]);
   const [na_data, setNa] = useState<N_data[]>([]);
   const [protain_data, setProtain] = useState<N_data[]>([]);
-
-  const y_cal = []
-  const y_fat = []
-  const y_na = []
-  const y_protain = []
-  const y_ca = []
-  const y_carb = []
-  let data_num = 0;
+  const [data_num, setDataNum] = useState(0);
 
   useEffect(() => {
     // 自分の情報を得る
+    console.log('fuga')
     firestore.collection('konndate').onSnapshot((collection) => {
       const data = collection.docs.map<Menu>((doc) => ({
       id: doc.data().id,
@@ -125,6 +119,7 @@ const Square: React.FC <{name: string } >= (props) => {
       when: doc.data().when,
       }));
       // stateに取得したデータをセット
+      console.log(data)
       setMenus1(data);
     });
     // 栄養情報を得る
@@ -141,105 +136,102 @@ const Square: React.FC <{name: string } >= (props) => {
       }));
       setNutri1(dd2);
   });
-
-  const d_cal = menus1.map<N_data>((doc) => ({
-    id: String(doc.year)+'年'+String(doc.month)+'月'+String(doc.day)+'日'+(doc.when === '朝ご飯'? '朝':doc.when === '昼ご飯'?'昼':'夜'),
-    genre: doc.genre,
-    nutri: (doc.genre === '和食') ? j_cal:
-          (doc.genre === '洋食') ? a_cal:
-          (doc.genre === 'イタリアン・フレンチ') ? i_cal:
-          (doc.genre === '中華') ? c_cal:
-          (doc.genre === '焼肉・ホルモン') ? m_cal:
-          (doc.genre === '韓国料理') ? k_cal:
-          (doc.genre === 'アジア・エスニック料理') ? e_cal:
-          (doc.genre === 'ラーメン') ? j_cal:
-          (doc.genre === 'お好み焼き・もんじゃ') ? o_cal:
-          s_cal,
-    }));
-    setCal(d_cal);
-  const d_ca = menus1.map<N_data>((doc) => ({
-    id: String(doc.year)+'年'+String(doc.month)+'月'+String(doc.day)+'日'+(doc.when === '朝ご飯'? '朝':doc.when === '昼ご飯'?'昼':'夜'),
-    genre: doc.genre,
-    nutri: (doc.genre === '和食') ? j_ca:
-          (doc.genre === '洋食') ? a_ca:
-          (doc.genre === 'イタリアン・フレンチ') ? i_ca:
-          (doc.genre === '中華') ? c_ca:
-          (doc.genre === '焼肉・ホルモン') ? m_ca:
-          (doc.genre === '韓国料理') ? k_ca:
-          (doc.genre === 'アジア・エスニック料理') ? e_ca:
-          (doc.genre === 'ラーメン') ? j_ca:
-          (doc.genre === 'お好み焼き・もんじゃ') ? o_ca:
-          s_ca,
-    }));
-  setCa(d_ca);
-  const d_carb = menus1.map<N_data>((doc) => ({
-    id: String(doc.year)+'年'+String(doc.month)+'月'+String(doc.day)+'日'+(doc.when === '朝ご飯'? '朝':doc.when === '昼ご飯'?'昼':'夜'),
-    genre: doc.genre,
-    nutri: (doc.genre === '和食') ? j_carb:
-          (doc.genre === '洋食') ? a_carb:
-          (doc.genre === 'イタリアン・フレンチ') ? i_carb:
-          (doc.genre === '中華') ? c_carb:
-          (doc.genre === '焼肉・ホルモン') ? m_carb:
-          (doc.genre === '韓国料理') ? k_carb:
-          (doc.genre === 'アジア・エスニック料理') ? e_carb:
-          (doc.genre === 'ラーメン') ? j_carb:
-          (doc.genre === 'お好み焼き・もんじゃ') ? o_carb:
-          s_carb,
-    }));
-  setCarb(d_carb);
-  const d_fat = menus1.map<N_data>((doc) => ({
-    id: String(doc.year)+'年'+String(doc.month)+'月'+String(doc.day)+'日'+(doc.when === '朝ご飯'? '朝':doc.when === '昼ご飯'?'昼':'夜'),
-    genre: doc.genre,
-    nutri: (doc.genre === '和食') ? j_fat:
-          (doc.genre === '洋食') ? a_fat:
-          (doc.genre === 'イタリアン・フレンチ') ? i_fat:
-          (doc.genre === '中華') ? c_fat:
-          (doc.genre === '焼肉・ホルモン') ? m_fat:
-          (doc.genre === '韓国料理') ? k_fat:
-          (doc.genre === 'アジア・エスニック料理') ? e_fat:
-          (doc.genre === 'ラーメン') ? j_fat:
-          (doc.genre === 'お好み焼き・もんじゃ') ? o_fat:
-          s_fat,
-    }));
-  setFat(d_fat);
-  const d_na = menus1.map<N_data>((doc) => ({
-    id: String(doc.year)+'年'+String(doc.month)+'月'+String(doc.day)+'日'+(doc.when === '朝ご飯'? '朝':doc.when === '昼ご飯'?'昼':'夜'),
-    genre: doc.genre,
-    nutri: (doc.genre === '和食') ? j_na:
-          (doc.genre === '洋食') ? a_na:
-          (doc.genre === 'イタリアン・フレンチ') ? i_na:
-          (doc.genre === '中華') ? c_na:
-          (doc.genre === '焼肉・ホルモン') ? m_na:
-          (doc.genre === '韓国料理') ? k_na:
-          (doc.genre === 'アジア・エスニック料理') ? e_na:
-          (doc.genre === 'ラーメン') ? j_na:
-          (doc.genre === 'お好み焼き・もんじゃ') ? o_na:
-          s_na,
-    }));
-    setNa(d_na);
-    const d_protain = menus1.map<N_data>((doc) => ({
+}, []);
+  useEffect(() => {
+    const d_cal = menus1.map<N_data>((doc) => ({
       id: String(doc.year)+'年'+String(doc.month)+'月'+String(doc.day)+'日'+(doc.when === '朝ご飯'? '朝':doc.when === '昼ご飯'?'昼':'夜'),
       genre: doc.genre,
-      nutri: (doc.genre === '和食') ? j_protain:
-            (doc.genre === '洋食') ? a_protain:
-            (doc.genre === 'イタリアン・フレンチ') ? i_protain:
-            (doc.genre === '中華') ? c_protain:
-            (doc.genre === '焼肉・ホルモン') ? m_protain:
-            (doc.genre === '韓国料理') ? k_protain:
-            (doc.genre === 'アジア・エスニック料理') ? e_protain:
-            (doc.genre === 'ラーメン') ? j_protain:
-            (doc.genre === 'お好み焼き・もんじゃ') ? o_protain:
-            s_protain,
+      nutri: (doc.genre === '和食') ? j_cal:
+            (doc.genre === '洋食') ? a_cal:
+            (doc.genre === 'イタリアン・フレンチ') ? i_cal:
+            (doc.genre === '中華') ? c_cal:
+            (doc.genre === '焼肉・ホルモン') ? m_cal:
+            (doc.genre === '韓国料理') ? k_cal:
+            (doc.genre === 'アジア・エスニック料理') ? e_cal:
+            (doc.genre === 'ラーメン') ? j_cal:
+            (doc.genre === 'お好み焼き・もんじゃ') ? o_cal:
+            s_cal,
       }));
-      setProtain(d_protain);
-
-    data_num = d_fat.length;
-    for (let i = 0; i < data_num; i++){
-      y_fat.push(ideal_fat);
-      y_na.push(ideal_na);
-      y_protain.push(ideal_protain);
-    }
-}, []);
+      setCal(d_cal);
+    const d_ca = menus1.map<N_data>((doc) => ({
+      id: String(doc.year)+'年'+String(doc.month)+'月'+String(doc.day)+'日'+(doc.when === '朝ご飯'? '朝':doc.when === '昼ご飯'?'昼':'夜'),
+      genre: doc.genre,
+      nutri: (doc.genre === '和食') ? j_ca:
+            (doc.genre === '洋食') ? a_ca:
+            (doc.genre === 'イタリアン・フレンチ') ? i_ca:
+            (doc.genre === '中華') ? c_ca:
+            (doc.genre === '焼肉・ホルモン') ? m_ca:
+            (doc.genre === '韓国料理') ? k_ca:
+            (doc.genre === 'アジア・エスニック料理') ? e_ca:
+            (doc.genre === 'ラーメン') ? j_ca:
+            (doc.genre === 'お好み焼き・もんじゃ') ? o_ca:
+            s_ca,
+      }));
+    setCa(d_ca);
+    const d_carb = menus1.map<N_data>((doc) => ({
+      id: String(doc.year)+'年'+String(doc.month)+'月'+String(doc.day)+'日'+(doc.when === '朝ご飯'? '朝':doc.when === '昼ご飯'?'昼':'夜'),
+      genre: doc.genre,
+      nutri: (doc.genre === '和食') ? j_carb:
+            (doc.genre === '洋食') ? a_carb:
+            (doc.genre === 'イタリアン・フレンチ') ? i_carb:
+            (doc.genre === '中華') ? c_carb:
+            (doc.genre === '焼肉・ホルモン') ? m_carb:
+            (doc.genre === '韓国料理') ? k_carb:
+            (doc.genre === 'アジア・エスニック料理') ? e_carb:
+            (doc.genre === 'ラーメン') ? j_carb:
+            (doc.genre === 'お好み焼き・もんじゃ') ? o_carb:
+            s_carb,
+      }));
+    setCarb(d_carb);
+    const d_fat = menus1.map<N_data>((doc) => ({
+      id: String(doc.year)+'年'+String(doc.month)+'月'+String(doc.day)+'日'+(doc.when === '朝ご飯'? '朝':doc.when === '昼ご飯'?'昼':'夜'),
+      genre: doc.genre,
+      nutri: (doc.genre === '和食') ? j_fat:
+            (doc.genre === '洋食') ? a_fat:
+            (doc.genre === 'イタリアン・フレンチ') ? i_fat:
+            (doc.genre === '中華') ? c_fat:
+            (doc.genre === '焼肉・ホルモン') ? m_fat:
+            (doc.genre === '韓国料理') ? k_fat:
+            (doc.genre === 'アジア・エスニック料理') ? e_fat:
+            (doc.genre === 'ラーメン') ? j_fat:
+            (doc.genre === 'お好み焼き・もんじゃ') ? o_fat:
+            s_fat,
+      }));
+    setFat(d_fat);
+    const d_na = menus1.map<N_data>((doc) => ({
+      id: String(doc.year)+'年'+String(doc.month)+'月'+String(doc.day)+'日'+(doc.when === '朝ご飯'? '朝':doc.when === '昼ご飯'?'昼':'夜'),
+      genre: doc.genre,
+      nutri: (doc.genre === '和食') ? j_na:
+            (doc.genre === '洋食') ? a_na:
+            (doc.genre === 'イタリアン・フレンチ') ? i_na:
+            (doc.genre === '中華') ? c_na:
+            (doc.genre === '焼肉・ホルモン') ? m_na:
+            (doc.genre === '韓国料理') ? k_na:
+            (doc.genre === 'アジア・エスニック料理') ? e_na:
+            (doc.genre === 'ラーメン') ? j_na:
+            (doc.genre === 'お好み焼き・もんじゃ') ? o_na:
+            s_na,
+      }));
+      setNa(d_na);
+      const d_protain = menus1.map<N_data>((doc) => ({
+        id: String(doc.year)+'年'+String(doc.month)+'月'+String(doc.day)+'日'+(doc.when === '朝ご飯'? '朝':doc.when === '昼ご飯'?'昼':'夜'),
+        genre: doc.genre,
+        nutri: (doc.genre === '和食') ? j_protain:
+              (doc.genre === '洋食') ? a_protain:
+              (doc.genre === 'イタリアン・フレンチ') ? i_protain:
+              (doc.genre === '中華') ? c_protain:
+              (doc.genre === '焼肉・ホルモン') ? m_protain:
+              (doc.genre === '韓国料理') ? k_protain:
+              (doc.genre === 'アジア・エスニック料理') ? e_protain:
+              (doc.genre === 'ラーメン') ? j_protain:
+              (doc.genre === 'お好み焼き・もんじゃ') ? o_protain:
+              s_protain,
+        }));
+        console.log(d_protain)
+        setProtain(d_protain);
+  
+      setDataNum(d_fat.length);
+  }, [menus1,nutri1])
   return (
     <>
     <h2>カロリー</h2>
@@ -261,7 +253,7 @@ const Square: React.FC <{name: string } >= (props) => {
         <Legend />
         <Line type="monotone" dataKey="nutri" stroke="#8884d8" activeDot={{ r: 8 }} />
       </LineChart>
-    <h2>炭水化物だ</h2>
+    <h2>炭水化物</h2>
     <LineChart
         width={500}
         height={300}
@@ -359,101 +351,8 @@ const Square: React.FC <{name: string } >= (props) => {
         <Line type="monotone" dataKey="nutri" stroke="#8884d8" activeDot={{ r: 8 }} />
         {/* <Line y1 = {59}>mylabel</Line> */}
       </LineChart>
-      <h2>{props.name}</h2>
     </>
   )
 }
 
-// const mapData = (
-//   doc: firebase.firestore.QueryDocumentSnapshot<firebase.firestore.DocumentData>
-// ) => ({
-//   id: doc.id,
-//   genre: doc.data().genre,
-//   todo: doc.data().todo,
-//   isComplete: doc.data().isComplete,
-//   date: doc.data().date.toDate(),
-//   day: doc.data().day,
-//   month: doc.data().month,
-//   year: doc.data().year,
-//   when: doc.data().when,
-// });
-
-// const FetchData = async () => {
-//   const collection = await firestore
-//     .collection('konndate')
-//     .get();
-
-//   const data_cp = collection.docs.map<Menu>(mapData);
-//   return <h2>data_cp</h2>;
-// };
-
-// const Dataset = ({props}:{props:any}) => {
-//   let data_fat = new Array();
-//   let data_na = []
-//   let data_protain = []
-//   const [menus1, setMenus1] = useState<Menu[]>([]);
-//   const [nutri1, setNutri1] = useState<Nutri[]>([]);
-
-//   let today = new Date();
-//   let data_num = 0;
-//   useEffect(() => {
-//     firestore.collection('konndate').onSnapshot((collection) => {
-//       const data = collection.docs.map<Menu>((doc) => ({
-//       id: doc.data().id,
-//       genre: doc.data().genre,
-//       isComplete: doc.data().isComplete,
-//       date: doc.data().date,
-//       day: doc.data().day,
-//       month: doc.data().month,
-//       year: doc.data().year,
-//       todo: doc.data().todo,
-//       when: doc.data().when,
-//       }));
-//       // stateに取得したデータをセット
-//       setMenus1(data);
-//     });
-
-//     firestore.collection('nutrition').onSnapshot((collection) => {
-//       const dd2 = collection.docs.map<Nutri>((doc) => ({
-//       id: doc.data().id,
-//       genre: doc.data().genre,
-//       fat: doc.data().fat,
-//       protain: doc.data().protain,
-//       na: doc.data().na,
-//       }));
-  
-//       setNutri1(dd2);
-//   });
-  
-//   menus1.map((usr_data) => {
-//       if(usr_data.date < today){
-//         data_num++;
-//         nutri1.map((data2) => {
-//           if (usr_data.genre === data2.genre){
-//             data_fat.push({
-//               fat: data2.fat,
-//               genre: usr_data.genre,
-//               id: usr_data.id,
-//             })
-//             data_na.push({
-//               na: data2.na,
-//               genre: usr_data.genre,
-//               id: usr_data.id,
-//             })
-//             data_protain.push({
-//               protain: data2.protain,
-//               genre: usr_data.genre,
-//               id: usr_data.id,
-//             })
-//           }
-//         })
-//       }
-//     });
-
-// }, []);
-//   return (
-//     <h2>{props.datax}</h2>
-//   );
-
-// }
-export default Square;
+export default Graph;
