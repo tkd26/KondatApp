@@ -7,6 +7,7 @@ import Link from 'next/link';
 import { checkSignin } from '../auth/checkSignin';
 import { getSignin } from '../auth/getSignin';
 import firebase from '@/lib/firebase';
+import Image from 'react-bootstrap/Image'
 
 // const ADDRESS = '新宿'
 // const GENRE = '和食'
@@ -20,6 +21,7 @@ type Kondate = {
 type Restaurant = {
   name: string;
   url: string;
+  image: string;
 };
 type Info = {
   user: string;
@@ -35,6 +37,7 @@ type RecipeCategory = {
 type Recipe = {
   name: string;
   url: string;
+  image: string;
 };
 
 const Index: React.FC = () => {
@@ -68,13 +71,14 @@ const Index: React.FC = () => {
         largeCategory = largeCategory[0];
 
         const categoryId = `${largeCategory.categoryId}-${mediumCategory.categoryId}-${smallCategory.categoryId}`;
-        const url = `https://app.rakuten.co.jp/services/api/Recipe/CategoryRanking/20170426?format=json&categoryId=${categoryId}&elements=recipeTitle%2CrecipeUrl&applicationId=1028773340156331413`;
+        const url = `https://app.rakuten.co.jp/services/api/Recipe/CategoryRanking/20170426?format=json&categoryId=${categoryId}&elements=recipeTitle%2CrecipeUrl%foodImageUrl&applicationId=1028773340156331413`;
         $.getJSON(url, { url: url }).then(
           function (datas) {
             const recipesData = datas.result.map(
               (data: any) => ({
                 name: data.recipeTitle,
                 url: data.recipeUrl,
+                image: data.foodImageUrl,
               })
             );
             setRecipes(recipesData);
@@ -111,6 +115,7 @@ const Index: React.FC = () => {
               (data: any) => ({
                 name: data.name,
                 url: data.urls.pc,
+                image: data.photo.pc.l,
               })
             );
             setRestaurants(restaurantsData);
@@ -178,6 +183,8 @@ const Index: React.FC = () => {
           return (
             <li key={key}>
               <a href={data.url}>{data.name}</a>
+              <br></br>
+              <Image width="200" height="200" src={data.image} rounded />
             </li>
           );
         })}
@@ -188,6 +195,8 @@ const Index: React.FC = () => {
           return (
             <li key={key}>
               <a href={data.url}>{data.name}</a>
+              <br></br>
+              <Image width="200" height="200" src={data.image} rounded />
             </li>
           );
         })}
