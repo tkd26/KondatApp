@@ -11,6 +11,9 @@ import {
 import { Menu } from '@/types/menu';
 import { Nutri } from '@/types/nutrition';
 import { firestore } from '@/lib/firebase';
+import { checkSignin } from '../auth/checkSignin';
+import { getSignin } from '../auth/getSignin';
+import { useRouter } from 'next/router';
 
 // 和食
 const j_cal = 877;
@@ -110,11 +113,16 @@ const Graph: React.FC = () => {
   const [protain_data, setProtain] = useState<N_data[]>([]);
   const [data_num, setDataNum] = useState(0);
 
+  const router = useRouter();
   useEffect(() => {
-    // 自分の情報を得る
-    console.log('fuga');
-    firestore.collection('konndate').onSnapshot((collection) => {
-      const data = collection.docs.map<Menu>((doc) => ({
+    getSignin().then((user: any) => {
+      const userId = user.email;
+      const kondateCode = String(router.query.kondateCode);
+      return {userId: userId, kondateCode: kondateCode};
+    }).then((data) => {
+      firestore.collection(data.userId).onSnapshot((collection) => {
+        const data = collection.docs.map<Menu>((doc) => ({
+        userId: doc.data().userId,
         id: doc.data().id,
         genre: doc.data().genre,
         isComplete: doc.data().isComplete,
@@ -124,14 +132,14 @@ const Graph: React.FC = () => {
         year: doc.data().year,
         todo: doc.data().todo,
         when: doc.data().when,
-      }));
-      // stateに取得したデータをセット
-      console.log(data);
-      setMenus1(data);
-    });
-    // 栄養情報を得る
-    firestore.collection('nutrition').onSnapshot((collection) => {
-      const dd2 = collection.docs.map<Nutri>((doc) => ({
+        }));
+        // stateに取得したデータをセット
+        console.log(data)
+        setMenus1(data);
+      });
+      // 栄養情報を得る
+      firestore.collection('nutrition').onSnapshot((collection) => {
+        const dd2 = collection.docs.map<Nutri>((doc) => ({
         id: doc.data().id,
         genre: doc.data().genre,
         cal: doc.data().cal,
@@ -140,10 +148,11 @@ const Graph: React.FC = () => {
         na: doc.data().na,
         ca: doc.data().ca,
         carb: doc.data().carb,
-      }));
-      setNutri1(dd2);
+        }));
+        setNutri1(dd2);
     });
-  }, []);
+    })
+}, []);
   useEffect(() => {
     const d_cal = menus1.map<N_data>((doc) => ({
       id:

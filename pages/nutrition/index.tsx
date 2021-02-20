@@ -15,6 +15,8 @@ import {
   PolarRadiusAxis,
   ResponsiveContainer,
 } from 'recharts';
+import { getSignin } from '../auth/getSignin';
+import { useRouter } from 'next/router';
 
 // 理想の栄養成分
 const ideal_cal = 833;
@@ -50,28 +52,35 @@ const Index: React.FC = () => {
   const [carb, setCarb] = useState(0);
   const [rader_data, setRader] = useState<Rader[]>([]);
 
-  const [norm, setNorm] = useState(10000); // 最も短い距離を格納するためのもの
-  const [datanum, setNum] = useState(0); // 自分のデータ数を保持する
+    const [norm, setNorm] = useState(10000);  // 最も短い距離を格納するためのもの
+    const [datanum, setNum] = useState(0); // 自分のデータ数を保持する
 
-  // メニューの取得
-  useEffect(() => {
-    firestore.collection('konndate').onSnapshot((collection) => {
-      const data = collection.docs.map<Menu>((doc) => ({
-        id: doc.data().id,
-        genre: doc.data().genre,
-        isComplete: doc.data().isComplete,
-        date: doc.data().date,
-        day: doc.data().day,
-        month: doc.data().month,
-        year: doc.data().year,
-        todo: doc.data().todo,
-        when: doc.data().when,
-      }));
-      // stateに取得したデータをセット
-      setMenus(data);
-    });
-    firestore.collection('nutrition').onSnapshot((collection) => {
-      const data2 = collection.docs.map<Nutri>((doc) => ({
+    const router = useRouter();
+    // メニューの取得
+    useEffect(() => {
+      getSignin().then((user: any) => {
+        const userId = user.email;
+        const kondateCode = String(router.query.kondateCode);
+        return {userId: userId, kondateCode: kondateCode};
+      }).then((data) => {
+        firestore.collection(data.userId).onSnapshot((collection) => {
+          const data = collection.docs.map<Menu>((doc) => ({
+            userId: doc.data().userId,
+            id: doc.data().id,
+            genre: doc.data().genre,
+            isComplete: doc.data().isComplete,
+            date: doc.data().date,
+            day: doc.data().day,
+            month: doc.data().month,
+            year: doc.data().year,
+            todo: doc.data().todo,
+            when: doc.data().when,
+          }));
+          // stateに取得したデータをセット
+          setMenus(data);
+      });
+      firestore.collection('nutrition').onSnapshot((collection) => {
+        const data2 = collection.docs.map<Nutri>((doc) => ({
         id: doc.data().id,
         genre: doc.data().genre,
         cal: doc.data().cal,
@@ -80,7 +89,14 @@ const Index: React.FC = () => {
         carb: doc.data().carb,
         na: doc.data().na,
         ca: doc.data().ca,
-      }));
+        }));
+
+        setNutri(data2);
+    });
+      })
+        
+        
+    }, []);
 
       setNutri(data2);
     });
