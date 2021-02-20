@@ -249,9 +249,6 @@ const Index: React.FC = () => {
           );
         })}
       </CardDeck>
-      <Link href="/top" passHref>
-        <input type="submit" value="トップページへ" />
-      </Link>
 
       <style>{`
           .card-img {

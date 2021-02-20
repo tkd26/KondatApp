@@ -8,6 +8,7 @@ const Layout: React.FC = ({ children }) => (
     <Navbar bg="dark" variant="dark">
     <Navbar.Brand href="/">献立アプリ</Navbar.Brand>
     <Nav className="mr-auto">
+      <Nav.Link href="/top">トップ</Nav.Link>
       <Nav.Link href="/signin">サインイン</Nav.Link>
       <Nav.Link href="/signin" onClick={() => firebase.auth().signOut()}>サインアウト</Nav.Link>
     </Nav>
