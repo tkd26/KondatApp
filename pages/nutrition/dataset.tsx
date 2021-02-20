@@ -105,7 +105,6 @@ const Graph: React.FC = () => {
   const [na_data, setNa] = useState<N_data[]>([]);
   const [protain_data, setProtain] = useState<N_data[]>([]);
   const [data_num, setDataNum] = useState(0);
-  const [userid, setUserId] = useState<string>('');
 
   const router = useRouter();
   useEffect(() => {
