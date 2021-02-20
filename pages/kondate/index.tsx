@@ -188,18 +188,22 @@ const Index: React.FC = () => {
     <>
       <Card className="text-center fw-bold">
         <Card.Img
-          src="https://imagenavi.jp/imgs/topics/food_illust/food_illust_header.jpg"
+          src={`https://nanone-hukushima.com/wp-content/uploads/2018/07/%E8%8F%9C%E3%81%AE%E9%9F%B3_%E6%96%99%E7%90%86%E3%83%98%E3%83%83%E3%83%80%E3%83%BC.jpg`}
           alt="Card image"
-          height="200"
+          height="300"
         />
         <Card.ImgOverlay>
-          <Card.Title style={{}}>献立表示</Card.Title>
+          <Card.Title className="cardTitle">{kondate.name} のレシピ</Card.Title>
         </Card.ImgOverlay>
       </Card>
-      <div>住所：{address}</div>
+      <br/>
+      <br/>
+      <br/>
+      <br/>
+      {/* <div>住所：{address}</div>
       <div>ジャンル：{kondate.genre}</div>
-      <div>献立：{kondate.name}</div>
-      <h2>レシピのおすすめ</h2>
+      <div>献立：{kondate.name}</div> */}
+      <h2 className='under'>レシピのおすすめ</h2>
       <CardDeck key="recipes">
         {recipes.map((data, key) => {
           return (
@@ -212,8 +216,8 @@ const Index: React.FC = () => {
                     src={data.image}
                   />
                   <Card.Body>
-                    <Card.Title style={{}}>{data.name}</Card.Title>
-                    <Card.Text></Card.Text>
+                    {/* <Card.Title style={{}}></Card.Title> */}
+                    <Card.Text>{data.name}</Card.Text>
                   </Card.Body>
                 </Card>
               </a>
@@ -221,7 +225,9 @@ const Index: React.FC = () => {
           );
         })}
       </CardDeck>
-      <h2>外食するならココ！</h2>
+      <br/>
+      <br/>
+      <h2 className='under'>「{kondate.genre}」で外食・テイクアウトするならココ！</h2>
       <CardDeck key="restaurants">
         {restaurants.map((data, key) => {
           return (
@@ -234,8 +240,8 @@ const Index: React.FC = () => {
                     src={data.image}
                   />
                   <Card.Body>
-                    <Card.Title>{data.name}</Card.Title>
-                    <Card.Text></Card.Text>
+                    {/* <Card.Title></Card.Title> */}
+                    <Card.Text>{data.name}</Card.Text>
                   </Card.Body>
                 </Card>
               </a>
@@ -246,6 +252,22 @@ const Index: React.FC = () => {
       <Link href="/top" passHref>
         <input type="submit" value="トップページへ" />
       </Link>
+
+      <style>{`
+          .card-img {
+            opacity:0.8;
+          }
+          .cardTitle {
+            font-size: 400%;
+            font-weight: bold;
+            background: white;
+            padding: 10px;
+          }
+          .under {
+            font-weight: bold;
+            background: linear-gradient(transparent 70%, #d2b48c 70%);
+          }
+        `}</style>
     </>
   );
 };
