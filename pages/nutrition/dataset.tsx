@@ -3,6 +3,7 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'r
 import {Menu} from '@/types/menu';
 import {Nutri} from '@/types/nutrition';
 import { firestore } from '@/lib/firebase';
+import { isBefore, formatISO } from 'date-fns';
 import { checkSignin } from '@/lib/auth/checkSignin';
 import { getSignin } from '@/lib/auth/getSignin';
 import { useRouter } from 'next/router';
@@ -128,9 +129,22 @@ const Graph: React.FC = () => {
         when: doc.data().when,
         }));
         // stateに取得したデータをセット
-        console.log(data)
-        setMenus1(data);
+        
+          const sortedTodos = data.sort((a, b) =>
+    isBefore(Number(a.day), Number(b.day)) ? -1 : 1
+      );
+      const filteredmenus =sortedTodos.filter(function (v) {
+        const kondateDate = new Date(v.year, v.month - 1, v.day, 24, 0);
+        const current = new Date();
+        return kondateDate.getTime() < current.getTime();
+      
+        
       });
+
+      setMenus1(filteredmenus);
+      });
+      
+
       // 栄養情報を得る
       firestore.collection('nutrition').onSnapshot((collection) => {
         const dd2 = collection.docs.map<Nutri>((doc) => ({
@@ -244,7 +258,7 @@ const Graph: React.FC = () => {
   }, [menus1,nutri1])
   return (
     <>
-    <h2>カロリー</h2>
+    <h2>＜カロリー＞</h2>
       <LineChart
         width={500}
         height={300}
@@ -258,12 +272,12 @@ const Graph: React.FC = () => {
       >
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis dataKey="id" />
-        <YAxis />
+        <YAxis unit = 'kcal'/>
         <Tooltip />
         <Legend />
         <Line type="monotone" dataKey="nutri" stroke="#8884d8" activeDot={{ r: 8 }} />
       </LineChart>
-    <h2>炭水化物</h2>
+    <h2>＜炭水化物＞</h2>
     <LineChart
         width={500}
         height={300}
@@ -277,13 +291,13 @@ const Graph: React.FC = () => {
       >
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis dataKey="id" />
-        <YAxis />
+        <YAxis unit = 'g'/>
         <Tooltip />
         <Legend />
         <Line type="monotone" dataKey="nutri" stroke="#8884d8" activeDot={{ r: 8 }} />
         {/* <Line y1 = {59}>mylabel</Line> */}
       </LineChart>
-      <h2>脂質</h2>
+      <h2>＜脂質＞</h2>
       <LineChart
         width={500}
         height={300}
@@ -297,12 +311,12 @@ const Graph: React.FC = () => {
       >
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis dataKey="id" />
-        <YAxis />
+        <YAxis unit = 'g'/>
         <Tooltip />
         <Legend />
         <Line type="monotone" dataKey="nutri" stroke="#8884d8" activeDot={{ r: 8 }} />
       </LineChart>
-      <h2>タンパク質</h2>
+      <h2>＜タンパク質＞</h2>
       <LineChart
         width={500}
         height={300}
@@ -316,12 +330,12 @@ const Graph: React.FC = () => {
       >
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis dataKey="id" />
-        <YAxis />
+        <YAxis unit = 'g'/>
         <Tooltip />
         <Legend />
         <Line type="monotone" dataKey="nutri" stroke="#8884d8" activeDot={{ r: 8 }} />
       </LineChart>
-      <h2>塩分</h2>
+      <h2>＜塩分＞</h2>
       <LineChart
         width={500}
         height={300}
@@ -335,13 +349,13 @@ const Graph: React.FC = () => {
       >
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis dataKey="id" />
-        <YAxis />
+        <YAxis unit = 'g'/>
         <Tooltip />
         <Legend />
         <Line type="monotone" dataKey="nutri" stroke="#8884d8" activeDot={{ r: 8 }} />
         {/* <Line y1 = {59}>mylabel</Line> */}
       </LineChart>
-      <h2>カルシウム</h2>
+      <h2>＜カルシウム＞</h2>
       <LineChart
         width={500}
         height={300}
@@ -355,7 +369,7 @@ const Graph: React.FC = () => {
       >
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis dataKey="id" />
-        <YAxis />
+        <YAxis unit = 'mg'/>
         <Tooltip />
         <Legend />
         <Line type="monotone" dataKey="nutri" stroke="#8884d8" activeDot={{ r: 8 }} />

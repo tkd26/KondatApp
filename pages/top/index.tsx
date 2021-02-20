@@ -75,9 +75,11 @@ const Index: React.FC = () => {
           <Link href="/input" passHref>
             <Button variant="danger"size="lg">献立の登録</Button>
           </Link>
+
           {'　　　'}
-          <Link href="/nutrition" passHref>
+          <Link href="/manage" passHref>
             <Button variant="success"size="lg">栄養管理</Button>
+
           </Link>
           </div>
         </Card.ImgOverlay>
