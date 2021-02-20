@@ -210,6 +210,7 @@ const Manage: React.FC = () => {
     </p>
   </Container>
 </Jumbotron>
+  <div className='top-graph'>
     <RadarChart  // レーダーチャート全体の設定を記述
                 cx={250}  // 要素の左端とチャートの中心点との距離(0にするとチャートの左半分が隠れる)
                 cy={250}  // 要素の上部とチャートの中心点との距離(0にするとチャートの上半分が隠れる)
@@ -243,8 +244,18 @@ const Manage: React.FC = () => {
                 {/* グラフの下のAさんBさんの表記 */}
                 <Legend />
             </RadarChart>
+          </div>
+    <div className='top-graph'>
     <h2>おすすめの料理のジャンルは『{ideal_genre}』です</h2>
+    </div>
     <Graph/>
+
+    <style jsx>{`
+      .top-graph {
+        display: flex;
+        justify-content: center;
+      }
+    `}</style>
     </>
     );
 };
