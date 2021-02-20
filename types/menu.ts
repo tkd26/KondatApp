@@ -10,4 +10,3 @@ export type Menu = {
   todo: string;
   when: string;
 };
-  
