@@ -82,14 +82,14 @@ const Index: React.FC = () => {
       </Card>
       <br />
       <br />
-      <div className="iconbox">
+      {/* <div className="iconbox">
         <Image
           src="https://iconbox.fun/wp/wp-content/uploads/146_w_24.svg"
           roundedCircle
           height="50"
           width="50"
           onClick={handleSubmit}
-          name="1"
+          
         />
         <p>説明</p>
         </div>
@@ -101,7 +101,7 @@ const Index: React.FC = () => {
           height="50"
           width="50"
           onClick={handleSubmit}
-          name="2"
+          
         />
         <p>説明</p>
         </div>
@@ -112,11 +112,12 @@ const Index: React.FC = () => {
           height="50"
           width="50"
           onClick={handleSubmit}
-          name="3"
-        />
+          
+        /> */}
 
-        {/* <Button variant="success" onClick={handleSubmit} name='2' >今日の昼ご飯</Button>
-          <Button variant="success" onClick={handleSubmit} name='3' >今日の夜ご飯</Button> */}
+        <Button variant="success" onClick={handleSubmit} name='1' >今日の朝ご飯</Button>
+        <Button variant="success" onClick={handleSubmit} name='2' >今日の昼ご飯</Button>
+        <Button variant="success" onClick={handleSubmit} name='3' >今日の夜ご飯</Button>
       <br />
       <br />
       <KondateTable />
