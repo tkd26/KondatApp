@@ -66,21 +66,22 @@ const Index: React.FC = () => {
         />
         {/* </div> */}
         <Card.ImgOverlay>
-          <Card.Title>献立一覧</Card.Title>
+          <div className="card-content">
+          <Card.Title className="cardTitle">献立一覧</Card.Title>
           {/* <Card.Text>
           This is a wider card with supporting text below as a natural lead-in to
           additional content. This content is a little bit longer.
         </Card.Text> */}
           <Link href="/input" passHref>
-            <Button variant="success">献立の登録</Button>
+            <Button variant="danger"size="lg">献立の登録</Button>
           </Link>
-          {'  '}
+          {'　　　'}
           <Link href="/nutrition" passHref>
-            <Button variant="info">栄養管理</Button>
+            <Button variant="success"size="lg">栄養管理</Button>
           </Link>
+          </div>
         </Card.ImgOverlay>
       </Card>
-      <br />
       <br />
       {/* <center> */}
       {/* <a name="1" onClick={handleSubmit} >
@@ -111,24 +112,31 @@ const Index: React.FC = () => {
         /> */}
 
         <div className='buttonbox'>
-        <Button variant="success" onClick={handleSubmit} name='1'>今日の朝ご飯</Button>
+        <Button variant="info" onClick={handleSubmit} name='1'>今日の朝ご飯</Button>
         {"　　　　"}
-        <Button variant="success" onClick={handleSubmit} name='2' >今日の昼ご飯</Button>
+        <Button variant="info" onClick={handleSubmit} name='2'>今日の昼ご飯</Button>
         {"　　　　"}
-        <Button variant="success" onClick={handleSubmit} name='3' >今日の夜ご飯</Button>
+        <Button variant="info" onClick={handleSubmit} name='3'>今日の夜ご飯</Button>
         </div>
       {/* </center> */}
-      <br />
       <br />
       <KondateTable />
 
       <style>{`
           .card-img {
-            opacity:0.3;
+            opacity:0.8;
           }
           .buttonbox {
             display: flex;
             justify-content: center;
+          }
+          .cardTitle {
+            font-size: 500%;
+            font-weight: bold;
+          }
+          .card-content {
+            background-color: white;
+            padding: 10px;
           }
         `}</style>
     </>
