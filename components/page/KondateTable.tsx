@@ -218,16 +218,15 @@ const KondateTable: React.FC = () => {
     });
   }, []);
 
-  const sortedTodos = todos.sort((a, b) =>
+  const sortedTodos =todos.sort((a, b) =>
     isBefore(Number(a.day), Number(b.day)) ? -1 : 1
-  );
-  // 現在の日付より前の献立は除外
-  sortedTodos.some(function (v, i) {
-    const kondateDate = new Date(v.year, v.month - 1, v.day, 24, 0);
-    const current = new Date();
-    if (kondateDate.getTime() < current.getTime()) sortedTodos.splice(i, 1);
-  });
-  return <AntTable rowKey="id" dataSource={sortedTodos} columns={columns} />;
+      );
+      const filteredmenus =sortedTodos.filter(function (v) {
+        const kondateDate = new Date(v.year, v.month - 1, v.day, 24, 0);
+        const current = new Date();
+        return kondateDate.getTime() > current.getTime();
+      });
+  return <AntTable rowKey="id" dataSource={filteredmenus} columns={columns} />;
 };
 
 export default KondateTable;

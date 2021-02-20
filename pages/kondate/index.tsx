@@ -204,7 +204,7 @@ const Index: React.FC = () => {
         {recipes.map((data, key) => {
           return (
             <>
-              <a href="{data.url}">
+              <a href={data.url}  target = "_blank">
                 <Card style={{ width: '15rem' }} key={String(key)}>
                   <Card.Img
                     style={{ width: '15rem', height: '15rem' }}
@@ -226,7 +226,7 @@ const Index: React.FC = () => {
         {restaurants.map((data, key) => {
           return (
             <>
-              <a href="{data.url}">
+              <a href={data.url} target = "_blank">
                 <Card style={{ width: '15rem' }} key={String(key)}>
                   <Card.Img
                     style={{ width: '15rem', height: '15rem' }}
