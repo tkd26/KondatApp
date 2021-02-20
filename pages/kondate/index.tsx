@@ -7,7 +7,7 @@ import Link from 'next/link';
 import { checkSignin } from '../auth/checkSignin';
 import { getSignin } from '../auth/getSignin';
 import firebase from '@/lib/firebase';
-import Image from 'react-bootstrap/Image'
+import {Jumbotron, Button, Container, Image, Card, CardDeck} from 'react-bootstrap'
 
 // const ADDRESS = '新宿'
 // const GENRE = '和食'
@@ -105,7 +105,7 @@ const Index: React.FC = () => {
       // 成功時
       function (data) {
         const genreCode: string = data.results.genre[0].code;
-        let url = `https://webservice.recruit.co.jp/hotpepper/gourmet/v1/?key=30e9760c73b50820&address=${address}&genre=${genreCode}&format=jsonp&callback=?`;
+        let url = `https://webservice.recruit.co.jp/hotpepper/gourmet/v1/?key=30e9760c73b50820&count=4&address=${address}&genre=${genreCode}&format=jsonp&callback=?`;
         url = encodeURI(url);
         // ジャンルコードとアドレスをもとにレストランを取得
         $.getJSON(url, { url: url }).then(
@@ -172,36 +172,51 @@ const Index: React.FC = () => {
 
   return (
     <>
-    
-    <button onClick={() => firebase.auth().signOut()}>Sign out</button>
-      <Title>献立表示</Title>
+    <Card className="text-center fw-bold">
+      <Card.Img src="https://imagenavi.jp/imgs/topics/food_illust/food_illust_header.jpg" alt="Card image" height="200"/>
+      <Card.ImgOverlay>
+        <Card.Title style={{}}>献立表示</Card.Title>
+      </Card.ImgOverlay>
+    </Card>
       <div>住所：{address}</div>
       <div>ジャンル：{kondate.genre}</div>
       <div>献立：{kondate.name}</div>
-      <h2>外食のおすすめ</h2>
-      <ul>
-        {restaurants.map((data, key) => {
-          return (
-            <li key={key}>
-              <a href={data.url}>{data.name}</a>
-              <br></br>
-              <Image width="200" height="200" src={data.image} rounded />
-            </li>
-          );
-        })}
-      </ul>
       <h2>レシピのおすすめ</h2>
-      <ul>
+      <CardDeck key='recipes'>
         {recipes.map((data, key) => {
           return (
-            <li key={key}>
-              <a href={data.url}>{data.name}</a>
-              <br></br>
-              <Image width="200" height="200" src={data.image} rounded />
-            </li>
+            <>
+            <a href="{data.url}">
+            <Card style={{ width: '15rem' }} key={String(key)}>
+              <Card.Img  style={{ width: '15rem', height: '15rem' }} variant="top" src={data.image} />
+              <Card.Body>
+                <Card.Title style={{  }}>{data.name}</Card.Title>
+                <Card.Text></Card.Text>
+              </Card.Body>
+            </Card>
+            </a>
+            </>
           );
         })}
-      </ul>
+      </CardDeck>
+      <h2>外食のおすすめ</h2>
+      <CardDeck key='restaurants'>
+        {restaurants.map((data, key) => {
+          return (
+            <>
+            <a href="{data.url}">
+            <Card style={{ width: '15rem' }} key={String(key)}>
+              <Card.Img style={{ width: '15rem', height: '15rem' }} variant="top" src={data.image} />
+              <Card.Body>
+                <Card.Title>{data.name}</Card.Title>
+                <Card.Text></Card.Text>
+              </Card.Body>
+            </Card>
+            </a>
+            </>
+          );
+        })}
+      </CardDeck>
       <Link href="/top" passHref>
         <input type="submit" value="トップページへ" />
       </Link>
