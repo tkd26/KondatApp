@@ -5,7 +5,7 @@ import { EditOutlined } from '@ant-design/icons';
 import { firestore } from '@/lib/firebase';
 import Form from '@/components/molecules/Form';
 import { Menu as MenuItem } from '@/types/menu';
-import { getSignin } from '../../pages/auth/getSignin';
+import { getSignin } from '../../lib/auth/getSignin';
 
 type Props = {
   todoItem: MenuItem;

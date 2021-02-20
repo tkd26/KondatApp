@@ -3,8 +3,8 @@ import React, { useState, useEffect } from 'react';
 import Title from '@/components/atoms/Title';
 import Link from 'next/link';
 import firebase from '@/lib/firebase';
-import { checkSignin } from '../auth/checkSignin';
-import { getSignin } from '../auth/getSignin';
+import { checkSignin } from '../../lib/auth/checkSignin';
+import { getSignin } from '../../lib/auth/getSignin';
 import { useRouter } from 'next/router';
 import { firestore } from '@/lib/firebase';
 import KondateTable from '../../components/page/KondateTable';
@@ -60,45 +60,51 @@ const Index: React.FC = () => {
       <Card className="text-center fw-bold">
         {/* <div style="opacity: 0.2;"> */}
         <Card.Img
-          src="https://tokubai-news-photo-production.tokubai.co.jp/c/w=1400,h=865,a=2,f=jpg/fd32/bfb5/9b90/7409/eebd/ded8/0e0b/e46d/aea76014fa972093.png"
+          src={`https://nanone-hukushima.com/wp-content/uploads/2018/07/%E8%8F%9C%E3%81%AE%E9%9F%B3_%E6%96%99%E7%90%86%E3%83%98%E3%83%83%E3%83%80%E3%83%BC.jpg`}
           alt="Card image"
           height="300"
         />
         {/* </div> */}
         <Card.ImgOverlay>
-          <Card.Title>献立一覧</Card.Title>
+          <div className="card-content">
+          <Card.Title className="cardTitle">献立一覧</Card.Title>
           {/* <Card.Text>
           This is a wider card with supporting text below as a natural lead-in to
           additional content. This content is a little bit longer.
         </Card.Text> */}
           <Link href="/input" passHref>
-            <Button variant="success">献立の登録</Button>
+            <Button variant="danger"size="lg">献立の登録</Button>
           </Link>
-          {'  '}
+          {'　　　'}
           <Link href="/nutrition" passHref>
-            <Button variant="info">栄養管理</Button>
+            <Button variant="success"size="lg">栄養管理</Button>
           </Link>
+          </div>
         </Card.ImgOverlay>
       </Card>
       <br />
-      <br />
+      {/* <center> */}
+      {/* <a name="1" onClick={handleSubmit} >
         <Image
           src="https://iconbox.fun/wp/wp-content/uploads/146_w_24.svg"
           roundedCircle
           height="50"
           width="50"
           onClick={handleSubmit}
-        
         />
+        <p>説明</p>
+        </div>
         {'　　　　　　　'}
+        <div className="iconbox">
         <Image
           src="https://iconbox.fun/wp/wp-content/uploads/145_w_24.svg"
           roundedCircle
           height="50"
           width="50"
           onClick={handleSubmit}
-    
         />
+        <p>説明</p>
+        </div>
         {'　　　　　　　'}
         <Image
           src="https://iconbox.fun/wp/wp-content/uploads/158_w_24.svg"
@@ -106,17 +112,35 @@ const Index: React.FC = () => {
           height="50"
           width="50"
           onClick={handleSubmit}
-        />
+          name="3"
+        /> */}
 
-        {/* <Button variant="success" onClick={handleSubmit} name='2' >今日の昼ご飯</Button>
-          <Button variant="success" onClick={handleSubmit} name='3' >今日の夜ご飯</Button> */}
-      <br />
+        <div className='buttonbox'>
+        <Button variant="info" onClick={handleSubmit} name='1'>今日の朝ご飯</Button>
+        {"　　　　"}
+        <Button variant="info" onClick={handleSubmit} name='2'>今日の昼ご飯</Button>
+        {"　　　　"}
+        <Button variant="info" onClick={handleSubmit} name='3'>今日の夜ご飯</Button>
+        </div>
+      {/* </center> */}
       <br />
       <KondateTable />
 
       <style>{`
           .card-img {
-            opacity:0.3;
+            opacity:0.8;
+          }
+          .buttonbox {
+            display: flex;
+            justify-content: center;
+          }
+          .cardTitle {
+            font-size: 500%;
+            font-weight: bold;
+          }
+          .card-content {
+            background-color: white;
+            padding: 10px;
           }
         `}</style>
     </>

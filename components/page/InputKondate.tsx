@@ -6,8 +6,8 @@ import { firestore } from '@/lib/firebase';
 import KondateForm from '@/components/molecules/KondateForm';
 import KondateTable from './KondateTable';
 import generateCalendar from 'antd/lib/calendar/generateCalendar';
-import { checkSignin } from '../../pages/auth/checkSignin';
-import { getSignin } from '../../pages/auth/getSignin';
+import { checkSignin } from '../../lib/auth/checkSignin';
+import { getSignin } from '../../lib/auth/getSignin';
 
 const today = new Date();
 const date1 = today.getDate();
