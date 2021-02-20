@@ -60,7 +60,7 @@ const Index: React.FC = () => {
       <Card className="text-center fw-bold">
         {/* <div style="opacity: 0.2;"> */}
         <Card.Img
-          src="https://tokubai-news-photo-production.tokubai.co.jp/c/w=1400,h=865,a=2,f=jpg/fd32/bfb5/9b90/7409/eebd/ded8/0e0b/e46d/aea76014fa972093.png"
+          src="https://www.google.com/url?sa=i&url=https%3A%2F%2Fnanone-hukushima.com%2F%25E8%258F%259C%25E3%2581%25AE%25E9%259F%25B3_%25E6%2596%2599%25E7%2590%2586%25E3%2583%2598%25E3%2583%2583%25E3%2583%2580%25E3%2583%25BC%2F&psig=AOvVaw0UevJD3KkUCgd7wBPURGG5&ust=1613899312323000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCKjviM2R-O4CFQAAAAAdAAAAABAD"
           alt="Card image"
           height="300"
         />
@@ -82,15 +82,15 @@ const Index: React.FC = () => {
       </Card>
       <br />
       <br />
-      <center>
+      {/* <center> */}
+      {/* <a name="1" onClick={handleSubmit} >
         <Image
           src="https://iconbox.fun/wp/wp-content/uploads/146_w_24.svg"
           roundedCircle
           height="50"
           width="50"
-          onClick={handleSubmit}
-          name="1"
         />
+        </a>
         {'　　　　　　　'}
         <Image
           src="https://iconbox.fun/wp/wp-content/uploads/145_w_24.svg"
@@ -108,11 +108,16 @@ const Index: React.FC = () => {
           width="50"
           onClick={handleSubmit}
           name="3"
-        />
+        /> */}
 
-        {/* <Button variant="success" onClick={handleSubmit} name='2' >今日の昼ご飯</Button>
-          <Button variant="success" onClick={handleSubmit} name='3' >今日の夜ご飯</Button> */}
-      </center>
+        <div className='buttonbox'>
+        <Button variant="success" onClick={handleSubmit} name='1'>今日の朝ご飯</Button>
+        {"　　　　"}
+        <Button variant="success" onClick={handleSubmit} name='2' >今日の昼ご飯</Button>
+        {"　　　　"}
+        <Button variant="success" onClick={handleSubmit} name='3' >今日の夜ご飯</Button>
+        </div>
+      {/* </center> */}
       <br />
       <br />
       <KondateTable />
@@ -120,6 +125,10 @@ const Index: React.FC = () => {
       <style>{`
           .card-img {
             opacity:0.3;
+          }
+          .buttonbox {
+            display: flex;
+            justify-content: center;
           }
         `}</style>
     </>
