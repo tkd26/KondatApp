@@ -167,6 +167,7 @@ const KondateTable: React.FC = () => {
   useEffect(() => {
     // setRouter(routera);
     getSignin().then((user: any) => {
+      if (user){
       firestore.collection(user.email)
       // .where('year', '>=', 'month')
       // .where('month', '>=', 1)
@@ -186,6 +187,21 @@ const KondateTable: React.FC = () => {
       }));
       setTodos(data);
     });
+    }else{
+      const data = [{
+        userId: '',
+        id: '',
+        genre: '',
+        todo: '',
+        isComplete: false,
+        date: new Date(),
+        day: 0,
+        month: 0,
+        year: 0,
+        when: '',
+      }];
+      setTodos(data);
+    }
   });
   }, []);
 
