@@ -73,18 +73,16 @@ const Manage: React.FC = () => {
             when: doc.data().when,
           }));
           // stateに取得したデータをセット
-          setMenus(data);
-          const sortedTodos = menus.sort((a, b) =>
-    isBefore(Number(a.day), Number(b.day)) ? -1 : 1
-      );
-      sortedTodos.some(function (v, i) {
-        const kondateDate = new Date(v.year, v.month - 1, v.day, 24, 0);
-        const current = new Date();
-        if (kondateDate.getTime() > current.getTime()) sortedTodos.splice(i, 1);
-      });
-
-      setMenus(sortedTodos);
-      });
+      const sortedTodos = data.sort((a, b) =>
+      isBefore(Number(a.day), Number(b.day)) ? -1 : 1
+        );
+        const filteredmenus =sortedTodos.filter(function (v) {
+          const kondateDate = new Date(v.year, v.month - 1, v.day, 24, 0);
+          const current = new Date();
+          return kondateDate.getTime() < current.getTime();
+        });
+            setMenus(filteredmenus);
+        });
       
       firestore.collection('nutrition').onSnapshot((collection) => {
         const data2 = collection.docs.map<Nutri>((doc) => ({
