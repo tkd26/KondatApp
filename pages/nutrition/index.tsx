@@ -65,11 +65,11 @@ const Index: React.FC = () => {
   const router = useRouter();
 
   // レストランを取得する関数
-  function getRestaurants(genre: String, address: String) {
+  async function getRestaurants(genre: String, address: String) {
     let genreUrl = `https://webservice.recruit.co.jp/hotpepper/genre/v1/?key=30e9760c73b50820&keyword=${genre}&format=jsonp&callback=?`;
     genreUrl = encodeURI(genreUrl);
     // ジャンルマスタからジャンルコードを取得
-    $.getJSON(genreUrl, { url: genreUrl }).then(
+    await $.getJSON(genreUrl, { url: genreUrl }).then(
       // 成功時
       function (data) {
         const genreCode: string = data.results.genre[0].code;
