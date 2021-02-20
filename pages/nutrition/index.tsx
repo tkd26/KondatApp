@@ -7,7 +7,7 @@ import {Menu} from '@/types/menu';
 import {Nutri} from '@/types/nutrition';
 import { max } from 'date-fns';
 import {Legend, Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, ResponsiveContainer } from 'recharts';
-import { getSignin } from '../auth/getSignin';
+import { getSignin } from '../../lib/auth/getSignin';
 import { useRouter } from 'next/router';
 
 // 理想の栄養成分

@@ -3,8 +3,8 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'r
 import {Menu} from '@/types/menu';
 import {Nutri} from '@/types/nutrition';
 import { firestore } from '@/lib/firebase';
-import { checkSignin } from '../auth/checkSignin';
-import { getSignin } from '../auth/getSignin';
+import { checkSignin } from '../../lib/auth/checkSignin';
+import { getSignin } from '../../lib/auth/getSignin';
 import { useRouter } from 'next/router';
 
 // 和食

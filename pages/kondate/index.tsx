@@ -4,8 +4,8 @@ import { useRouter } from 'next/router';
 import Title from '@/components/atoms/Title';
 import { firestore } from '@/lib/firebase';
 import Link from 'next/link';
-import { checkSignin } from '../auth/checkSignin';
-import { getSignin } from '../auth/getSignin';
+import { checkSignin } from '../../lib/auth/checkSignin';
+import { getSignin } from '../../lib/auth/getSignin';
 import firebase from '@/lib/firebase';
 import {
   Jumbotron,

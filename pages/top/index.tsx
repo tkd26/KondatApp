@@ -3,8 +3,8 @@ import React, { useState, useEffect } from 'react';
 import Title from '@/components/atoms/Title';
 import Link from 'next/link';
 import firebase from '@/lib/firebase';
-import { checkSignin } from '../auth/checkSignin';
-import { getSignin } from '../auth/getSignin';
+import { checkSignin } from '../../lib/auth/checkSignin';
+import { getSignin } from '../../lib/auth/getSignin';
 import { useRouter } from 'next/router';
 import { firestore } from '@/lib/firebase';
 import KondateTable from '../../components/page/KondateTable';
@@ -83,6 +83,7 @@ const Index: React.FC = () => {
         </Card.ImgOverlay>
       </Card>
       <br />
+
       {/* <center> */}
       {/* <a name="1" onClick={handleSubmit} >
         <Image
@@ -90,17 +91,22 @@ const Index: React.FC = () => {
           roundedCircle
           height="50"
           width="50"
+          onClick={handleSubmit}
         />
-        </a>
+        <p>説明</p>
+        </div>
         {'　　　　　　　'}
+        <div className="iconbox">
         <Image
           src="https://iconbox.fun/wp/wp-content/uploads/145_w_24.svg"
           roundedCircle
           height="50"
           width="50"
           onClick={handleSubmit}
-          name="2"
+          
         />
+        <p>説明</p>
+        </div>
         {'　　　　　　　'}
         <Image
           src="https://iconbox.fun/wp/wp-content/uploads/158_w_24.svg"
