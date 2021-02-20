@@ -82,7 +82,7 @@ const Index: React.FC = () => {
       </Card>
       <br />
       <br />
-      <center>
+      <div className="iconbox">
         <Image
           src="https://iconbox.fun/wp/wp-content/uploads/146_w_24.svg"
           roundedCircle
@@ -91,7 +91,10 @@ const Index: React.FC = () => {
           onClick={handleSubmit}
           name="1"
         />
+        <p>説明</p>
+        </div>
         {'　　　　　　　'}
+        <div className="iconbox">
         <Image
           src="https://iconbox.fun/wp/wp-content/uploads/145_w_24.svg"
           roundedCircle
@@ -100,6 +103,8 @@ const Index: React.FC = () => {
           onClick={handleSubmit}
           name="2"
         />
+        <p>説明</p>
+        </div>
         {'　　　　　　　'}
         <Image
           src="https://iconbox.fun/wp/wp-content/uploads/158_w_24.svg"
@@ -112,14 +117,13 @@ const Index: React.FC = () => {
 
         {/* <Button variant="success" onClick={handleSubmit} name='2' >今日の昼ご飯</Button>
           <Button variant="success" onClick={handleSubmit} name='3' >今日の夜ご飯</Button> */}
-      </center>
       <br />
       <br />
       <KondateTable />
 
       <style>{`
-          .card-img {
-            opacity:0.3;
+          .iconbox {
+            float: left;
           }
         `}</style>
     </>
