@@ -39,7 +39,7 @@ const Index: React.FC = () => {
                 router.push({ pathname: '/kondate', query: { kondateCode: kondateCode } });
               } else {
                 // 推薦へ遷移
-                router.push('/input');
+                router.push('/nutrition');
               }
             })
         } catch (error) {
@@ -69,6 +69,16 @@ const Index: React.FC = () => {
         </Link>
       </Card.ImgOverlay>
     </Card>
+        {/* <Link href={{ pathname: '/kondate', query: { kondateCode:  kondateCode} }}> */}
+          {/* <input type='submit' name='1' onClick={handleSubmit}>今日の朝ご飯</input> */}
+          {/* <input type='submit' name='2' onClick={handleSubmit}>今日の昼ご飯</input>
+          <input type='submit' name='3' onClick={handleSubmit}>今日の夜ご飯</input> */}
+          <Button variant="success" onClick={handleSubmit} name='1' >今日の朝ご飯</Button>
+          <Button variant="success" onClick={handleSubmit} name='2' >今日の昼ご飯</Button>
+          <Button variant="success" onClick={handleSubmit} name='3' >今日の夜ご飯</Button>
+          
+        {/* </Link> */}
+        
         <KondateTable />
 
         <style>{`
