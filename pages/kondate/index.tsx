@@ -204,6 +204,7 @@ const Index: React.FC = () => {
       <div>ジャンル：{kondate.genre}</div>
       <div>献立：{kondate.name}</div> */}
       <h2 className='under'>レシピのおすすめ</h2>
+      { recipes.length==0 && <p>検索結果が見つかりませんでした</p> }
       <CardDeck key="recipes">
         {recipes.map((data, key) => {
           return (

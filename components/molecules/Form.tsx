@@ -68,7 +68,7 @@ const Form: React.FC<Props> = ({ onSubmit, todo, genre, when, day, month }) => {
         >
           <Input placeholder="Add Kondate" />
         </AntForm.Item>
-        <AntForm.Item
+        {/* <AntForm.Item
           className="input-wrap"
           label="朝昼晩"
           name="when"
@@ -85,7 +85,7 @@ const Form: React.FC<Props> = ({ onSubmit, todo, genre, when, day, month }) => {
               夜ご飯
             </Select.Option>
           </Select>
-        </AntForm.Item>
+        </AntForm.Item> */}
         <AntForm.Item
           className="input-wrap-genre"
           label="ジャンル（選択）"
