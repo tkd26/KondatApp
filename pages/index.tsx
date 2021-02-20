@@ -6,7 +6,7 @@ import Title from '@/components/atoms/Title';
 const Index = () => {
   return (
     <>
-      <Title>Firebase Todo App</Title>
+      <Title>献立 App</Title>
       <Main />
     </>
   );

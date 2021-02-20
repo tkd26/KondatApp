@@ -5,22 +5,19 @@ import { firestore } from '@/lib/firebase';
 
 import Form from '@/components/molecules/Form';
 import Table from './Table';
+import {Jumbotron, Button} from 'react-bootstrap'
 
 const Main: React.FC = () => {
-  const addTodo = (todo: string) =>
-    firestore.collection('todos').add({
-      todo: todo,
-      isComplete: false,
-      date: new Date(),
-    });
 
   return (
     <>
+    
       <Space direction="vertical" size="large" style={{ width: '100%' }}>
-        <div className="form-wrap">
-          <Form onSubmit={addTodo} />
+        <div>
+          <Button variant="info" size="lg" active href="/signin">Sign in</Button>{" "}
+          <Button variant="success" size="lg" active href="/signup">Sign up</Button>
         </div>
-        <Table />
+
       </Space>
       <style jsx>{`
         .form-wrap {
