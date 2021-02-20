@@ -13,7 +13,7 @@ import EditKondate from '@/components/molecules/EditKondate';
 
 import { firestore } from '@/lib/firebase';
 import { Menu } from '@/types/menu';
-import { getSignin } from '../../pages/auth/getSignin';
+import { getSignin } from '../../lib/auth/getSignin';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { BrowserRouter } from 'react-router-dom';
