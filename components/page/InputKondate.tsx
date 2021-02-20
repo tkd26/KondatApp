@@ -11,7 +11,7 @@ import { getSignin } from '../../pages/auth/getSignin';
 
 const today = new Date();
 const date1 = today.getDate();
-const month1 = today.getMonth()+1;
+const month1 = today.getMonth() + 1;
 const year1 = today.getFullYear();
 
 const InputKondate: React.FC = () => {
@@ -19,38 +19,61 @@ const InputKondate: React.FC = () => {
 
   checkSignin();
 
-  const addKondate = (todo: string, genre: string, day: number, month: number, year: number, when: string): any  => {
-    getSignin().then((user: any) => {
-      setUserId(user.email);
-      // firestoreにデータを追加する
-      const docName = String(year1) + String(('00' + month1).slice(-2)) + String(Number(day) + Number(date1)-1) + when;
-      firestore.collection(user.email).doc(docName).set({
-              genre: genre,
-              todo: todo,
-              isComplete: false,
-              date: new Date(),
-              year: year1,
-              month: month1,
-              day: date1+Number(day)-1,
-              when: (when === '1') ? '朝ご飯': (when === '2') ? '昼ご飯': (when === '3') ? '夜ご飯': '',
-          })
-    }).catch((error) => {
-      console.error(error);
-    });
-  }
-    // // id入力をする
-    // const abc = firestore.collection('konndate').doc().id;
-    // console.log(abc);
+  const addKondate = (
+    todo: string,
+    genre: string,
+    day: number,
+    month: number,
+    year: number,
+    when: string
+  ): any => {
+    getSignin()
+      .then((user: any) => {
+        setUserId(user.email);
+        // firestoreにデータを追加する
+        const docName =
+          String(year1) +
+          String(('00' + month1).slice(-2)) +
+          String(Number(day) + Number(date1) - 1) +
+          when;
+        firestore
+          .collection(user.email)
+          .doc(docName)
+          .set({
+            genre: genre,
+            todo: todo,
+            isComplete: false,
+            date: new Date(),
+            year: year1,
+            month: month1,
+            day: date1 + Number(day) - 1,
+            when:
+              when === '1'
+                ? '朝ご飯'
+                : when === '2'
+                ? '昼ご飯'
+                : when === '3'
+                ? '夜ご飯'
+                : '',
+          });
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+  // // id入力をする
+  // const abc = firestore.collection('konndate').doc().id;
+  // console.log(abc);
 
-    // firestore.collection("konndate").get().then(function(querySnapshot) {
-    //   querySnapshot.forEach(function(doc) {
-    //       // doc.data() is never undefined for query doc snapshots
-    //       console.log(doc.id, " => ", doc.data());
-    //   });
-    // });
-    // firestore.collection('konndate').doc(year1 + month1 + date1).set({
-    //   genre: 'hello', todo: 'hoge',id: 'sss', isComplete: false, date: new Date, day: 'ok',   
-    // });
+  // firestore.collection("konndate").get().then(function(querySnapshot) {
+  //   querySnapshot.forEach(function(doc) {
+  //       // doc.data() is never undefined for query doc snapshots
+  //       console.log(doc.id, " => ", doc.data());
+  //   });
+  // });
+  // firestore.collection('konndate').doc(year1 + month1 + date1).set({
+  //   genre: 'hello', todo: 'hoge',id: 'sss', isComplete: false, date: new Date, day: 'ok',
+  // });
 
   return (
     <>
@@ -59,7 +82,6 @@ const InputKondate: React.FC = () => {
           <KondateForm onSubmit={addKondate} />
         </div>
         <KondateTable />
-        
       </Space>
       <style jsx>{`
         .form-wrap {

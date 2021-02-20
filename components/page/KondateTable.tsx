@@ -49,7 +49,7 @@ const columns: ColumnsType<Menu> = [
     title: '日程',
     dataIndex: 'day',
     key: 'day',
-    render: (_, { day, month, year, isComplete}) => {
+    render: (_, { day, month, year, isComplete }) => {
       const el = (
         <div style={{ textDecoration: isComplete ? 'line-through' : 'none' }}>
           {year}年{month}月{day}日
@@ -62,7 +62,7 @@ const columns: ColumnsType<Menu> = [
     title: '時間帯',
     dataIndex: 'when',
     key: 'when',
-    render: (_, { when, isComplete}) => {
+    render: (_, { when, isComplete }) => {
       const el = (
         <div style={{ textDecoration: isComplete ? 'line-through' : 'none' }}>
           {when}
@@ -75,7 +75,7 @@ const columns: ColumnsType<Menu> = [
     title: '献立',
     dataIndex: 'todo',
     key: 'todo',
-    render: (_, { todo, isComplete}) => {
+    render: (_, { todo, isComplete }) => {
       const el = (
         <div style={{ textDecoration: isComplete ? 'line-through' : 'none' }}>
           {todo}
@@ -88,7 +88,7 @@ const columns: ColumnsType<Menu> = [
     title: 'ジャンル',
     dataIndex: 'genre',
     key: 'genre',
-    render: (_, { genre, isComplete}) => {
+    render: (_, { genre, isComplete }) => {
       const el = (
         <div style={{ textDecoration: isComplete ? 'line-through' : 'none' }}>
           {genre}
@@ -122,7 +122,7 @@ const columns: ColumnsType<Menu> = [
           type="dashed"
           shape="circle"
           icon={<DeleteOutlined />}
-          onClick={() => firestore.collection(userId,).doc(id).delete()}
+          onClick={() => firestore.collection(userId).doc(id).delete()}
         />
       );
       return el;
@@ -133,25 +133,35 @@ const columns: ColumnsType<Menu> = [
     dataIndex: 'detail',
     key: 'detail',
     render: (_, { userId, id, year, month, day, when }) => {
-      const whenNum = (when === '朝ご飯') ? '1': (when === '昼ご飯') ? '2': (when === '夜ご飯') ? '3': ''
-      const kondateCode = `${year}${String((('00' + String(month)).slice(-2)))}${String((('00' + String(day)).slice(-2)))}${whenNum}`
+      const whenNum =
+        when === '朝ご飯'
+          ? '1'
+          : when === '昼ご飯'
+          ? '2'
+          : when === '夜ご飯'
+          ? '3'
+          : '';
+      const kondateCode = `${year}${String(
+        ('00' + String(month)).slice(-2)
+      )}${String(('00' + String(day)).slice(-2))}${whenNum}`;
       const el = (
         <>
-        <BrowserRouter>
-        <Link href={{ pathname: '/kondate', query: { kondateCode:  kondateCode} }}>
-        <Button
-          shape="circle"
-          icon={<ArrowRightOutlined />}
-        />
-        </Link>
-        </BrowserRouter>
+          <BrowserRouter>
+            <Link
+              href={{
+                pathname: '/kondate',
+                query: { kondateCode: kondateCode },
+              }}
+            >
+              <Button shape="circle" icon={<ArrowRightOutlined />} />
+            </Link>
+          </BrowserRouter>
         </>
       );
       return el;
     },
   },
 ];
-
 
 const KondateTable: React.FC = () => {
   // state
@@ -167,50 +177,55 @@ const KondateTable: React.FC = () => {
   useEffect(() => {
     // setRouter(routera);
     getSignin().then((user: any) => {
-      if (user){
-      firestore.collection(user.email)
-      // .where('year', '>=', 'month')
-      // .where('month', '>=', 1)
-      // .where('day', '>=',1)
-      .onSnapshot((collection) => {
-      const data = collection.docs.map<Menu>((doc) => ({
-        userId: user.email,
-        id: doc.id,
-        genre: doc.data().genre,
-        todo: doc.data().todo,
-        isComplete: doc.data().isComplete,
-        date: doc.data().date.toDate(),
-        day: doc.data().day,
-        month: doc.data().month,
-        year: doc.data().year,
-        when: doc.data().when,
-      }));
-      setTodos(data);
+      if (user) {
+        firestore
+          .collection(user.email)
+          // .where('year', '>=', 'month')
+          // .where('month', '>=', 1)
+          // .where('day', '>=',1)
+          .onSnapshot((collection) => {
+            const data = collection.docs.map<Menu>((doc) => ({
+              userId: user.email,
+              id: doc.id,
+              genre: doc.data().genre,
+              todo: doc.data().todo,
+              isComplete: doc.data().isComplete,
+              date: doc.data().date.toDate(),
+              day: doc.data().day,
+              month: doc.data().month,
+              year: doc.data().year,
+              when: doc.data().when,
+            }));
+            setTodos(data);
+          });
+      } else {
+        const data = [
+          {
+            userId: '',
+            id: '',
+            genre: '',
+            todo: '',
+            isComplete: false,
+            date: new Date(),
+            day: 0,
+            month: 0,
+            year: 0,
+            when: '',
+          },
+        ];
+        setTodos(data);
+      }
     });
-    }else{
-      const data = [{
-        userId: '',
-        id: '',
-        genre: '',
-        todo: '',
-        isComplete: false,
-        date: new Date(),
-        day: 0,
-        month: 0,
-        year: 0,
-        when: '',
-      }];
-      setTodos(data);
-    }
-  });
   }, []);
 
-  const sortedTodos = todos.sort((a, b) => (isBefore(Number(a.day), Number(b.day)) ? -1 : 1));
+  const sortedTodos = todos.sort((a, b) =>
+    isBefore(Number(a.day), Number(b.day)) ? -1 : 1
+  );
   // 現在の日付より前の献立は除外
-  sortedTodos.some(function(v, i){
-    const kondateDate = new Date(v.year, v.month-1, v.day, 24, 0);
+  sortedTodos.some(function (v, i) {
+    const kondateDate = new Date(v.year, v.month - 1, v.day, 24, 0);
     const current = new Date();
-    if (kondateDate.getTime() < current.getTime()) sortedTodos.splice(i,1);
+    if (kondateDate.getTime() < current.getTime()) sortedTodos.splice(i, 1);
   });
   return <AntTable rowKey="id" dataSource={sortedTodos} columns={columns} />;
 };
