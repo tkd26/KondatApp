@@ -162,7 +162,7 @@ const KondateTable: React.FC = () => {
   const day1 = Number(today1.getDate());
 
   // const [router, setRouter] = useState<any>();
-  // const routera = useRouter()
+  const router = useRouter()
   // init
   useEffect(() => {
     // setRouter(routera);
@@ -202,6 +202,7 @@ const KondateTable: React.FC = () => {
       }];
       setTodos(data);
     }
+
   });
   }, []);
 
