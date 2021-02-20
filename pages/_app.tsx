@@ -2,6 +2,7 @@ import React from 'react';
 import { AppProps } from 'next/app';
 
 import 'antd/dist/antd.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 import Layout from '@/components/organisms/Layout';
 

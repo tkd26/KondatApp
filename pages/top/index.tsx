@@ -8,6 +8,7 @@ import { getSignin } from '../auth/getSignin';
 import { useRouter } from 'next/router';
 import { firestore } from '@/lib/firebase';
 import KondateTable from '../../components/page/KondateTable';
+import {Jumbotron, Button, Container, Image, Card} from 'react-bootstrap'
 
 export type Menu = {
   name: string;
@@ -50,18 +51,31 @@ const Index: React.FC = () => {
 
   return (
     <>
-    <button onClick={() => firebase.auth().signOut()}>Sign out</button>
-      <Title>トップページ</Title>
-      <Link href="/input" passHref>
-        <input type="submit" value="献立の登録" />
-      </Link>
-      <Link href="/nutrition" passHref>
-        <input type="submit" value="栄養管理" />
-      </Link>
-        {/* <input onClick={handleSubmit} name='1' type="submit" value="朝ご飯の献立" />
-        <input onClick={handleSubmit} name='2' type="submit" value="昼ご飯の献立" />
-        <input onClick={handleSubmit} name='3' type="submit" value="夜ご飯の献立" /> */}
+    <Card className="text-center fw-bold">
+      {/* <div style="opacity: 0.2;"> */}
+      <Card.Img src="https://tokubai-news-photo-production.tokubai.co.jp/c/w=1400,h=865,a=2,f=jpg/fd32/bfb5/9b90/7409/eebd/ded8/0e0b/e46d/aea76014fa972093.png" alt="Card image" height="300"/>
+      {/* </div> */}
+      <Card.ImgOverlay>
+        <Card.Title>献立一覧</Card.Title>
+        {/* <Card.Text>
+          This is a wider card with supporting text below as a natural lead-in to
+          additional content. This content is a little bit longer.
+        </Card.Text> */}
+        <Link href="/input" passHref>
+          <Button variant="success">献立の登録</Button>
+        </Link>{'  '}
+        <Link href="/nutrition" passHref>
+          <Button variant="info">栄養管理</Button>
+        </Link>
+      </Card.ImgOverlay>
+    </Card>
         <KondateTable />
+
+        <style>{`
+          .card-img {
+            opacity:0.3;
+          }
+        `}</style>
     </>
   );
 };
