@@ -5,23 +5,21 @@ import { firestore } from '@/lib/firebase';
 
 import Form from '@/components/molecules/Form';
 import Table from './Table';
+import {Jumbotron, Button, Card} from 'react-bootstrap'
 
 const Main: React.FC = () => {
-  const addTodo = (todo: string) =>
-    firestore.collection('todos').add({
-      todo: todo,
-      isComplete: false,
-      date: new Date(),
-    });
 
   return (
     <>
       <Space direction="vertical" size="large" style={{ width: '100%' }}>
-        <div className="form-wrap">
-          <Form onSubmit={addTodo} />
+        <div>
+          <Card bg="secondary" className="text-center fw-bold">
+            <Card.Title>献立アプリへようこそ！</Card.Title>
+            <Button variant="success" href="/signup">献立アプリに登録する</Button>
+          </Card>
         </div>
-        <Table />
       </Space>
+
       <style jsx>{`
         .form-wrap {
           display: flex;

@@ -6,14 +6,12 @@ import firebase from '@/lib/firebase';
 const Layout: React.FC = ({ children }) => (
   <>
     <Navbar bg="dark" variant="dark">
-      <Navbar.Brand href="#home">献立アプリ</Navbar.Brand>
-      <Nav className="mr-auto">
-        <Nav.Link href="/">Home</Nav.Link>
-        <Nav.Link href="/signin" onClick={() => firebase.auth().signOut()}>
-          サインアウト
-        </Nav.Link>
-      </Nav>
-    </Navbar>
+    <Navbar.Brand href="/">献立アプリ</Navbar.Brand>
+    <Nav className="mr-auto">
+      <Nav.Link href="/signin">サインイン</Nav.Link>
+      <Nav.Link href="/signin" onClick={() => firebase.auth().signOut()}>サインアウト</Nav.Link>
+    </Nav>
+  </Navbar>
 
     <AntdLayout style={{ minHeight: '100vh' }}>
       <div style={{ padding: '2.5rem' }}>
