@@ -172,6 +172,7 @@ const Index: React.FC = () => {
 
   return (
     <>
+    
     <button onClick={() => firebase.auth().signOut()}>Sign out</button>
       <Title>献立表示</Title>
       <div>住所：{address}</div>
