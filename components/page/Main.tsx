@@ -12,12 +12,18 @@ const Main: React.FC = () => {
   return (
     <>
       <Space direction="vertical" size="large" style={{ width: '100%' }}>
-        <div>
-          <Card bg="secondary" className="text-center fw-bold">
-            <Card.Title>献立アプリへようこそ！</Card.Title>
+        <Jumbotron>
+            <h1 style={{fontWeight:700, textAlign:"center"}}>献立アプリへようこそ！</h1>
+            <br></br>
+            <br></br>
+            <p style={{textAlign:"center"}}>献立アプリは、飲食店と自炊を頑張る人を応援するWebアプリケーションです。</p>
+            <p style={{textAlign:"center"}}>
+            献立を決めてレシピを検索しよう。自炊に疲れた時や特別な日には、食べたい物を入力して、近くのお店を検索しよう。 </p>
+            <br></br>
+            <p style={{textAlign:"center"}}>
             <Button variant="success" href="/signup">献立アプリに登録する</Button>
-          </Card>
-        </div>
+            </p>
+        </Jumbotron>
       </Space>
 
       <style jsx>{`
