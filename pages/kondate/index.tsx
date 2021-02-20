@@ -199,7 +199,7 @@ const Index: React.FC = () => {
           );
         })}
       </CardDeck>
-      <h2>外食のおすすめ</h2>
+      <h2>外食するならココ！</h2>
       <CardDeck key='restaurants'>
         {restaurants.map((data, key) => {
           return (

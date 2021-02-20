@@ -69,16 +69,20 @@ const Index: React.FC = () => {
         </Link>
       </Card.ImgOverlay>
     </Card>
-        {/* <Link href={{ pathname: '/kondate', query: { kondateCode:  kondateCode} }}> */}
-          {/* <input type='submit' name='1' onClick={handleSubmit}>今日の朝ご飯</input> */}
-          {/* <input type='submit' name='2' onClick={handleSubmit}>今日の昼ご飯</input>
-          <input type='submit' name='3' onClick={handleSubmit}>今日の夜ご飯</input> */}
-          <Button variant="success" onClick={handleSubmit} name='1' >今日の朝ご飯</Button>
-          <Button variant="success" onClick={handleSubmit} name='2' >今日の昼ご飯</Button>
-          <Button variant="success" onClick={handleSubmit} name='3' >今日の夜ご飯</Button>
+    <br/>
+    <br/>
+    <center>
+      <Image src="https://iconbox.fun/wp/wp-content/uploads/146_w_24.svg" roundedCircle  height="50" width="50"  onClick={handleSubmit} name='1' />
+      {'　　　　　　　'}
+      <Image src="https://iconbox.fun/wp/wp-content/uploads/145_w_24.svg" roundedCircle  height="50" width="50"  onClick={handleSubmit} name='2' />
+      {'　　　　　　　'}
+      <Image src="https://iconbox.fun/wp/wp-content/uploads/158_w_24.svg" roundedCircle  height="50" width="50"  onClick={handleSubmit} name='3' />
           
-        {/* </Link> */}
-        
+          {/* <Button variant="success" onClick={handleSubmit} name='2' >今日の昼ご飯</Button>
+          <Button variant="success" onClick={handleSubmit} name='3' >今日の夜ご飯</Button> */}
+    </center>
+    <br/>
+    <br/>
         <KondateTable />
 
         <style>{`
