@@ -93,7 +93,7 @@ const ideal_carb = 50.7;
 };
 
 
-const Graph: React.FC = () => {
+const Manage: React.FC = () => {
   // 描画用
   const jsfiddleUrl = 'https://jsfiddle.net/alidingling/xqjtetw0/';
   const [menus1, setMenus1] = useState<Menu[]>([]);
@@ -365,4 +365,4 @@ const Graph: React.FC = () => {
   )
 }
 
-export default Graph;
+export default Manage;
