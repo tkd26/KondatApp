@@ -8,6 +8,7 @@ import { getSignin } from '../auth/getSignin';
 import { useRouter } from 'next/router';
 import { firestore } from '@/lib/firebase';
 import KondateTable from '../../components/page/KondateTable';
+import {Jumbotron, Button} from 'react-bootstrap'
 
 export type Menu = {
   name: string;
@@ -50,14 +51,27 @@ const Index: React.FC = () => {
 
   return (
     <>
-    <button onClick={() => firebase.auth().signOut()}>Sign out</button>
-      <Title>トップページ</Title>
+    <Jumbotron>
+      <h1>トップページ</h1>
+      <p>
+        This is a simple hero unit, a simple jumbotron-style component for calling
+        extra attention to featured content or information.
+      </p>
+      <p>
       <Link href="/input" passHref>
+      <Button variant="primary">献立の登録</Button>
+      </Link>
+      <Link href="/nutrition" passHref>
+      <Button variant="primary">栄養管理</Button>
+      </Link>
+      </p>
+    </Jumbotron>
+      {/* <Link href="/input" passHref>
         <input type="submit" value="献立の登録" />
       </Link>
       <Link href="/nutrition" passHref>
         <input type="submit" value="栄養管理" />
-      </Link>
+      </Link> */}
         {/* <input onClick={handleSubmit} name='1' type="submit" value="朝ご飯の献立" />
         <input onClick={handleSubmit} name='2' type="submit" value="昼ご飯の献立" />
         <input onClick={handleSubmit} name='3' type="submit" value="夜ご飯の献立" /> */}
