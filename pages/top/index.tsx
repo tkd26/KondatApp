@@ -8,7 +8,7 @@ import { getSignin } from '../auth/getSignin';
 import { useRouter } from 'next/router';
 import { firestore } from '@/lib/firebase';
 import KondateTable from '../../components/page/KondateTable';
-import { Jumbotron, Button, Container, Image, Card } from 'react-bootstrap';
+import { Jumbotron, Button, Container, Image, Card,  } from 'react-bootstrap';
 
 export type Menu = {
   name: string;
@@ -82,14 +82,13 @@ const Index: React.FC = () => {
       </Card>
       <br />
       <br />
-      <center>
         <Image
           src="https://iconbox.fun/wp/wp-content/uploads/146_w_24.svg"
           roundedCircle
           height="50"
           width="50"
           onClick={handleSubmit}
-          name="1"
+        
         />
         {'　　　　　　　'}
         <Image
@@ -98,7 +97,7 @@ const Index: React.FC = () => {
           height="50"
           width="50"
           onClick={handleSubmit}
-          name="2"
+    
         />
         {'　　　　　　　'}
         <Image
@@ -107,12 +106,10 @@ const Index: React.FC = () => {
           height="50"
           width="50"
           onClick={handleSubmit}
-          name="3"
         />
 
         {/* <Button variant="success" onClick={handleSubmit} name='2' >今日の昼ご飯</Button>
           <Button variant="success" onClick={handleSubmit} name='3' >今日の夜ご飯</Button> */}
-      </center>
       <br />
       <br />
       <KondateTable />
