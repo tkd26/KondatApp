@@ -1,18 +1,21 @@
-import React, { useContext } from 'react';
+import React, { useContext } from "react";
 import firebase from '@/lib/firebase';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
+import Jumbotron from 'react-bootstrap/Jumbotron'
+import Container from 'react-bootstrap/Container'
+import Button from 'react-bootstrap/Button'
+import { Input } from "antd";
+import { InputGroup } from "react-bootstrap";
 
 const Signin = () => {
-  const router = useRouter();
+  const router = useRouter()
   const handleSubmit = async (event: any) => {
     event.preventDefault();
     const { email, password } = event.target.elements;
     try {
       // ユーザ認証
-      await firebase
-        .auth()
-        .signInWithEmailAndPassword(email.value, password.value);
+      await firebase.auth().signInWithEmailAndPassword(email.value, password.value);
       // トップページへ遷移
       router.push('/top');
     } catch (error) {
@@ -22,31 +25,44 @@ const Signin = () => {
 
   return (
     <div>
-      <h1>Sign in</h1>
+       <Container>
+        <h1 className="text-center fw-bold">サインインする</h1>
+       </Container>
+       <br></br>
+       <br></br>
       <form onSubmit={handleSubmit}>
-        <div>
-          <label>
-            Email
-            <input name="email" type="email" placeholder="Email" />
-          </label>
+        <div className="text-center fw-bold">
+        <label >
+          <input id="email" name="email" type="email"  placeholder="メールアドレス" />
+        </label>
         </div>
-        <div>
-          <label>
-            Password
-            <input name="password" type="password" placeholder="Password" />
-          </label>
+        <div className="text-center fw-bold">
+        <label>
+          <input  id="pasword" name="password"  type="password" placeholder="パスワード" />
+        </label>
         </div>
-        <div>
-          <button type="submit">Sign in</button>
+        <br></br>
+        <div className='buttonbox'>
+        <p>
+        <Button  id="pasword" type="submit" variant="info"　className="text-center fw-bold" size="lg" >Sign in</Button>{' '}
+        </p>
         </div>
-        <div>
-          <Link href="/signup" passHref>
-            <button type="submit">Sign upページへ</button>
-          </Link>
+      <style>{'.buttonbox {display: flex;justify-content: center};input{width:25em;}'}</style>
+      
+        <div className='buttonbox'>
+        {/* <Link href="/signup" passHref > */}
+        <Button  href="/signup" id="pasword" type="submit" variant="secondary" >Sign upページへ</Button>
+   
         </div>
       </form>
+    <style jsx>{`
+      #email{
+      width:25em;}
+      #pasword{
+      width:25em;}
+      `}
+      </style>
     </div>
   );
 };
-
-export default Signin;
+export default Signin
