@@ -104,7 +104,7 @@ const columns: ColumnsType<Menu> = [
   //   render: (_, { date }) => formatISO(date),
   // },
   {
-    title: 'edit',
+    title: '編集',
     dataIndex: 'edit',
     key: 'edit',
     render: (_, todo) => {
@@ -113,7 +113,7 @@ const columns: ColumnsType<Menu> = [
     },
   },
   {
-    title: 'delete',
+    title: '削除',
     dataIndex: 'delete',
     key: 'delete',
     render: (_, { userId, id }) => {
