@@ -9,6 +9,10 @@ import { max } from 'date-fns';
 import {Legend, Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, ResponsiveContainer } from 'recharts';
 import { getSignin } from '../../lib/auth/getSignin';
 import { useRouter } from 'next/router';
+import {
+  Card,
+  CardDeck,
+} from 'react-bootstrap';
 
 // 理想の栄養成分
 const ideal_cal = 833;
@@ -25,53 +29,107 @@ export type Rader = {
   B: number,
   fullMark: number,
 }
+type Restaurant = {
+  name: string;
+  url: string;
+  image: string;
+};
 
 
 // let raderData = [{}]
 
 const Index: React.FC = () => {
   const raderUrl = 'https://codesandbox.io/s/simple-radar-chart-rjoc6';
-    // firebaseからデータを取得
-    const [menus, setMenus] = useState<Menu[]>([]);
-    const [nutri, setNutri] = useState<Nutri[]>([]);
-    // 推薦するジャンルを格納する
-    const [ideal_genre, setIdeal] = useState<String>('');
-    // 自分の今までの栄養素の合計を格納
-    const [fat, setFat] = useState(0);
-    const [cal, setCal] = useState(0);
-    const [na, setNa] = useState(0);
-    const [protain, setProtain] = useState(0);
-    const [ca, setCa] = useState(0);
-    const [carb, setCarb] = useState(0);
-    const [rader_data, setRader] = useState<Rader[]>([])
+  // firebaseからデータを取得
+  const [menus, setMenus] = useState<Menu[]>([]);
+  const [nutri, setNutri] = useState<Nutri[]>([]);
+  // 推薦するジャンルを格納する
+  const [ideal_genre, setIdeal] = useState<String>('');
+  // 自分の今までの栄養素の合計を格納
+  const [fat, setFat] = useState(0);
+  const [cal, setCal] = useState(0);
+  const [na, setNa] = useState(0);
+  const [protain, setProtain] = useState(0);
+  const [ca, setCa] = useState(0);
+  const [carb, setCarb] = useState(0);
+  const [rader_data, setRader] = useState<Rader[]>([])
+  const [restaurants, setRestaurants] = useState<Restaurant[]>([{
+    name: '',
+    url: '',
+    image: '',
+  }]);
 
-    const [norm, setNorm] = useState(10000);  // 最も短い距離を格納するためのもの
-    const [datanum, setNum] = useState(0); // 自分のデータ数を保持する
+  const [norm, setNorm] = useState(10000);  // 最も短い距離を格納するためのもの
+  const [datanum, setNum] = useState(0); // 自分のデータ数を保持する
 
-    const router = useRouter();
-    // メニューの取得
-    useEffect(() => {
-      getSignin().then((user: any) => {
-        const userId = user.email;
-        const kondateCode = String(router.query.kondateCode);
-        return {userId: userId, kondateCode: kondateCode};
-      }).then((data) => {
-        firestore.collection(data.userId).onSnapshot((collection) => {
-          const data = collection.docs.map<Menu>((doc) => ({
-            userId: doc.data().userId,
-            id: doc.data().id,
-            genre: doc.data().genre,
-            isComplete: doc.data().isComplete,
-            date: doc.data().date,
-            day: doc.data().day,
-            month: doc.data().month,
-            year: doc.data().year,
-            todo: doc.data().todo,
-            when: doc.data().when,
-          }));
-          // stateに取得したデータをセット
-          setMenus(data);
+  const router = useRouter();
+
+  // レストランを取得する関数
+  function getRestaurants(genre: String, address: String) {
+    let genreUrl = `https://webservice.recruit.co.jp/hotpepper/genre/v1/?key=30e9760c73b50820&keyword=${genre}&format=jsonp&callback=?`;
+    genreUrl = encodeURI(genreUrl);
+    // ジャンルマスタからジャンルコードを取得
+    $.getJSON(genreUrl, { url: genreUrl }).then(
+      // 成功時
+      function (data) {
+        const genreCode: string = data.results.genre[0].code;
+        let url = `https://webservice.recruit.co.jp/hotpepper/gourmet/v1/?key=30e9760c73b50820&count=4&address=${address}&genre=${genreCode}&format=jsonp&callback=?`;
+        url = encodeURI(url);
+        // ジャンルコードとアドレスをもとにレストランを取得
+        $.getJSON(url, { url: url }).then(
+          // 成功時
+          function (datas) {
+            const restaurantsData = datas.results.shop.map((data: any) => ({
+              name: data.name,
+              url: data.urls.pc,
+              image: data.photo.pc.l,
+            }));
+            setRestaurants(restaurantsData);
+          },
+          // 失敗時
+          function () {
+            alert('Error');
+          }
+        );
+      },
+      // 失敗時
+      function () {
+        alert('Error');
+      }
+    );
+  }
+
+  // メニューの取得
+  useEffect(() => {
+    getSignin().then(async (user: any) => {
+      const userId = user.email;
+      const kondateCode = String(router.query.kondateCode);
+      await firestore
+        .collection('usermasta')
+        .doc(user.email)
+        .onSnapshot(function (doc) {
+          const address = doc.data()!.address;
+          getRestaurants(ideal_genre, address);
+        });
+      return {userId: userId, kondateCode: kondateCode, address: user.address};
+    }).then((data) => {
+      firestore.collection(data.userId).onSnapshot((collection) => {
+        const data = collection.docs.map<Menu>((doc) => ({
+          userId: doc.data().userId,
+          id: doc.data().id,
+          genre: doc.data().genre,
+          isComplete: doc.data().isComplete,
+          date: doc.data().date,
+          day: doc.data().day,
+          month: doc.data().month,
+          year: doc.data().year,
+          todo: doc.data().todo,
+          when: doc.data().when,
+        }));
+        // stateに取得したデータをセット
+        setMenus(data);
       });
+
       firestore.collection('nutrition').onSnapshot((collection) => {
         const data2 = collection.docs.map<Nutri>((doc) => ({
         id: doc.data().id,
@@ -85,11 +143,11 @@ const Index: React.FC = () => {
         }));
 
         setNutri(data2);
-    });
-      })
+      });
+    })
         
         
-    }, []);
+    }, [ideal_genre]);
 
     useEffect (() => {
       let cnt = 0;
@@ -191,6 +249,7 @@ const Index: React.FC = () => {
     return (
     <>
     <h1>あなたの栄養バランス</h1>
+    <div className='top-graph'>
     <RadarChart  // レーダーチャート全体の設定を記述
                 cx={250}  // 要素の左端とチャートの中心点との距離(0にするとチャートの左半分が隠れる)
                 cy={250}  // 要素の上部とチャートの中心点との距離(0にするとチャートの上半分が隠れる)
@@ -224,12 +283,54 @@ const Index: React.FC = () => {
                 {/* グラフの下のAさんBさんの表記 */}
                 <Legend />
             </RadarChart>
+    </div>
+    <div className='top-graph'>
     <h2>おすすめの料理のジャンルは『{ideal_genre}』です</h2>
-    <h2>理想との最短距離:{norm}です</h2>
-    <Link href="/top" passHref>
-        <input type="submit" value="トップページへ" />
-    </Link>
-    <Graph/>
+    </div>
+    {/* <h2>理想との最短距離:{norm}です</h2> */}
+    <br/>
+    <br/>
+    <br/>
+    <h2 className='under'>「{ideal_genre}」で外食・テイクアウトするならココ！</h2>
+    <CardDeck key="restaurants">
+      {restaurants.map((data, key) => {
+        return (
+          <>
+            <a href="{data.url}">
+              <Card style={{ width: '15rem' }} key={String(key)}>
+                <Card.Img
+                  style={{ width: '15rem', height: '15rem' }}
+                  variant="top"
+                  src={data.image}
+                />
+                <Card.Body>
+                  {/* <Card.Title></Card.Title> */}
+                  <Card.Text>{data.name}</Card.Text>
+                </Card.Body>
+              </Card>
+            </a>
+          </>
+        );
+      })}
+    </CardDeck>
+    <br/>
+
+    {/* <Graph/> */}
+
+    <style jsx>{`
+      h1 {
+        font-weight: bold;
+      }
+      .under {
+        font-weight: bold;
+        background: linear-gradient(transparent 70%, #d2b48c 70%);
+      }
+      .top-graph {
+        display: flex;
+        justify-content: center;
+      }
+    `}</style>
+
     </>
     );
 };

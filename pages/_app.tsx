@@ -17,10 +17,10 @@ const MyApp = (app: AppProps) => {
       <Component {...pageProps} />
     </Layout>
     </div>
-    <style>{`
-      @import url('https://fonts.googleapis.com/css?family=M+PLUS+1p');
+    <style jsx>{`
+      @import url('https://fonts.googleapis.com/css?family=Kosugi');
       .layout {
-        font-family: 'M PLUS 1p', sans-serif;
+        font-family: 'Kosugi', sans-serif;
       }
     `}</style>
     </>
