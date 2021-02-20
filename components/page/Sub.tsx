@@ -1,11 +1,6 @@
 import React from 'react';
 import { Space } from 'antd';
-
-import { firestore } from '@/lib/firebase';
-
-import Form from '@/components/molecules/Form';
-import Table from './Table';
-import {Jumbotron, Button} from 'react-bootstrap'
+import {Jumbotron} from 'react-bootstrap'
 
 const Sub: React.FC = () => {
     return (
@@ -20,19 +15,23 @@ const Sub: React.FC = () => {
                         <h2>1. ユーザ登録</h2>
                         <br></br>
                         <p>まずは、ユーザ登録をして、献立アプリを始めよう！ </p>
+                        
                     </div>
 
                     <div className="container">
                         <h2>2. 献立登録</h2>
                         <br></br>
                         <p>献立を登録しよう！</p>
+                        <img src={'/static/menu_registration.png'} style={{width: '100%', height:'100%'}}/>
                     </div>
 
                     <div className="container">
                         <br></br>
                         <h2>3. レシピ・お店を検索</h2>
                         <p>決めた献立をもとにレシピを検索しよう！</p>
+                        <img src='/static/recipe_recommendation.png'style={{width: '100%', height:'100%'}} />
                         <p>もしくは…外食を検討しよう！食べたいメニューを献立に登録し、オススメのお店を探そう！</p>
+                        <img src='/static/restaurant_recommendation.png' style={{width: '100%', height:'100%'}} />
                     </div>
 
                 </Jumbotron>

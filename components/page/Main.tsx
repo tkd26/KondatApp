@@ -1,10 +1,5 @@
 import React from 'react';
 import { Space } from 'antd';
-
-import { firestore } from '@/lib/firebase';
-
-import Form from '@/components/molecules/Form';
-import Table from './Table';
 import {Jumbotron, Button, Card} from 'react-bootstrap'
 
 const Main: React.FC = () => {
