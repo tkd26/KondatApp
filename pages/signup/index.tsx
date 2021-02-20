@@ -3,6 +3,8 @@ import firebase from '@/lib/firebase';
 import { useRouter } from 'next/router';
 import { firestore } from '@/lib/firebase';
 import Link from 'next/link';
+import Container from 'react-bootstrap/Container'
+import Button from 'react-bootstrap/Button'
 
 const SignUp = () => {
   const router = useRouter();
@@ -37,35 +39,46 @@ const SignUp = () => {
 
   return (
     <div>
-      <h1>Sign up</h1>
+      <Container>  
+       <h1 className="text-center fw-bold">Sign up</h1>
+      </Container>
+      <br></br>
       <form onSubmit={handleSubmit}>
-        <div>
+        <div　className="text-center fw-bold">
           <label>
-            Email
-            <input name="email" type="email" placeholder="Email" />
+            <input id="email" name="email" type="email" placeholder="Email" />
           </label>
         </div>
-        <div>
+        <div　className="text-center fw-bold">
           <label>
-            Password
-            <input name="password" type="password" placeholder="Password" />
+            <input  id="email" name="password" type="password" placeholder="Password" />
           </label>
         </div>
-        <div>
+        <div　className="text-center fw-bold">
           <label>
-            Address
-            <input name="address" type="text" placeholder="例：東京都新宿区" />
+            <input　id="email" name="address" type="text" placeholder="住所（例：東京都新宿区）" />
           </label>
         </div>
-        <div>
-          <button type="submit">Sign Up</button>
+        <br></br>
+        <br></br>
+        <style>{'.buttonbox {display: flex;justify-content: center};input{width:25em;}'}</style>
+        <div className='buttonbox'>
+          <Button type="submit" variant="info"　className="text-center fw-bold" size="lg" >Sign Up</Button>
         </div>
-        <div>
+        <br></br>
+        <div className='buttonbox'>
           <Link href="/signin" passHref>
-            <button type="submit">Sign inページへ</button>
+            <Button type="submit" variant="secondary">Sign inページへ</Button>
           </Link>
         </div>
       </form>
+      <style jsx>{`
+      #email{
+      width:25em;}
+      #pasword{
+      width:25em;}
+      `}
+      </style>
     </div>
   );
 };
