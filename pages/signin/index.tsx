@@ -2,6 +2,9 @@ import React, { useContext } from "react";
 import firebase from '@/lib/firebase';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
+import Jumbotron from 'react-bootstrap/Jumbotron'
+import Container from 'react-bootstrap/Container'
+import Button from 'react-bootstrap/Button'
 
 const Signin = () => {
   const router = useRouter()
@@ -20,29 +23,44 @@ const Signin = () => {
 
   return (
     <div>
-      <h1>Sign in</h1>
+      <Jumbotron fluid>
+       <Container>
+       <center>
+        <h1>献立ページへサインイン</h1>
+      　</center>
+       </Container>
+       </Jumbotron>
       <form onSubmit={handleSubmit}>
         <div>
+        <center>
         <label>
-          Email
-          <input name="email" type="email" placeholder="Email" />
+          Email　　
+          <input name="email" type="email" placeholder="メールアドレス" />
         </label>
+        </center>
         </div>
         <div>
+        <center>
         <label>
           Password
-          <input name="password" type="password" placeholder="Password" />
+          <input name="password" type="password" placeholder="パスワード" /><label></label>
         </label>
-        </div>
-        <div>
-        <button type="submit">Sign in</button>
+        </center>
+        <p>
+        <center>
+        <Button type="submit" variant="info"　size="lg" >Sign in</Button>{' '}
+        </center>
+        </p>
         </div>
         <div>
         <Link href="/signup" passHref>
-        <button type="submit">Sign upページへ</button>
+        <center>
+        <Button type="submit" variant="secondary">Sign upページへ</Button>
+        </center>
         </Link>
         </div>
       </form>
+      
     </div>
   );
 };
