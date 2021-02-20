@@ -60,7 +60,7 @@ const Index: React.FC = () => {
       <Card className="text-center fw-bold">
         {/* <div style="opacity: 0.2;"> */}
         <Card.Img
-          src="https://www.google.com/url?sa=i&url=https%3A%2F%2Fnanone-hukushima.com%2F%25E8%258F%259C%25E3%2581%25AE%25E9%259F%25B3_%25E6%2596%2599%25E7%2590%2586%25E3%2583%2598%25E3%2583%2583%25E3%2583%2580%25E3%2583%25BC%2F&psig=AOvVaw0UevJD3KkUCgd7wBPURGG5&ust=1613899312323000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCKjviM2R-O4CFQAAAAAdAAAAABAD"
+          src={`https://nanone-hukushima.com/wp-content/uploads/2018/07/%E8%8F%9C%E3%81%AE%E9%9F%B3_%E6%96%99%E7%90%86%E3%83%98%E3%83%83%E3%83%80%E3%83%BC.jpg`}
           alt="Card image"
           height="300"
         />
