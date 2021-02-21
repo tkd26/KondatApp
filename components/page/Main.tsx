@@ -2,12 +2,17 @@ import React from 'react';
 import { Space } from 'antd';
 import {Jumbotron, Button} from 'react-bootstrap'
 
+
 const Main: React.FC = () => {
 
   return (
     <>
       <Space direction="vertical" size="large" style={{ width: '100%' }}>
         <Jumbotron>
+            <div className='top-graph'>
+              <img src={'/static/logo-big.png'} style={{ width: '50%', height:'50%'}} />
+            </div>
+            <br></br>
             <h1 style={{fontWeight:700, textAlign:"center"}}>らくっくへようこそ！</h1>
             <br></br>
             <br></br>
@@ -22,17 +27,9 @@ const Main: React.FC = () => {
       </Space>
 
       <style jsx>{`
-        .form-wrap {
+        .top-graph {
           display: flex;
-          flex-direction: column;
-          margin-bottom: 5%;
-          padding: 3rem;
-          background-color: white;
-        }
-        .btn-wrap {
-          margin-top: 1rem;
-          display: flex;
-          justify-content: flex-end;
+          justify-content: center;
         }
       `}</style>
     </>
