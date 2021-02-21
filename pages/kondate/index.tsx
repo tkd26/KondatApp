@@ -1,25 +1,13 @@
-import React, { useState, useEffect, useImperativeHandle } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 
-import Title from '@/components/atoms/Title';
 import { firestore } from '@/lib/firebase';
-import Link from 'next/link';
 import { checkSignin } from '../../lib/auth/checkSignin';
 import { getSignin } from '../../lib/auth/getSignin';
-import firebase from '@/lib/firebase';
 import {
-  Jumbotron,
-  Button,
-  Container,
-  Image,
   Card,
   CardDeck,
 } from 'react-bootstrap';
-
-// const ADDRESS = '新宿'
-// const GENRE = '和食'
-// const USER = 'user1';
-// const DATE = '202102182';
 
 type Kondate = {
   name: string;
@@ -29,11 +17,6 @@ type Restaurant = {
   name: string;
   url: string;
   image: string;
-};
-type Info = {
-  user: string;
-  kondate: Kondate;
-  address: string;
 };
 type RecipeCategory = {
   categoryName: string;
@@ -200,16 +183,14 @@ const Index: React.FC = () => {
       <br/>
       <br/>
       <br/>
-      {/* <div>住所：{address}</div>
-      <div>ジャンル：{kondate.genre}</div>
-      <div>献立：{kondate.name}</div> */}
+
       <h2 className='under'>レシピのおすすめ</h2>
       { recipes.length==0 && <p>検索結果が見つかりませんでした</p> }
       <CardDeck key="recipes">
         {recipes.map((data, key) => {
           return (
             <>
-              <a href="{data.url}">
+              <a href={data.url}  target = "_blank">
                 <Card style={{ width: '15rem' }} key={String(key)}>
                   <Card.Img
                     style={{ width: '15rem', height: '15rem' }}
@@ -217,7 +198,6 @@ const Index: React.FC = () => {
                     src={data.image}
                   />
                   <Card.Body>
-                    {/* <Card.Title style={{}}></Card.Title> */}
                     <Card.Text>{data.name}</Card.Text>
                   </Card.Body>
                 </Card>
@@ -233,7 +213,7 @@ const Index: React.FC = () => {
         {restaurants.map((data, key) => {
           return (
             <>
-              <a href="{data.url}">
+              <a href={data.url} target = "_blank">
                 <Card style={{ width: '15rem' }} key={String(key)}>
                   <Card.Img
                     style={{ width: '15rem', height: '15rem' }}
@@ -241,7 +221,6 @@ const Index: React.FC = () => {
                     src={data.image}
                   />
                   <Card.Body>
-                    {/* <Card.Title></Card.Title> */}
                     <Card.Text>{data.name}</Card.Text>
                   </Card.Body>
                 </Card>

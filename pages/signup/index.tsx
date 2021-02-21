@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React from 'react';
 import firebase from '@/lib/firebase';
 import { useRouter } from 'next/router';
 import { firestore } from '@/lib/firebase';
@@ -40,40 +40,40 @@ const SignUp = () => {
   return (
     <div>
       <Container>  
-       <h1 className="text-center fw-bold">Sign up</h1>
+       <h1 className="text-center fw-bold">サインアップ</h1>
       </Container>
       <br></br>
       <form onSubmit={handleSubmit}>
         <div　className="text-center fw-bold">
           <label>
-            <input id="email" name="email" type="email" placeholder="Email" />
+            <input id="inputbox" name="email" type="email" placeholder="Email" />
           </label>
         </div>
         <div　className="text-center fw-bold">
           <label>
-            <input  id="email" name="password" type="password" placeholder="Password" />
+            <input  id="inputbox" name="password" type="password" placeholder="Password" />
           </label>
         </div>
         <div　className="text-center fw-bold">
           <label>
-            <input　id="email" name="address" type="text" placeholder="住所（例：東京都新宿区）" />
+            <input　id="inputbox" name="address" type="text" placeholder="住所（例：東京都新宿区）" />
           </label>
         </div>
         <br></br>
         <br></br>
         <style>{'.buttonbox {display: flex;justify-content: center};input{width:25em;}'}</style>
         <div className='buttonbox'>
-          <Button type="submit" variant="info"　className="text-center fw-bold" size="lg" >Sign Up</Button>
+          <Button type="submit" variant="info"　className="text-center fw-bold" size="lg" >サインアップ</Button>
         </div>
         <br></br>
         <div className='buttonbox'>
           <Link href="/signin" passHref>
-            <Button type="submit" variant="secondary">Sign inページへ</Button>
+            <Button type="submit" variant="secondary">サインインページへ</Button>
           </Link>
         </div>
       </form>
       <style jsx>{`
-      #email{
+      #inputbox{
       width:25em;}
       #pasword{
       width:25em;}

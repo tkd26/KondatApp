@@ -1,6 +1,6 @@
 import React from 'react';
 import { Space } from 'antd';
-import {Jumbotron, Button, Card} from 'react-bootstrap'
+import {Jumbotron, Button} from 'react-bootstrap'
 
 
 const Main: React.FC = () => {
@@ -21,7 +21,7 @@ const Main: React.FC = () => {
             献立を決めてレシピを検索しよう。自炊に疲れた時や特別な日には、食べたい物を入力して、近くのお店を検索しよう。 </p>
             <br></br>
             <p style={{textAlign:"center"}}>
-            <Button variant="success" href="/signup">献立アプリに登録する</Button>
+            <Button variant="success" href="/signup">らくっくに登録する</Button>
             </p>
         </Jumbotron>
       </Space>

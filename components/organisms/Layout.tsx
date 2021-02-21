@@ -1,12 +1,12 @@
 import React from 'react';
 import { Layout as AntdLayout } from 'antd';
-import { Navbar, Nav, Form, FormControl, Button } from 'react-bootstrap';
+import { Navbar, Nav } from 'react-bootstrap';
 import firebase from '@/lib/firebase';
 
 const Layout: React.FC = ({ children }) => (
   <>
     <Navbar bg="dark" variant="dark">
-    <Navbar.Brand href="/">献立アプリ</Navbar.Brand>
+    <Navbar.Brand href="/">らくっく</Navbar.Brand>
     <Nav className="mr-auto">
       <Nav.Link href="/top">トップ</Nav.Link>
       <Nav.Link href="/signin">サインイン</Nav.Link>

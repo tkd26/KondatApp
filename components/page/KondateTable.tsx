@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { isBefore, formatISO } from 'date-fns';
-import { Table as AntTable, Switch, Button } from 'antd';
+import { isBefore } from 'date-fns';
+import { Table as AntTable, Button } from 'antd';
 import { ColumnsType } from 'antd/lib/table/interface';
 import {
-  CloseOutlined,
-  CheckOutlined,
   DeleteOutlined,
   ArrowRightOutlined,
 } from '@ant-design/icons';
@@ -14,13 +12,8 @@ import EditKondate from '@/components/molecules/EditKondate';
 import { firestore } from '@/lib/firebase';
 import { Menu } from '@/types/menu';
 import { getSignin } from '../../lib/auth/getSignin';
-import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { BrowserRouter } from 'react-router-dom';
-
-type PropsUserId = {
-  PropsUserId: string;
-};
 
 const columns: ColumnsType<Menu> = [
   // {
@@ -167,9 +160,9 @@ const KondateTable: React.FC = () => {
   // state
   const [todos, setTodos] = useState<Menu[]>([]);
   const today1 = new Date();
-  const year1 = Number(today1.getFullYear());
-  const month1 = Number(today1.getMonth());
-  const day1 = Number(today1.getDate());
+  // const year1 = Number(today1.getFullYear());
+  // const month1 = Number(today1.getMonth());
+  // const day1 = Number(today1.getDate());
 
   // const [router, setRouter] = useState<any>();
   // const routera = useRouter()
@@ -218,16 +211,15 @@ const KondateTable: React.FC = () => {
     });
   }, []);
 
-  const sortedTodos = todos.sort((a, b) =>
+  const sortedTodos =todos.sort((a, b) =>
     isBefore(Number(a.day), Number(b.day)) ? -1 : 1
-  );
-  // 現在の日付より前の献立は除外
-  sortedTodos.some(function (v, i) {
-    const kondateDate = new Date(v.year, v.month - 1, v.day, 24, 0);
-    const current = new Date();
-    if (kondateDate.getTime() < current.getTime()) sortedTodos.splice(i, 1);
-  });
-  return <AntTable rowKey="id" dataSource={sortedTodos} columns={columns} />;
+      );
+      const filteredmenus =sortedTodos.filter(function (v) {
+        const kondateDate = new Date(v.year, v.month - 1, v.day, 24, 0);
+        const current = new Date();
+        return kondateDate.getTime() > current.getTime();
+      });
+  return <AntTable rowKey="id" dataSource={filteredmenus} columns={columns} />;
 };
 
 export default KondateTable;

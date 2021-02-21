@@ -9,10 +9,14 @@ import { max } from 'date-fns';
 import {Legend, Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, ResponsiveContainer } from 'recharts';
 import { getSignin } from '../../lib/auth/getSignin';
 import { useRouter } from 'next/router';
+
+import { isBefore, formatISO } from 'date-fns';
+
 import {
   Card,
   CardDeck,
 } from 'react-bootstrap';
+
 
 // 理想の栄養成分
 const ideal_cal = 833;
@@ -40,6 +44,7 @@ type Restaurant = {
 
 const Index: React.FC = () => {
   const raderUrl = 'https://codesandbox.io/s/simple-radar-chart-rjoc6';
+
   // firebaseからデータを取得
   const [menus, setMenus] = useState<Menu[]>([]);
   const [nutri, setNutri] = useState<Nutri[]>([]);
@@ -65,11 +70,11 @@ const Index: React.FC = () => {
   const router = useRouter();
 
   // レストランを取得する関数
-  function getRestaurants(genre: String, address: String) {
+  async function getRestaurants(genre: String, address: String) {
     let genreUrl = `https://webservice.recruit.co.jp/hotpepper/genre/v1/?key=30e9760c73b50820&keyword=${genre}&format=jsonp&callback=?`;
     genreUrl = encodeURI(genreUrl);
     // ジャンルマスタからジャンルコードを取得
-    $.getJSON(genreUrl, { url: genreUrl }).then(
+    await $.getJSON(genreUrl, { url: genreUrl }).then(
       // 成功時
       function (data) {
         const genreCode: string = data.results.genre[0].code;
@@ -127,7 +132,18 @@ const Index: React.FC = () => {
           when: doc.data().when,
         }));
         // stateに取得したデータをセット
-        setMenus(data);
+  
+ const sortedTodos = data.sort((a, b) =>
+    isBefore(Number(a.day), Number(b.day)) ? -1 : 1
+      );
+      const filteredmenus =sortedTodos.filter(function (v) {
+        const kondateDate = new Date(v.year, v.month - 1, v.day, 24, 0);
+        const current = new Date();
+        // 過去のどれくらい得るか決める
+        return  (current.getMonth()===kondateDate.getMonth() && (current.getDate() - kondateDate.getDate()) <= 10 && (current.getDate() - kondateDate.getDate()) >= 0)
+        || (current.getMonth() === kondateDate.getMonth()+1 && (kondateDate.getDate() - current.getDate()) >= 20 );
+      });
+          setMenus(filteredmenus);
       });
 
       firestore.collection('nutrition').onSnapshot((collection) => {

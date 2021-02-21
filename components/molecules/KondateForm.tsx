@@ -1,7 +1,5 @@
 import React from 'react';
 import { Form as AntForm, Input, Button, Select, Radio } from 'antd';
-import { RadioProps } from 'antd/lib/radio';
-import { NativeButtonProps } from 'antd/lib/button/button';
 
 const initialValues = {
   todo: '',
