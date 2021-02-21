@@ -79,7 +79,11 @@ const Manage: React.FC = () => {
         const filteredmenus =sortedTodos.filter(function (v) {
           const kondateDate = new Date(v.year, v.month - 1, v.day, 24, 0);
           const current = new Date();
-          return kondateDate.getTime() < current.getTime();
+          // 過去のどれくらい得るか決める
+          return  (current.getMonth()===kondateDate.getMonth() && (current.getDate() - kondateDate.getDate()) <= 10 && (current.getDate() - kondateDate.getDate()) >= 0)
+          || (current.getMonth() === kondateDate.getMonth()+1 && (kondateDate.getDate() - current.getDate()) >= 20 );
+        
+          
         });
             setMenus(filteredmenus);
         });
@@ -206,7 +210,7 @@ const Manage: React.FC = () => {
   <Container>
     <h1>あなたの栄養バランス</h1>
     <p>
-      あなたの食事のデータを6つの項目で分析されてます。
+      あなたの過去の食事データが6つの項目で分析されてます。
     </p>
   </Container>
 </Jumbotron>

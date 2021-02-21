@@ -90,7 +90,8 @@ const ideal_carb = 50.7;
  type N_data = {
   id: string;
   genre: string;
-  nutri: number;
+  あなた: number;
+  理想: number;
 };
 
 
@@ -129,17 +130,19 @@ const Graph: React.FC = () => {
         when: doc.data().when,
         }));
         // stateに取得したデータをセット
+        const sortedTodos = data.sort((a, b) =>
+      isBefore(Number(a.day), Number(b.day)) ? -1 : 1
+        );
+
+        const filteredmenus =sortedTodos.filter(function (v) {
+          const kondateDate = new Date(v.year, v.month - 1, v.day, 24, 0);
+          const current = new Date();
+          // 過去のどれくらい得るか決める
+          return  (current.getMonth()===kondateDate.getMonth() && (current.getDate() - kondateDate.getDate()) <= 10 && (current.getDate() - kondateDate.getDate()) >= 0)
+          || (current.getMonth() === kondateDate.getMonth()+1 && (kondateDate.getDate() - current.getDate()) >= 20 );
         
-          const sortedTodos = data.sort((a, b) =>
-    isBefore(Number(a.day), Number(b.day)) ? -1 : 1
-      );
-      const filteredmenus =sortedTodos.filter(function (v) {
-        const kondateDate = new Date(v.year, v.month - 1, v.day, 24, 0);
-        const current = new Date();
-        return kondateDate.getTime() < current.getTime();
-      
-        
-      });
+          
+        });  
 
       setMenus1(filteredmenus);
       });
@@ -165,7 +168,7 @@ const Graph: React.FC = () => {
     const d_cal = menus1.map<N_data>((doc) => ({
       id: String(doc.year)+'年'+String(doc.month)+'月'+String(doc.day)+'日'+(doc.when === '朝ご飯'? '朝':doc.when === '昼ご飯'?'昼':'夜'),
       genre: doc.genre,
-      nutri: (doc.genre === '和食') ? j_cal:
+      あなた: (doc.genre === '和食') ? j_cal:
             (doc.genre === '洋食') ? a_cal:
             (doc.genre === 'イタリアン・フレンチ') ? i_cal:
             (doc.genre === '中華') ? c_cal:
@@ -175,12 +178,13 @@ const Graph: React.FC = () => {
             (doc.genre === 'ラーメン') ? j_cal:
             (doc.genre === 'お好み焼き・もんじゃ') ? o_cal:
             s_cal,
+      理想: ideal_cal
       }));
       setCal(d_cal);
     const d_ca = menus1.map<N_data>((doc) => ({
       id: String(doc.year)+'年'+String(doc.month)+'月'+String(doc.day)+'日'+(doc.when === '朝ご飯'? '朝':doc.when === '昼ご飯'?'昼':'夜'),
       genre: doc.genre,
-      nutri: (doc.genre === '和食') ? j_ca:
+      あなた: (doc.genre === '和食') ? j_ca:
             (doc.genre === '洋食') ? a_ca:
             (doc.genre === 'イタリアン・フレンチ') ? i_ca:
             (doc.genre === '中華') ? c_ca:
@@ -190,12 +194,13 @@ const Graph: React.FC = () => {
             (doc.genre === 'ラーメン') ? j_ca:
             (doc.genre === 'お好み焼き・もんじゃ') ? o_ca:
             s_ca,
+      理想: ideal_ca
       }));
     setCa(d_ca);
     const d_carb = menus1.map<N_data>((doc) => ({
       id: String(doc.year)+'年'+String(doc.month)+'月'+String(doc.day)+'日'+(doc.when === '朝ご飯'? '朝':doc.when === '昼ご飯'?'昼':'夜'),
       genre: doc.genre,
-      nutri: (doc.genre === '和食') ? j_carb:
+      あなた: (doc.genre === '和食') ? j_carb:
             (doc.genre === '洋食') ? a_carb:
             (doc.genre === 'イタリアン・フレンチ') ? i_carb:
             (doc.genre === '中華') ? c_carb:
@@ -205,12 +210,13 @@ const Graph: React.FC = () => {
             (doc.genre === 'ラーメン') ? j_carb:
             (doc.genre === 'お好み焼き・もんじゃ') ? o_carb:
             s_carb,
+        理想: ideal_carb
       }));
     setCarb(d_carb);
     const d_fat = menus1.map<N_data>((doc) => ({
       id: String(doc.year)+'年'+String(doc.month)+'月'+String(doc.day)+'日'+(doc.when === '朝ご飯'? '朝':doc.when === '昼ご飯'?'昼':'夜'),
       genre: doc.genre,
-      nutri: (doc.genre === '和食') ? j_fat:
+      あなた: (doc.genre === '和食') ? j_fat:
             (doc.genre === '洋食') ? a_fat:
             (doc.genre === 'イタリアン・フレンチ') ? i_fat:
             (doc.genre === '中華') ? c_fat:
@@ -220,12 +226,13 @@ const Graph: React.FC = () => {
             (doc.genre === 'ラーメン') ? j_fat:
             (doc.genre === 'お好み焼き・もんじゃ') ? o_fat:
             s_fat,
+        理想: ideal_fat
       }));
     setFat(d_fat);
     const d_na = menus1.map<N_data>((doc) => ({
       id: String(doc.year)+'年'+String(doc.month)+'月'+String(doc.day)+'日'+(doc.when === '朝ご飯'? '朝':doc.when === '昼ご飯'?'昼':'夜'),
       genre: doc.genre,
-      nutri: (doc.genre === '和食') ? j_na:
+      あなた: (doc.genre === '和食') ? j_na:
             (doc.genre === '洋食') ? a_na:
             (doc.genre === 'イタリアン・フレンチ') ? i_na:
             (doc.genre === '中華') ? c_na:
@@ -235,12 +242,13 @@ const Graph: React.FC = () => {
             (doc.genre === 'ラーメン') ? j_na:
             (doc.genre === 'お好み焼き・もんじゃ') ? o_na:
             s_na,
+        理想: ideal_na
       }));
       setNa(d_na);
       const d_protain = menus1.map<N_data>((doc) => ({
         id: String(doc.year)+'年'+String(doc.month)+'月'+String(doc.day)+'日'+(doc.when === '朝ご飯'? '朝':doc.when === '昼ご飯'?'昼':'夜'),
         genre: doc.genre,
-        nutri: (doc.genre === '和食') ? j_protain:
+        あなた: (doc.genre === '和食') ? j_protain:
               (doc.genre === '洋食') ? a_protain:
               (doc.genre === 'イタリアン・フレンチ') ? i_protain:
               (doc.genre === '中華') ? c_protain:
@@ -250,6 +258,7 @@ const Graph: React.FC = () => {
               (doc.genre === 'ラーメン') ? j_protain:
               (doc.genre === 'お好み焼き・もんじゃ') ? o_protain:
               s_protain,
+        理想: ideal_protain
         }));
         console.log(d_protain)
         setProtain(d_protain);
@@ -274,8 +283,9 @@ const Graph: React.FC = () => {
         <XAxis dataKey="id" />
         <YAxis unit = 'kcal'/>
         <Tooltip />
-        <Legend />
-        <Line type="monotone" dataKey="nutri" stroke="#8884d8" activeDot={{ r: 8 }} />
+        <Legend verticalAlign="top" height={10}/>
+        <Line type="monotone" dataKey="あなた" stroke="#8884d8" activeDot={{ r: 8 }} />
+        <Line type="monotone" dataKey="理想" stroke="#82ca9d" activeDot={{ r: 8 }} />
       </LineChart>
     <h2>＜炭水化物＞</h2>
     <LineChart
@@ -293,8 +303,9 @@ const Graph: React.FC = () => {
         <XAxis dataKey="id" />
         <YAxis unit = 'g'/>
         <Tooltip />
-        <Legend />
-        <Line type="monotone" dataKey="nutri" stroke="#8884d8" activeDot={{ r: 8 }} />
+        <Legend verticalAlign="top" height={10}/>
+        <Line type="monotone" dataKey="あなた" stroke="#8884d8" activeDot={{ r: 8 }} />
+        <Line type="monotone" dataKey="理想" stroke="#82ca9d" activeDot={{ r: 8 }} />
         {/* <Line y1 = {59}>mylabel</Line> */}
       </LineChart>
       <h2>＜脂質＞</h2>
@@ -313,8 +324,9 @@ const Graph: React.FC = () => {
         <XAxis dataKey="id" />
         <YAxis unit = 'g'/>
         <Tooltip />
-        <Legend />
-        <Line type="monotone" dataKey="nutri" stroke="#8884d8" activeDot={{ r: 8 }} />
+        <Legend verticalAlign="top" height={10}/>
+        <Line type="monotone" dataKey="あなた" stroke="#8884d8" activeDot={{ r: 8 }} />
+        <Line type="monotone" dataKey="理想" stroke="#82ca9d" activeDot={{ r: 8 }} />
       </LineChart>
       <h2>＜タンパク質＞</h2>
       <LineChart
@@ -332,8 +344,9 @@ const Graph: React.FC = () => {
         <XAxis dataKey="id" />
         <YAxis unit = 'g'/>
         <Tooltip />
-        <Legend />
-        <Line type="monotone" dataKey="nutri" stroke="#8884d8" activeDot={{ r: 8 }} />
+        <Legend verticalAlign="top" height={10}/>
+        <Line type="monotone" dataKey="あなた" stroke="#8884d8" activeDot={{ r: 8 }} />
+        <Line type="monotone" dataKey="理想" stroke="#82ca9d" activeDot={{ r: 8 }} />
       </LineChart>
       <h2>＜塩分＞</h2>
       <LineChart
@@ -351,8 +364,9 @@ const Graph: React.FC = () => {
         <XAxis dataKey="id" />
         <YAxis unit = 'g'/>
         <Tooltip />
-        <Legend />
-        <Line type="monotone" dataKey="nutri" stroke="#8884d8" activeDot={{ r: 8 }} />
+        <Legend verticalAlign="top" height={10}/>
+        <Line type="monotone" dataKey="あなた" stroke="#8884d8" activeDot={{ r: 8 }} />
+        <Line type="monotone" dataKey="理想" stroke="#82ca9d" activeDot={{ r: 8 }} />
         {/* <Line y1 = {59}>mylabel</Line> */}
       </LineChart>
       <h2>＜カルシウム＞</h2>
@@ -371,8 +385,9 @@ const Graph: React.FC = () => {
         <XAxis dataKey="id" />
         <YAxis unit = 'mg'/>
         <Tooltip />
-        <Legend />
-        <Line type="monotone" dataKey="nutri" stroke="#8884d8" activeDot={{ r: 8 }} />
+        <Legend verticalAlign="top" height={10}/>
+        <Line type="monotone" dataKey="あなた" stroke="#8884d8" activeDot={{ r: 8 }} />
+        <Line type="monotone" dataKey="理想" stroke="#82ca9d" activeDot={{ r: 8 }} />
         {/* <Line y1 = {59}>mylabel</Line> */}
       </LineChart>
     </>
