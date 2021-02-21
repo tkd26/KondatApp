@@ -1,37 +1,21 @@
-# firebase-todo-app
+# 献立アプリ「らくっく」
 
-![firebase-todo-app](public/screenShot_1.png "firebase-todo-app")
+アクセスは[こちら](https://kondate-app.vercel.app/)
 
-## 環境構築
+## 使用手順
 
-```sh
-# clone してディレクトリ移動
-git clone https://github.com/redimpulz/firebase-todo-app.git
+### 1. ユーザ登録
+まずは、ユーザ登録をして、献立アプリを始めよう！
 
-# firebase-todo-app に移動
-cd firebase-todo-app
+### 2. 献立登録
+献立を登録しよう！
 
-# ライブラリのインストール
-yarn
+![献立入力](/static/menu_registration.png "献立入力")
 
-# FirebaseコンソールからFirebaseアプリを作成
+### 3. レシピ・お店を検索
+決めた献立をもとにレシピを検索しよう！
 
-# ウェブアプリを作成しfirebaseConfigの情報を.envファイルに貼り付ける
-```
+![おすすめレシピ](static/recipe_recommendation.png "おすすめレシピ")
 
-- [Firebaseコンソール](https://console.firebase.google.com/)
-
-以下、firebaseConfig参考画像
-
-![firebaseConfig](public/screenShot_2.jpg "firebaseConfig")
-
-## コマンド
-
-### 開発用コマンド
-
-```sh
-yarn dev
-```
-
-- topページ
-  - <http://localhost:3000>
+もしくは…外食を検討しよう！食べたいメニューを献立に登録し、オススメのお店を探そう！
+![おすすめ飲食店](static/restaurant_recommendation.png "おすすめ飲食店")
