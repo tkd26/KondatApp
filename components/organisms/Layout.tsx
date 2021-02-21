@@ -1,6 +1,6 @@
 import React from 'react';
 import { Layout as AntdLayout } from 'antd';
-import { Navbar, Nav, Form, FormControl, Button } from 'react-bootstrap';
+import { Navbar, Nav } from 'react-bootstrap';
 import firebase from '@/lib/firebase';
 
 const Layout: React.FC = ({ children }) => (

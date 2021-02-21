@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React from 'react';
 import firebase from '@/lib/firebase';
 import { useRouter } from 'next/router';
 import { firestore } from '@/lib/firebase';

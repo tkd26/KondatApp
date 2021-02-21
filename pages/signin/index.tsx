@@ -2,11 +2,8 @@ import React, { useContext } from "react";
 import firebase from '@/lib/firebase';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
-import Jumbotron from 'react-bootstrap/Jumbotron'
 import Container from 'react-bootstrap/Container'
 import Button from 'react-bootstrap/Button'
-import { Input } from "antd";
-import { InputGroup } from "react-bootstrap";
 
 const Signin = () => {
   const router = useRouter()
@@ -50,7 +47,6 @@ const Signin = () => {
       <style>{'.buttonbox {display: flex;justify-content: center};input{width:25em;}'}</style>
       
         <div className='buttonbox'>
-        {/* <Link href="/signup" passHref > */}
         <Button  href="/signup" id="pasword" type="submit" variant="secondary" >Sign upページへ</Button>
    
         </div>

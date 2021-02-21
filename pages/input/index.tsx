@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 
 import Title from '@/components/atoms/Title';
 import Link from 'next/link';
@@ -10,8 +10,7 @@ export type Menu = {
 };
 
 const Index: React.FC = () => {
-  // useEffect(() => {
-  //     }, []);
+
   return (
     <>
       <Title>献立登録</Title>

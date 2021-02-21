@@ -1,6 +1,6 @@
 import React from 'react';
 import { Space } from 'antd';
-import {Jumbotron, Button, Card} from 'react-bootstrap'
+import {Jumbotron, Button} from 'react-bootstrap'
 
 const Main: React.FC = () => {
 
