@@ -14,9 +14,6 @@ const Index: React.FC = () => {
   return (
     <>
       <Title>献立登録</Title>
-      <Link href="/top" passHref>
-        <input type="submit" value="トップページへ" />
-      </Link>
       <InputKondate />
     </>
   );
