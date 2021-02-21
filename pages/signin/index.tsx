@@ -41,13 +41,13 @@ const Signin = () => {
         <br></br>
         <div className='buttonbox'>
         <p>
-        <Button  id="pasword" type="submit" variant="info"　className="text-center fw-bold" size="lg" >Sign in</Button>{' '}
+        <Button  id="pasword" type="submit" variant="info"　className="text-center fw-bold" size="lg" >サインイン</Button>{' '}
         </p>
         </div>
       <style>{'.buttonbox {display: flex;justify-content: center};input{width:25em;}'}</style>
       
         <div className='buttonbox'>
-        <Button  href="/signup" id="pasword" type="submit" variant="secondary" >Sign upページへ</Button>
+        <Button  href="/signup" id="pasword" type="submit" variant="secondary" >サインアップページへ</Button>
    
         </div>
       </form>

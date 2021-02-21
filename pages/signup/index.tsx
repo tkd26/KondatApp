@@ -40,7 +40,7 @@ const SignUp = () => {
   return (
     <div>
       <Container>  
-       <h1 className="text-center fw-bold">Sign up</h1>
+       <h1 className="text-center fw-bold">サインアップ</h1>
       </Container>
       <br></br>
       <form onSubmit={handleSubmit}>
@@ -63,12 +63,12 @@ const SignUp = () => {
         <br></br>
         <style>{'.buttonbox {display: flex;justify-content: center};input{width:25em;}'}</style>
         <div className='buttonbox'>
-          <Button type="submit" variant="info"　className="text-center fw-bold" size="lg" >Sign Up</Button>
+          <Button type="submit" variant="info"　className="text-center fw-bold" size="lg" >サインアップ</Button>
         </div>
         <br></br>
         <div className='buttonbox'>
           <Link href="/signin" passHref>
-            <Button type="submit" variant="secondary">Sign inページへ</Button>
+            <Button type="submit" variant="secondary">サインインページへ</Button>
           </Link>
         </div>
       </form>

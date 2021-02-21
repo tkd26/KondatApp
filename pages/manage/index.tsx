@@ -105,7 +105,7 @@ const Manage: React.FC = () => {
       })
         
         
-    }, []);
+    }, [ideal_genre]);
 
     useEffect (() => {
       let cnt = 0;
